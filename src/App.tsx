@@ -3,7 +3,7 @@ import {
   SessionProvider,
 } from "@variamosple/variamos-components";
 import { FC } from "react";
-import { HashRouter, useRoutes } from "react-router-dom";
+import { BrowserRouter, useRoutes } from "react-router-dom";
 import { RouterProvider } from "./core/context/RouterContext/RouterContext";
 import { ROUTES } from "./core/router";
 import {
@@ -25,11 +25,11 @@ const App: FC = () => {
         getSessionInfo={getSessionInfo}
         requestLogout={requestLogout}
       >
-        <HashRouter>
+        <BrowserRouter basename="/variamos_languages">
           <RouterProvider>
             <Routes />
           </RouterProvider>
-        </HashRouter>
+        </BrowserRouter>
       </SessionProvider>
     </AnalyticsProvider>
   );
