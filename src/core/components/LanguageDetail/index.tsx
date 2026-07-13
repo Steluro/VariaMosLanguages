@@ -401,11 +401,11 @@ export default function LanguageDetail({
               <option>Approved</option>
             </Form.Select>
           </InputGroup>
-          <SharedUserTable
+          {(isOwner||isUserWithSharedAcces||isLanguageDirector) && <SharedUserTable
             onSharedUserDelete={handleSharedUserDelete}
             users={sharedUsers}
             isOwner={isOwner}
-          />
+          />}
 
         </Tab>
         <Tab eventKey="syntax" title="Syntax">

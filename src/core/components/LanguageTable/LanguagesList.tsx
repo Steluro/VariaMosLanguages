@@ -18,10 +18,7 @@ import { shareLanguageWithUser } from "../../../DataProvider/Services/sharedUser
 import { set } from "immer/dist/internal";
 
 export interface LanguagesProps extends PaginatorProps {
-  state?: boolean;
-  del?: boolean;
-  share?: boolean;
-  approve?: boolean;
+  variant ?: "myLanguages" | "active" | "pending" | "deleted"; 
   languages: Language[];
   onLanguageClick: (language: Language) => void;
   onLanguageDelete: (language: Language) => void;
@@ -32,10 +29,7 @@ export interface LanguagesProps extends PaginatorProps {
 }
 
 export const LanguagesList: FC<LanguagesProps> = ({
-  state = false,
-  del = false,
-  share = false,
-  approve = false,
+  variant,
   onLanguageUpdateStateAccept,
   languages,
   onLanguageClick,
@@ -48,6 +42,23 @@ export const LanguagesList: FC<LanguagesProps> = ({
   const [isLanguageDirector, setIsLanguageDirector] = useState(false);
   const [sharedUserModal, setSharedUserModal] = useState(false);
   const [languageId, setLanguageId] = useState(null);
+  let [myLanguages, active, pending, deleted] = [false, false, false, false];
+
+  switch(variant){
+    case "myLanguages":
+      myLanguages = true;
+      break;
+    case "active":
+      active = true;
+      break;
+    case "pending":
+      pending = true;
+      break;
+    case "deleted":
+      deleted = true;
+      break;}
+
+
   useEffect(() => {
     setIsLanguageDirector(
       !!user.roles.find((role) => role.toLowerCase() === "language director"),
@@ -72,23 +83,23 @@ export const LanguagesList: FC<LanguagesProps> = ({
       <Table bordered hover responsive="sm">
         <thead>
           <tr>
-            {approve && <th>Id</th>}
+            {(isLanguageDirector && (pending || deleted)) && <th>Id</th>}
             <th>Name</th>
             <th>Type</th>
-            {state && <th>Status</th>}
+            {(pending || deleted) && <th>Status</th>}
             <th>Owner</th>
-            {(del || approve || share) && <th className="center">Actions</th>}
+            {(myLanguages || pending || deleted || (active && isLanguageDirector)) && <th className="center">Actions</th>}
           </tr>
         </thead>
         <tbody>
           {languages.map((language, index) => (
             <tr key={index} className="cursor-pointer">
-              {approve && (
+              {(isLanguageDirector && (pending || deleted)) && (
                 <td onClick={() => onLanguageClick(language)}>{language.id}</td>
               )}
               <td onClick={() => onLanguageClick(language)}>{language.name}</td>
               <td onClick={() => onLanguageClick(language)}>{language.type}</td>
-              {state && (
+              {(pending || deleted) && (
                 <td onClick={() => onLanguageClick(language)}>
                   {language.stateAccept}
                 </td>
@@ -96,11 +107,10 @@ export const LanguagesList: FC<LanguagesProps> = ({
               <td onClick={() => onLanguageClick(language)}>
                 {language?.["ownerName"]}
               </td>
-              {(del || approve || share) && (
+              {(myLanguages || pending || deleted ||(active && isLanguageDirector)) && (
                 <td className="text-center">
                   <div className="d-flex gap-1 center">
-                    {approve &&
-                      language?.stateAccept?.toLowerCase() == "pending" && (
+                    {pending && (
                         <Button
                           className="btn-Variamos-green"
                           title="Approve Language"
@@ -111,8 +121,7 @@ export const LanguagesList: FC<LanguagesProps> = ({
                           <CheckLg />
                         </Button>
                       )}
-                    {approve &&
-                      language?.stateAccept?.toLowerCase() == "active" && (
+                    {(active && isLanguageDirector) && (
                         <Button
                           className="btn-Variamos-yellow"
                           title="Disapprove Language"
@@ -123,7 +132,7 @@ export const LanguagesList: FC<LanguagesProps> = ({
                           <XLg />
                         </Button>
                       )}
-                    {share &&
+                    {myLanguages &&
                       language?.accessLevel?.toLowerCase() == "owner" && (
                         <Button
                           className="btn-Variamos-green"
@@ -136,10 +145,9 @@ export const LanguagesList: FC<LanguagesProps> = ({
                           <Share />
                         </Button>
                       )}
-                    {language?.stateAccept?.toLowerCase() !== "deleted" &&
-                      ((del &&
+                    { ((myLanguages &&
                         language?.accessLevel?.toLowerCase() == "owner") ||
-                        isLanguageDirector) && (
+                        pending || (active && isLanguageDirector)) && (
                         <Button
                           variant="danger"
                           onClick={() => onLanguageDelete(language)}
@@ -148,8 +156,7 @@ export const LanguagesList: FC<LanguagesProps> = ({
                           <Trash />
                         </Button>
                       )}
-                    {language?.stateAccept?.toLowerCase() == "deleted" &&
-                      isLanguageDirector && (
+                    { deleted && (
                         <Button
                           variant="secondary"
                           onClick={() =>

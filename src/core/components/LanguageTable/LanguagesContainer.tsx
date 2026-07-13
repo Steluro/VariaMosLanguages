@@ -5,7 +5,7 @@ import {
 } from "@variamosple/variamos-components";
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { queryLanguages, queryPublicLanguages, queryUserLanguages } from "../../../DataProvider/Services/languagesService";
+import { queryLanguages, queryPublicLanguages, queryDeletedLanguages, queryPendingLanguages, queryUserLanguages } from "../../../DataProvider/Services/languagesService";
 import { PagedModel } from "../../../Domain/Core/Entity/PagedModel";
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
 import { SearchForm } from "../SearchForm";
@@ -28,7 +28,7 @@ export class LanguagesFilter extends PagedModel {
 }
 
 export interface LanguagesContainerProps {
-  variant : "user" | "public" | "languageDirector";
+  variant : "myLanguages" | "active" | "pending" | "deleted";
   loadDataOnInit?: boolean;
   eventKey?: string;
   queryFunction?;
@@ -47,17 +47,15 @@ function LanguagesContainerComponent ({
   let parameters = {name : null, userId : null};
   
   switch (variant) {
-    case "user" :
+    case "myLanguages" :
       queryFunction = queryUserLanguages;
-      share = true;
-      del = true;
       parameters = {name : null, userId : user?.id};
       break;
-    case "languageDirector" :
-      queryFunction = queryLanguages;
-      state = true;
-      del = true;
-      approve = true;
+    case "pending" :
+      queryFunction = queryPendingLanguages;
+      break;
+    case "deleted" :
+      queryFunction = queryDeletedLanguages;
       break;
     default:
       queryFunction = queryPublicLanguages;
@@ -171,10 +169,7 @@ function LanguagesContainerComponent ({
 
       {!isLoading && (
         <LanguagesList
-          state={state}
-          del={del}
-          share={share}
-          approve={approve}
+          variant = {variant}
           languages={languages}
           onLanguageClick={onLanguageClick}
           onLanguageDelete={onLanguageDelete}

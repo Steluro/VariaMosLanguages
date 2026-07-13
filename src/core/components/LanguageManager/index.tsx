@@ -16,10 +16,10 @@ export default function LanguageManager({
   const { user } = useSession();
   const [isGuestUser, setIsGuestUser] = useState(true);
   const [isLanguageDirectorUser, setIsLanguageDirectorUser] = useState(false);
-  const [loadLanguages, setLoadLanguages] = useState(false);
   const [loadUserLanguages, setLoadUserLanguages] = useState(true);
   const [loadPublicLanguages, setLoadPublicLanguages] = useState(false);
-
+  const [loadPendingLanguages, setLoadPendingLanguages] = useState(false);
+  const [loadDeletedLanguages, setLoadDeletedLanguages] = useState(false);
 
   useEffect(() => {
     const isGuest = user.roles.find((role) => role.toLowerCase() === "guest");
@@ -27,7 +27,7 @@ export default function LanguageManager({
     setIsGuestUser(!!isGuest);
     setLoadPublicLanguages(isGuestUser);
     setIsLanguageDirectorUser(!!isLanguageDirector);
-    setLoadLanguages(!!isGuest);
+    setLoadPublicLanguages(!!isGuest);
   }, [user]);
 
   const handleCreateClick = () => {
@@ -51,7 +51,7 @@ export default function LanguageManager({
         </Col>
 
         <LanguagesContainer
-          variant = "public"
+          variant = "active"
           loadDataOnInit={loadPublicLanguages}
           onLanguageClick={handleClick}
         />
@@ -64,12 +64,6 @@ export default function LanguageManager({
 
       <div className='d-flex gap-1'>
         <CreateLanguageButton handleCreateClick={handleCreateClick} />
-        
-        {/* <Button 
-          variant="secondary"
-          onClick={NoBackEndPopUp}>
-          Sementic Rules
-        </Button> */}
       </div>
 
       <Tabs
@@ -84,9 +78,15 @@ export default function LanguageManager({
               case "publicLanguages":
                 setLoadPublicLanguages(true);
                 break;
-              case "allLanguages":
-                setLoadLanguages(true);
-                break;}
+              case "pendingLanguages":
+                setLoadPendingLanguages(true);
+                break;
+              case "deltedLanguages":
+                setLoadDeletedLanguages(true);
+                break;
+              default:
+                break;
+            }
               }}
       >
         <Tab
@@ -96,7 +96,7 @@ export default function LanguageManager({
           unmountOnExit
         >
           <LanguagesContainer
-            variant = "user"
+            variant = "myLanguages"
             loadDataOnInit={loadUserLanguages}
             onLanguageClick={handleClick}
           />
@@ -109,20 +109,32 @@ export default function LanguageManager({
           unmountOnExit
         >
           <LanguagesContainer
-            variant = "public"
+            variant = "active"
             loadDataOnInit={loadPublicLanguages}
             onLanguageClick={handleClick}
           />
         </Tab>
         { isLanguageDirectorUser && (<Tab 
-          eventKey="allLanguages"
-          title="All Languages"
+          eventKey="pendingLanguages"
+          title="Pending Languages"
           className="pt-3"
           unmountOnExit
           >
             <LanguagesContainer
-            variant = "languageDirector"
-            loadDataOnInit={loadLanguages}
+            variant = "pending"
+            loadDataOnInit={loadPendingLanguages}
+            onLanguageClick={handleClick}
+            />
+        </Tab>)}
+        { isLanguageDirectorUser && (<Tab 
+          eventKey="deltedLanguages"
+          title="Deleted Languages"
+          className="pt-3"
+          unmountOnExit
+          >
+            <LanguagesContainer
+            variant = "deleted"
+            loadDataOnInit={loadDeletedLanguages}
             onLanguageClick={handleClick}
             />
         </Tab>)}
