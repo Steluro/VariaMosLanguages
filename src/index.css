@@ -6,17 +6,25 @@ body,
   padding: 0;
 
   /*Main colors for languages*/
-  --red-color : #ff0000;
-  --red-color-contrast : #990000;
+  --red-color : #ffb3b3;
+  --red-color-contrast : #cc6666;
   --red-color-text: #ffffff;
 
-  --green-color : #00AB17;
-  --green-color-contrast : #006600;
+  --green-color : #b3ffb3;
+  --green-color-contrast : #66cc66;
   --green-color-text: #ffffff;
 
-  --yellow-color : #FFC107;
-  --yellow-color-contrast : #996600;
+  --yellow-color : #fff59d;
+  --yellow-color-contrast : #ffcc00;
   --yellow-color-text: #ffffff;
+
+  --gray-color : #d3d3d3;
+  --gray-color-contrast : #a9a9a9;
+  --gray-color-text: #ffffff;
+
+  --blue-color : #b3d9ff;
+  --blue-color-contrast : #66a3ff;
+  --blue-color-text: #ffffff;
   /*---------------------------- */
 }
 

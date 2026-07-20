@@ -2,10 +2,10 @@ import { Button, Modal } from 'react-bootstrap';
 import { UsersContainer } from './UsersContainer';
 
 export interface SharedUserModalProps {
-  languageId?: number;
+  languageId?: string;
   show?: boolean;
   onClose?: () => void;
-  onShareUser?: (userId: string, languageId: number) => Promise<void>;
+  onShareUser?: (userId: string, languageId: string) => Promise<void>;
 }
 
 export default function SharedUserModal({ languageId ,show, onClose, onShareUser }: SharedUserModalProps) {

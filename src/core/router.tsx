@@ -2,8 +2,9 @@ import { RouteObject } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { AppConfig } from "../Infraestructure/AppConfig";
 
+import LanguagePage from "./pages/LanguagePage";
 import { AuthWrapper } from "@variamosple/variamos-components";
-import LanguagePage from "./pages/LanguagesPage";
+import DetailLanguagePage from "./pages/DetailLanguagePage";
 
 export const ROUTES: RouteObject[] = [
   {
@@ -12,14 +13,6 @@ export const ROUTES: RouteObject[] = [
     children: [
       {
         index: true,
-        element: (
-          <AuthWrapper redirectPath={AppConfig.LOGIN_URL}>
-            <div>Welcome to the new language landing page!</div>
-          </AuthWrapper>
-        ),
-      },
-      {
-        path: "old",
         element: (
           <AuthWrapper redirectPath={AppConfig.LOGIN_URL}>
             <LanguagePage />
@@ -46,11 +39,7 @@ export const ROUTES: RouteObject[] = [
         path: ":languageId",
         element: (
           <AuthWrapper redirectPath={AppConfig.LOGIN_URL}>
-            <div>
-              Welcome to the new language viewing page!
-              <br />
-              actual id : {":languageId"}
-            </div>
+            <DetailLanguagePage />
           </AuthWrapper>
         ),
       },

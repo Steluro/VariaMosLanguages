@@ -7,8 +7,8 @@ import { Share } from "react-bootstrap-icons";
 
 export interface UsersListProps extends PaginatorProps {
   users: User[];
-  languageId: number;
-  onUserClick: (userId: string, languageId: number) => Promise<void>;
+  languageId: string;
+  onUserClick: (userId: string, languageId: string) => Promise<void>;
 }
 
 export const UsersList: FC<UsersListProps> = ({

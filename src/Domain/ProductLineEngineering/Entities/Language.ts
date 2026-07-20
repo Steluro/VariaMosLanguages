@@ -1,38 +1,36 @@
-//modify this to handle the semantics
-
 export class Language {
-  id?: number;
+  uuid: string;
   name: string;
-  abstractSyntax: string;
-  concreteSyntax: string;
-  type: string;
-  stateAccept: string;
-  semantics: string;
-  accessLevel?: string;
-  ownerId?: string;
-  ownerName?: string;
+  ownerId: string;
+  type: "scope" | "domain" | "application";
+  status: "draft" | "pending" | "published" | "deleted";
+  publicVersionId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  owner?: {
+    id: string;
+    name: string;
+  };
 
   constructor(
-    id: number,
+    uuid: string,
     name: string,
-    abstractSyntax: string,
-    concreteSyntax: string,
-    type: string,
-    stateAccept?: string,
-    semantics?: string,
-    accessLevel?: string,
-    ownerId?: string,
-    ownerName?: string
+    ownerId: string,
+    type: "scope" | "domain" | "application",
+    status: "draft" | "pending" | "published" | "deleted" = "draft",
+    publicVersionId?: string,
+    createdAt?: Date,
+    updatedAt?: Date,
+    owner?: { id: string; name: string }
   ) {
-    this.id = id;
+    this.uuid = uuid;
     this.name = name;
-    this.abstractSyntax = abstractSyntax;
-    this.concreteSyntax = concreteSyntax;
-    this.type = type;
-    this.stateAccept = stateAccept;
-    this.semantics = semantics;
     this.ownerId = ownerId;
-    this.accessLevel = accessLevel;
-    this.ownerName = ownerName;
+    this.type = type;
+    this.status = status;
+    this.publicVersionId = publicVersionId;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.owner = owner;
   }
 }

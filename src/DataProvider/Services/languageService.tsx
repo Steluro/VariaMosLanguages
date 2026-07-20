@@ -135,7 +135,7 @@ export default class LanguageService {
     // Standard Request End
 
     try {
-      LANGUAGES_CLIENT.put("/languages/" + language.id, requestBody).then((res) => {
+      LANGUAGES_CLIENT.put("/languages/" + language.uuid, requestBody).then((res) => {
         let responseAPISuccess: ResponseAPISuccess = new ResponseAPISuccess();
         responseAPISuccess = Object.assign(responseAPISuccess, res.data);
         response = responseAPISuccess.message;

@@ -4,7 +4,7 @@ import { ResponseModel } from "@variamosple/variamos-components";
 import { User } from "../../Domain/ProductLineEngineering/Entities/User";
 import { PagedModel } from "../../Domain/Core/Entity/PagedModel";
 
-export async function querySharedUsers(languageId: number): Promise<ResponseModel<User[]>> {
+export async function querySharedUsers(languageId: string): Promise<ResponseModel<User[]>> {
     return LANGUAGES_CLIENT.get(`/v2/users/shared/${languageId}`)
     .then((response) => response.data)
     .catch((error) => {
@@ -34,7 +34,7 @@ export async function querySharedUsers(languageId: number): Promise<ResponseMode
 
 export class UsersFilter extends PagedModel {
   constructor(
-    public languageId?: number,
+    public languageId?: string,
     public name?: string,
     public email?: string,
     pageNumber?: number,
@@ -79,7 +79,7 @@ export async function queryAllUsers(filter: UsersFilter): Promise<ResponseModel<
     });
 }
 
-export async function shareLanguageWithUser(languageId: number, userId: string): Promise<ResponseModel<void>> {
+export async function shareLanguageWithUser(languageId: string, userId: string): Promise<ResponseModel<void>> {
     return LANGUAGES_CLIENT.post(`/v2/users/share/${userId}/${languageId}`)
     .then((response) => response.data)
     .catch((error) => {
@@ -107,7 +107,7 @@ export async function shareLanguageWithUser(languageId: number, userId: string):
     });
 }
 
-export async function unshareLanguageWithUser(languageId: number, userId: string): Promise<ResponseModel<void>> {
+export async function unshareLanguageWithUser(languageId: string, userId: string): Promise<ResponseModel<void>> {
     return LANGUAGES_CLIENT.post(`/v2/users/unshare/${userId}/${languageId}`)
     .then((response) => response.data)
     .catch((error) => {

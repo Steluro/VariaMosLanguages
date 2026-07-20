@@ -10,8 +10,8 @@ import { SearchForm } from "../SearchForm";
 import { UsersList } from "./UsersList";
 
 export interface UsersContainerProps {
-  languageId: number;
-  onShareUser?: (userId: string, languageId: number) => Promise<void>;
+  languageId: string;
+  onShareUser?: (userId: string, languageId: string) => Promise<void>;
 }
 
 function UsersContainerComponent({
@@ -46,7 +46,7 @@ function UsersContainerComponent({
     );
   };
 
-  const handleShareUser = async (userId: string, languageId: number) => {
+  const handleShareUser = async (userId: string, languageId: string) => {
     if (onShareUser) {
       await onShareUser(userId, languageId);
       loadUsers(new UsersFilter(languageId, undefined, undefined, 1, 10));

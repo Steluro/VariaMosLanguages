@@ -5,49 +5,13 @@ import { Language } from "../../Domain/ProductLineEngineering/Entities/Language"
 import { LANGUAGES_CLIENT } from "../../Infraestructure/AxiosConfig";
 import { LanguagesFilter } from "../../core/components/LanguageTable/LanguagesContainer";
 
-export const queryUserLanguages = (
-  filter: LanguagesFilter
-): Promise<ResponseModel<Language[]>> => {
-  const userId: string = filter?.userId || "";
-
-  const newFilter = Object.assign({}, filter, { userId: null });
-
-  return LANGUAGES_CLIENT.get(`/v2/users/${userId}/languages`, {
-    params: newFilter,
-  })
-    .then((response) => response.data)
-    .catch((error) => {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.message);
-
-        const response = error.response?.data;
-
-        if (!!response) {
-          return response;
-        }
-
-        return new ResponseModel("BACK-ERROR").withError(
-          Number.parseInt(error.code || "500"),
-          "Error when comunicating with the back-end."
-        );
-      } else {
-        console.error("Unexpected error:", error);
-
-        return new ResponseModel("APP-ERROR").withError(
-          500,
-          "Error when trying to get session info, please try again later."
-        );
-      }
-    });
-};
-
 export const queryLanguages = (
   filter: LanguagesFilter
 ): Promise<ResponseModel<Language[]>> => {
-  return LANGUAGES_CLIENT.get(`/v2/languages`, {
-    params: filter,
+  return LANGUAGES_CLIENT.get('/', {
+    params: { ...filter },
   })
-    .then((response) => response.data)
+    .then((response) => {console.log(response?? []); return response})
     .catch((error) => {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.message);
@@ -68,154 +32,6 @@ export const queryLanguages = (
         return new ResponseModel("APP-ERROR").withError(
           500,
           "Error when trying to get session info, please try again later."
-        );
-      }
-    });
-};
-
-
-export const queryPublicLanguages = (
-  filter: LanguagesFilter
-): Promise<ResponseModel<Language[]>> => {
-  return LANGUAGES_CLIENT.get(`/v2/languages/public`, {
-    params: filter,
-  })
-    .then((response) => response.data)
-    .catch((error) => {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.message);
-
-        const response = error.response?.data;
-
-        if (!!response) {
-          return response;
-        }
-
-        return new ResponseModel("BACK-ERROR").withError(
-          Number.parseInt(error.code || "500"),
-          "Error when comunicating with the back-end."
-        );
-      } else {
-        console.error("Unexpected error:", error);
-
-        return new ResponseModel("APP-ERROR").withError(
-          500,
-          "Error when trying to get session info, please try again later."
-        );
-      }
-    });
-};
-
-export const queryDeletedLanguages = (
-  filter: LanguagesFilter
-): Promise<ResponseModel<Language[]>> => {
-  return LANGUAGES_CLIENT.get(`/v2/languages/deleted`, {
-    params: filter,
-  })
-    .then((response) => response.data)
-    .catch((error) => {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.message);
-
-        const response = error.response?.data;
-
-        if (!!response) {
-          return response;
-        }
-
-        return new ResponseModel("BACK-ERROR").withError(
-          Number.parseInt(error.code || "500"),
-          "Error when comunicating with the back-end."
-        );
-      } else {
-        console.error("Unexpected error:", error);
-
-        return new ResponseModel("APP-ERROR").withError(
-          500,
-          "Error when trying to get session info, please try again later."
-        );
-      }
-    });
-};
-
-export const queryPendingLanguages = (
-  filter: LanguagesFilter
-): Promise<ResponseModel<Language[]>> => {
-  return LANGUAGES_CLIENT.get(`/v2/languages/pending`, {
-    params: filter,
-  })
-    .then((response) => response.data)
-    .catch((error) => {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.message);
-
-        const response = error.response?.data;
-
-        if (!!response) {
-          return response;
-        }
-
-        return new ResponseModel("BACK-ERROR").withError(
-          Number.parseInt(error.code || "500"),
-          "Error when comunicating with the back-end."
-        );
-      } else {
-        console.error("Unexpected error:", error);
-
-        return new ResponseModel("APP-ERROR").withError(
-          500,
-          "Error when trying to get session info, please try again later."
-        );
-      }
-    });
-};
-
-export const deleteLanguage = (
-  languageId: number,
-  userId: string
-): Promise<ResponseModel<void>> => {
-  return LANGUAGES_CLIENT.delete(`/languages/${languageId}/${userId}`)
-    .then((response) => response.data)
-    .catch((error) => {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.message);
-
-        const response = error.response?.data;
-
-        return response;
-      } else {
-        console.error("Unexpected error:", error);
-
-        return new ResponseModel("APP-ERROR").withError(
-          500,
-          `Error when trying to delete the user with id: ${userId}, please try again later.`
-        );
-      }
-    });
-};
-
-export const updateLanguageStateAccept = (
-  languageId: number,
-  userId: string,
-  stateAccept: string
-): Promise<ResponseModel<void>> => {
-  console.log("FRONTEND :", languageId, userId, stateAccept);
-  return LANGUAGES_CLIENT.put(`/languages/${languageId}/${userId}/stateAccept`, {
-     params: { "stateAccept": stateAccept }
-  })
-    .then((response) => response.data)
-    .catch((error) => {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.message);
-        const response = error.response?.data;
-
-        return response;
-      } else {
-        console.error("Unexpected error:", error);
-
-        return new ResponseModel("APP-ERROR").withError(
-          500,
-          `Error when trying to update the Accept of the language with id: ${languageId}, with the user with id: ${userId}, please try again later.`
         );
       }
     });
