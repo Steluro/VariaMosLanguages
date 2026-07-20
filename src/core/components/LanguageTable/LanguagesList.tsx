@@ -5,6 +5,7 @@ import { FC } from "react";
 import { Alert } from "react-bootstrap";
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
 import { LanguageElement } from "./LanguageElement";
+import { useNavigate } from "react-router-dom";
 
 export interface LanguagesProps extends PaginatorProps {
   variant ?: "myLanguages" | "active" | "all"; 
@@ -20,6 +21,7 @@ export const LanguagesList: FC<LanguagesProps> = ({
   totalPages,
 }) => {
   const { user } = useSession();
+  const navigate = useNavigate();
   let [myLanguages, active, all] = [false, false, false];
 
   switch(variant){
@@ -46,7 +48,11 @@ export const LanguagesList: FC<LanguagesProps> = ({
       />
       <div className="languages-list">
         {languages.map((language, index) => (
-          <div key={index} className="cursor-pointer">
+          <div 
+            key={index}
+            className="cursor-pointer" 
+            onClick={() => navigate(`/${language.uuid}`)}
+          >
             <LanguageElement language = {language}></LanguageElement>
           </div>
         ))}
