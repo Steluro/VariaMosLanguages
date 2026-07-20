@@ -1,7 +1,7 @@
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import config from '../CreateLanguageButton/CreateLanguageButton.json';
 import { useLanguageContext } from "../../../context/LanguageContext/LanguageContextProvider";
-import { graphicalToTextual, textualToGraphical } from "../../LanguageDetail/GraphicalMode/SyntaxCompiler";
+import { graphicalToTextual, textualToGraphical } from "../../LanguageView/GraphicalMode/SyntaxCompiler";
 
 export default function CreationModeButton({handleModeClick}) {
   const{

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import LanguageDetail from "../../components/LanguageDetail";
+import LanguageDetail from "../../components/LanguageView";
 import LanguagePageLayout from "../../components/LanguagePageLayout";
 import LanguageContextProvider from "../../context/LanguageContext/LanguageContextProvider";
 
