@@ -85,9 +85,20 @@ function LanguagesContainerComponent ({
     }
   }, [loadDataOnInit, loadLanguages, user?.id]);
 
+  useEffect(() => {
+    loadLanguages(filter);
+  }, [filter]);
+
   return (
     <div>
-
+      <Row>
+      <Col md={3}>
+        <FilterPannel
+          languageFilter={filter}
+          setLanguageFilter={setFilter}
+          variant={variant}
+        />
+      </Col>
       {isLoading && (
         <div className="w-100 text-center">
           <Spinner
@@ -102,14 +113,6 @@ function LanguagesContainerComponent ({
       )}
 
       {!isLoading && (
-        <Row>
-          <Col md={3}>
-            <FilterPannel
-              languageFilter={filter}
-              setLanguageFilter={setFilter}
-              variant={variant}
-            />
-          </Col>
           <Col md={9}>
             <LanguagesList
               variant = {variant}
@@ -119,8 +122,8 @@ function LanguagesContainerComponent ({
               totalPages={totalPages}
             />
           </Col>
-        </Row>
       )}
+      </Row>
     </div>
   );
 };
