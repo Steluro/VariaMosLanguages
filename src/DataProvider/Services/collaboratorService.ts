@@ -3,7 +3,7 @@ import { LANGUAGES_CLIENT } from "../../Infraestructure/AxiosConfig";
 import { ResponseModel } from "@variamosple/variamos-components";
 import { User } from "../../Domain/ProductLineEngineering/Entities/User";
 
-export async function queryCollaborators(uuid: string): Promise<ResponseModel<User[]>> {
+export async function queryCollaborators(uuid: string) {
     return LANGUAGES_CLIENT.get(`/${uuid}/collaborators`)
     .then((response) => response.data)
     .catch((error) => {

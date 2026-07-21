@@ -100,7 +100,7 @@ function LanguagesContainerComponent ({
         />
       </Col>
       {isLoading && (
-        <div className="w-100 text-center">
+        <Col md={9} className="w-100 text-center">
           <Spinner
             animation="border"
             role="status"
@@ -109,7 +109,7 @@ function LanguagesContainerComponent ({
           >
             <span className="visually-hidden">Loading...</span>
           </Spinner>
-        </div>
+        </Col>
       )}
 
       {!isLoading && (
