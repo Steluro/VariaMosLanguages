@@ -1,5 +1,6 @@
 .languageCard {
   margin-bottom: 1rem;
+  border: 1px solid #dee2e6;
 }
 
 .container {
@@ -54,6 +55,7 @@
   text-transform: uppercase;
   max-width: 60%;
   font-weight: bold;
+  margin: 0 auto;
 }
 
 .status.draft{

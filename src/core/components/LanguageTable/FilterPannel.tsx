@@ -86,7 +86,7 @@ export function FilterPannel({
     : [];
 
   return (
-    <Card className="mb-3">
+    <Card className="mb-3" style={{ border: '1px solid #dee2e6' }}>
       <Card.Header as="h5">Filters</Card.Header>
       <Card.Body>
         <Form>

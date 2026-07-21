@@ -30,7 +30,7 @@ export default function LanguageDetailPage() {
         const language = languageResponse.data;
 
         // If language is public (has publicVersionId), allow access
-        if (language?.publicVersionId) {
+        if (language?.status.toLowerCase() === "published") {
           setHasAccess(true);
           setLoading(false);
           return;
