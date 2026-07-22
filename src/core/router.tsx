@@ -20,14 +20,6 @@ export const ROUTES: RouteObject[] = [
         ),
       },
       {
-        path: "new",
-        element: (
-          <AuthWrapper redirectPath={AppConfig.LOGIN_URL}>
-            <div>Welcome to the new language creation page page!</div>
-          </AuthWrapper>
-        ),
-      },
-      {
         path: ":languageId/edit",
         element: (
           <AuthWrapper redirectPath={AppConfig.LOGIN_URL}>

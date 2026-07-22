@@ -13,6 +13,7 @@ export default function LanguageManager() {
   const [loadAllLanguages, setLoadAllLanguages] = useState(false);
 
   useEffect(() => {
+    console.log(user);
     const isGuest = user.roles.find((role) => role.toLowerCase() === "guest");
     const isLanguageDirector = user.roles.find((role) => role.toLowerCase() === "language director");
     setIsGuestUser(!!isGuest);

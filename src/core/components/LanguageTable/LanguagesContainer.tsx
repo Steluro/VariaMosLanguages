@@ -4,8 +4,8 @@ import {
   useSession,
 } from "@variamosple/variamos-components";
 import { useEffect, useState } from "react";
-import { Spinner, Row, Col } from "react-bootstrap";
-import { queryLanguages } from "../../../DataProvider/Services/languagesService";
+import { Spinner, Row, Col, Button } from "react-bootstrap";
+import { createLanguage, queryLanguages } from "../../../DataProvider/Services/languagesService";
 import { PagedModel } from "../../../Domain/Core/Entity/PagedModel";
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
 import { SearchForm } from "../SearchForm";
@@ -13,6 +13,7 @@ import { LanguagesList } from "./LanguagesList";
 import * as alertify from "alertifyjs";
 import { stat } from "fs";
 import { FilterPannel } from "./FilterPannel";
+import CreationModal from "../LanguageManager/CreationModal";
 
 
 export class LanguagesFilter extends PagedModel {
@@ -49,6 +50,7 @@ function LanguagesContainerComponent ({
 
   const { user } = useSession();
   const [filter, setFilter] = useState(new LanguagesFilter());
+  const [showCreationModal, setShowCreationModal] = useState(false);
   
   switch (variant) {
     case "myLanguages" :
@@ -89,6 +91,18 @@ function LanguagesContainerComponent ({
     loadLanguages(filter);
   }, [filter]);
 
+  const handleCreateLanguage = async (name: string, type: "scope" | "domain" | "application") => {
+    console.log("Creating language:", name, type);
+    const language = {
+      name: name,
+      type: type,
+      status : "draft"
+    };
+    await createLanguage(language);
+    setShowCreationModal(false);
+    loadLanguages(filter);
+  };
+
   return (
     <div>
       <Row>
@@ -119,11 +133,17 @@ function LanguagesContainerComponent ({
               languages={languages}
               currentPage={currentPage}
               onPageChange={onPageChange}
+              setShowCreationModal={setShowCreationModal}
               totalPages={totalPages}
             />
           </Col>
       )}
       </Row>
+      <CreationModal
+        show={showCreationModal}
+        onHide={() => setShowCreationModal(false)}
+        onCreate={handleCreateLanguage}
+      />
     </div>
   );
 };

@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { queryCollaborators } from "../../../DataProvider/Services/collaboratorService";
 import { useSession } from "@variamosple/variamos-components";
 import { useState, useEffect } from "react";
+import { deleteLanguage } from "../../../DataProvider/Services/languagesService";
+import ConfirmationModal from "../ConfirmationModal";
 
 interface LanguageInfoProps {
   language: Language;
@@ -15,6 +17,7 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
   const navigate = useNavigate();
   const { user } = useSession();
   const [userAccessLevel, setUserAccessLevel] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const checkUserAccess = async () => {
     // Check if user is owner
@@ -49,7 +52,18 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
     }
   }, [language?.uuid, user?.id]);
 
+  const handleDeleteLanguage = async () => {
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteLanguage = async () => {
+    await deleteLanguage(language.uuid);
+    setShowDeleteModal(false);
+    navigate("/");
+  };
+
   return (
+    <>
     <div className={styles.container}>
       <div className={styles.column}>
         <div className={styles.name}>{language.name}</div>
@@ -69,9 +83,19 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
         <div className={styles.buttonRow}>
           {(userAccessLevel === "owner") && <Button className="btn-Variamos-green"><ShareFill/></Button>}
           {(userAccessLevel === "owner" || userAccessLevel === "writer") && <Button className="btn-Variamos-yellow"><PencilFill/></Button>}
-          {(userAccessLevel === "owner" || userAccessLevel === "admin") && <Button className="btn-Variamos-red"><TrashFill/></Button>}
+          {(userAccessLevel === "owner" || userAccessLevel === "admin") && <Button className="btn-Variamos-red" onClick={handleDeleteLanguage}><TrashFill/></Button>}
         </div>)}
       </div>
     </div>
+    <ConfirmationModal
+      show={showDeleteModal}
+      onCancel={() => setShowDeleteModal(false)}
+      onConfirm={confirmDeleteLanguage}
+      message={`Are you sure you want to delete the language "${language.name}"? This action cannot be undone.`}
+      confirmLabel="Delete"
+      confirmButtonVariant="danger"
+      cancelLabel="Cancel"
+    />
+    </>
   );
 }
