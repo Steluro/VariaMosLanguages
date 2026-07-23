@@ -4,10 +4,11 @@ import { LanguagesFilter } from "./LanguagesContainer";
 interface FilterPannelProps {
   languageFilter: LanguagesFilter;
   setLanguageFilter: (filter: LanguagesFilter) => void;
-  variant: "myLanguages" | "active" | "all";
+  variant: "myLanguages" | "shared" | "active" | "all";
 }
 
 const STATUS_OPTIONS = ["draft", "pending", "published", "deleted"];
+const ACCESS_LEVEL = ["viewer", "editor", "collaborator"];
 const TYPE_OPTIONS = ["scope", "domain", "application"];
 
 export function FilterPannel({
@@ -57,11 +58,32 @@ export function FilterPannel({
     });
   };
 
+  const handleAccessLevelToggle = (accessLevel: string) => {
+    const currentAccessLevels = languageFilter.collaboratorRole
+      ? Array.isArray(languageFilter.collaboratorRole)
+        ? languageFilter.collaboratorRole
+        : [languageFilter.collaboratorRole]
+      : [];
+    
+    const newAccessLevels = currentAccessLevels.includes(accessLevel)
+      ? currentAccessLevels.filter((al) => al !== accessLevel)
+      : [...currentAccessLevels, accessLevel];
+    
+    setLanguageFilter({
+      ...languageFilter,
+      collaboratorRole: newAccessLevels.length > 0 ? newAccessLevels : undefined,
+    });
+  };
+
   const handleReset = () => {
     const baseFilter = new LanguagesFilter();
     switch (variant) {
       case "myLanguages":
         baseFilter.ownerId = languageFilter.ownerId;
+        baseFilter.status = ["draft", "pending"];
+        break;
+      case "shared":
+        baseFilter.collaboratorId = languageFilter.collaboratorId;
         baseFilter.status = ["draft", "pending"];
         break;
       case "active":
@@ -85,6 +107,12 @@ export function FilterPannel({
       : [languageFilter.type]
     : [];
 
+  const currentAccessLevels = languageFilter.collaboratorRole
+    ? Array.isArray(languageFilter.collaboratorRole)
+      ? languageFilter.collaboratorRole
+      : [languageFilter.collaboratorRole]
+    : [];
+
   return (
     <Card className="mb-3" style={{ border: '1px solid #dee2e6' }}>
       <Card.Header as="h5">Filters</Card.Header>
@@ -100,7 +128,7 @@ export function FilterPannel({
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="filterOwnerName">
+          {variant.toLowerCase() != "mylanguages" && (<Form.Group className="mb-3" controlId="filterOwnerName">
             <Form.Label>Owner</Form.Label>
             <Form.Control
               type="text"
@@ -108,7 +136,7 @@ export function FilterPannel({
               value={languageFilter.ownerName || ""}
               onChange={(e) => handleOwnerNameChange(e.target.value)}
             />
-          </Form.Group>
+          </Form.Group>)}
 
           { variant.toLowerCase() == "all" && (<Form.Group className="mb-3" controlId="filterStatus">
             <Form.Label>Status</Form.Label>
@@ -126,7 +154,22 @@ export function FilterPannel({
               ))}
             </div>
           </Form.Group>)}
-
+       {variant.toLowerCase() == "shared" && (
+        <Form.Group className="mb-3" controlId="filterSharedWith">
+            <Form.Label>Acces Level</Form.Label>
+            {ACCESS_LEVEL.map((accessLevel) => (
+                <Form.Check
+                  key={accessLevel}
+                  type="checkbox"
+                  id={`accessLevel-${accessLevel}`}
+                  label={accessLevel}
+                  checked={currentAccessLevels.includes(accessLevel)}
+                  onChange={() => handleAccessLevelToggle(accessLevel)}
+                  className="mb-1"
+                />
+              ))}
+          </Form.Group>
+       )}
           <Form.Group className="mb-3" controlId="filterType">
             <Form.Label>Type</Form.Label>
             <div>

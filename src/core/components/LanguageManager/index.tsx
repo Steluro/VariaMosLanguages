@@ -11,6 +11,7 @@ export default function LanguageManager() {
   const [loadUserLanguages, setLoadUserLanguages] = useState(true);
   const [loadPublicLanguages, setLoadPublicLanguages] = useState(false);
   const [loadAllLanguages, setLoadAllLanguages] = useState(false);
+  const [loadSharedLanguages, setLoadSharedLanguages] = useState(false);
 
   useEffect(() => {
     console.log(user);
@@ -50,6 +51,9 @@ export default function LanguageManager() {
               case "allLanguages":
                 setLoadAllLanguages(true);
                 break;
+              case "sharedWwithMe":
+                setLoadSharedLanguages(true);
+                break;
               default:
                 break;
             }
@@ -66,7 +70,17 @@ export default function LanguageManager() {
             loadDataOnInit={loadUserLanguages}
           />
         </Tab>
-
+        <Tab
+          eventKey="sharedWwithMe"
+          title="Shared With Me"
+          className="pt-3"
+          unmountOnExit
+        >
+          <LanguagesContainer
+            variant = "shared"
+            loadDataOnInit={loadSharedLanguages}
+          />
+        </Tab>
         <Tab
           eventKey="publicLanguages"
           title="Public Languages"

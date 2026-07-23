@@ -39,7 +39,7 @@ export class LanguagesFilter extends PagedModel {
 }
 
 export interface LanguagesContainerProps {
-  variant : "myLanguages" | "active" | "all";
+  variant : "myLanguages" | "shared" |"active" | "all";
   loadDataOnInit?: boolean;
 }
 
@@ -56,6 +56,10 @@ function LanguagesContainerComponent ({
     case "myLanguages" :
       filter.ownerId = user?.id;
       filter.status = ["draft", "pending"];
+      break;
+    case "shared" :
+      filter.status = ["draft", "pending"];
+      filter.collaboratorId = user?.id;
       break;
     case "active" :
       filter.status = "published";
@@ -88,8 +92,24 @@ function LanguagesContainerComponent ({
   }, [loadDataOnInit, loadLanguages, user?.id]);
 
   useEffect(() => {
+    if (variant === "myLanguages" || variant === "shared") {
+      // Validate filter status values
+      if (filter.status) {
+        const validStatuses = ["draft", "pending"];
+        if (Array.isArray(filter.status)) {
+          const invalidStatuses = filter.status.filter(s => !validStatuses.includes(s));
+          if (invalidStatuses.length > 0) {
+            console.error("Invalid filter status values:", invalidStatuses);
+            return;
+          }
+        } else if (!validStatuses.includes(filter.status)) {
+          console.error("Invalid filter status value:", filter.status);
+          return;
+        }
+      }
+    }
     loadLanguages(filter);
-  }, [filter]);
+  }, [filter, variant]);
 
   const handleCreateLanguage = async (name: string, type: "scope" | "domain" | "application") => {
     console.log("Creating language:", name, type);

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { PlusCircle } from "react-bootstrap-icons";
 
 export interface LanguagesProps extends PaginatorProps {
-  variant ?: "myLanguages" | "active" | "all"; 
+  variant ?: "myLanguages" | "shared" | "active" | "all"; 
   languages: Language[];
   setShowCreationModal: (show: boolean) => void;
 }
@@ -28,6 +28,9 @@ export const LanguagesList: FC<LanguagesProps> = ({
 
   switch(variant){
     case "myLanguages":
+      myLanguages = true;
+      break;
+    case "shared":
       myLanguages = true;
       break;
     case "active":
@@ -50,11 +53,13 @@ export const LanguagesList: FC<LanguagesProps> = ({
             <PlusCircle className="ms-2"/>
           </Button>
         )}
-        <Paginator
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={onPageChange}
-        />
+        <div className={variant === "myLanguages" ? "" : "ms-auto"}>
+          <Paginator
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+          />
+        </div>
       </div>
       <div className="languages-list">
         {languages.map((language, index) => (
