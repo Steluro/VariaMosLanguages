@@ -5,6 +5,7 @@ import { queryCollaborators } from "../../../DataProvider/Services/collaboratorS
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
 import { Tab, Tabs } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
+import { ElementTypeContainer } from "./Elements/ElementTypeContainer";
 
 interface LanguageViewProps {
   languageId: string;
@@ -69,8 +70,7 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
           className="pt-3"
           unmountOnExit
         >
-          <pre>{JSON.stringify(language, null, 2)}</pre>
-          <pre>{JSON.stringify(collaborators, null, 2)}</pre>
+          <ElementTypeContainer languageUuid={language.uuid} />
         </Tab>
         <Tab
           eventKey="relationships"

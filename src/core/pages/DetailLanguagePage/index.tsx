@@ -45,9 +45,9 @@ export default function LanguageDetailPage() {
 
         // Check collaborators list
         const collaboratorsResponse = await queryCollaborators(languageId);
-        const collaborators = collaboratorsResponse.data;
+        const collaborators = collaboratorsResponse;
 
-        const isCollaborator = collaborators?.some((collaborator: any) => collaborator.id === user?.id);
+        const isCollaborator = collaborators?.some((collaborator: any) => collaborator.user?.id === user?.id);
         setHasAccess(isCollaborator || false);
       } catch (error) {
         console.error("Error checking access:", error);
