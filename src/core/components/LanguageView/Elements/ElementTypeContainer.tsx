@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { queryLanguageElementTypes } from '../../../../DataProvider/Services/elementTypeService';
+import styles from './ElementTypeContainer.module.css';
+import { ElementAccordionBody } from './ElementAccordionBody';
 
 interface ElementContainerProps {
-    languageUuid : string
+    languageUuid: string
 }
 
 export function ElementTypeContainer({ languageUuid }: ElementContainerProps) {
     const [elements, setElements] = useState<any[]>([]);
-    
+
     useEffect(() => {
         queryLanguageElementTypes(languageUuid).then((response) => {
             setElements(response.data || []);
@@ -23,22 +25,20 @@ export function ElementTypeContainer({ languageUuid }: ElementContainerProps) {
             }, 100);
         }
     };
-    
-    return (
-    <Accordion defaultActiveKey="0" onSelect={handleAccordionEnter}>
-    {elements.map((element, index) => (
-    <Accordion.Item eventKey={index.toString()} key={index}>
-        <Accordion.Header>
-            {element.name}
-        </Accordion.Header>
-        <Accordion.Body>
-            <span>{element.description}</span>
-            <pre><code className="language-javascript">
-{JSON.stringify(element.style, null, 2)}
-</code></pre>
-        </Accordion.Body>
-    </Accordion.Item>
-    ))}
-</Accordion>   
-  );
+
+    return (<>
+            { elements.map((element, index) => (
+                <Accordion onSelect={handleAccordionEnter} className={styles.accordionItemSpacing} key={index}>
+                    <Accordion.Item eventKey={index.toString()}>
+                        <Accordion.Header>
+                            {element.name}
+                        </Accordion.Header>
+                        <Accordion.Body>
+                            <ElementAccordionBody element={element} />
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
+            ))
+        }</>
+    );
 }
