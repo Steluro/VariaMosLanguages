@@ -8,6 +8,7 @@ import { useSession } from "@variamosple/variamos-components";
 import { useState, useEffect } from "react";
 import { deleteLanguage } from "../../../DataProvider/Services/languagesService";
 import ConfirmationModal from "../ConfirmationModal";
+import SharedUserModal from "../SharedUserModal";
 
 interface LanguageInfoProps {
   language: Language;
@@ -18,6 +19,7 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
   const { user } = useSession();
   const [userAccessLevel, setUserAccessLevel] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const checkUserAccess = async () => {
     // Check if user is owner
@@ -81,7 +83,7 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
         <div className={`${styles.status} ${styles[language.status]}`}>{language.status}</div>
         {language.status.toLowerCase()==="draft" && (
         <div className={styles.buttonRow}>
-          {(userAccessLevel === "owner") && <Button className="btn-Variamos-green"><ShareFill/></Button>}
+          {(userAccessLevel === "owner") && <Button className="btn-Variamos-green" onClick={() => setShowShareModal(true)}><ShareFill/></Button>}
           {(userAccessLevel === "owner" || userAccessLevel === "writer") && <Button className="btn-Variamos-yellow"><PencilFill/></Button>}
           {(userAccessLevel === "owner" || userAccessLevel === "admin") && <Button className="btn-Variamos-red" onClick={handleDeleteLanguage}><TrashFill/></Button>}
         </div>)}
@@ -95,6 +97,11 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
       confirmLabel="Delete"
       confirmButtonVariant="danger"
       cancelLabel="Cancel"
+    />
+    <SharedUserModal
+      languageId={language.uuid}
+      show={showShareModal}
+      onClose={() => setShowShareModal(false)}
     />
     </>
   );

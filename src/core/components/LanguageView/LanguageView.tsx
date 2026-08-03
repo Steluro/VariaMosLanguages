@@ -6,6 +6,7 @@ import { Language } from "../../../Domain/ProductLineEngineering/Entities/Langua
 import { Tab, Tabs } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { ElementTypeContainer } from "./Elements/ElementTypeContainer";
+import { RelationTypeContainer } from "./Relations/RelationTypeContainer";
 
 interface LanguageViewProps {
   languageId: string;
@@ -78,7 +79,7 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
           className="pt-3"
           unmountOnExit
         >
-
+          <RelationTypeContainer languageUuid={language.uuid} />
         </Tab>
       </Tabs>
     </div>

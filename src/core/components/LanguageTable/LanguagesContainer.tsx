@@ -147,7 +147,7 @@ function LanguagesContainerComponent ({
       )}
 
       {!isLoading && (
-          <Col md={9}>
+          <Col md={9} style={{ maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
             <LanguagesList
               variant = {variant}
               languages={languages}
