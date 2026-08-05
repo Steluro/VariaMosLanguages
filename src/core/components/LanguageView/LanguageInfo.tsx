@@ -8,7 +8,7 @@ import { useSession } from "@variamosple/variamos-components";
 import { useState, useEffect } from "react";
 import { deleteLanguage } from "../../../DataProvider/Services/languagesService";
 import ConfirmationModal from "../ConfirmationModal";
-import SharedUserModal from "../SharedUserModal";
+import CollaboratorModal from "../CollaboratorModal";
 
 interface LanguageInfoProps {
   language: Language;
@@ -98,7 +98,7 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
       confirmButtonVariant="danger"
       cancelLabel="Cancel"
     />
-    <SharedUserModal
+    <CollaboratorModal
       languageId={language.uuid}
       show={showShareModal}
       onClose={() => setShowShareModal(false)}
