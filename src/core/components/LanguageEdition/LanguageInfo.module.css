@@ -1,0 +1,98 @@
+.container{ 
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin: 2rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column:last-child {
+  align-items: center;
+  justify-content: center;
+}
+
+.type {
+  margin-right: 0.5rem;
+  text-transform: uppercase;
+}
+
+.name {
+  margin-right: 0.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.owner {
+  min-width: 60px;
+  color : #0d6efd ;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: 20px;
+  margin-right: 0.5rem;
+}
+
+.uuid {
+  font-family: monospace;
+  font-size : 0.8rem;
+  color: #7f7f7f;
+}
+
+.status {
+  color : white;
+  background-color: #e7f3ff;
+  border-radius: 1.875rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0.5rem 3rem;
+}
+
+.status.draft{
+  background-color: #0d6efd ;
+}
+
+.status.published{
+  background-color: green;
+}
+
+.status.deleted{
+  background-color: black;
+}
+
+.status.pending{
+  background-color : orange;
+}
+
+.timestamp {
+  color: #7f7f7f;
+  gap: 0.5rem;
+  font-family: monospace;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+.buttonRow{
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.clickable {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.clickable:hover {
+  color: #0d6efd;
+}
+

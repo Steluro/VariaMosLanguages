@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Accordion, Spinner } from 'react-bootstrap';
+import { Accordion } from 'react-bootstrap';
 import { queryLanguageRelationTypes } from '../../../../DataProvider/Services/relationTypeService';
 import styles from './RelationTypeContainer.module.css';
 import { RelationAccordionBody } from './RelationAccordionBody';
@@ -10,15 +10,11 @@ interface RelationContainerProps {
 
 export function RelationTypeContainer({ languageUuid }: RelationContainerProps) {
     const [relations, setRelations] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
         queryLanguageRelationTypes(languageUuid).then((response) => {
             setRelations(response.data || []);
             console.log(response.data);
-        }).finally(() => {
-            setLoading(false);
         });
     }, [languageUuid]);
 
@@ -30,20 +26,6 @@ export function RelationTypeContainer({ languageUuid }: RelationContainerProps) 
             }, 100);
         }
     };
-
-    if (loading) {
-        return (
-            <div className="w-100 text-center" style={{ marginTop: "2rem" }}>
-                <Spinner animation="border" role="status" variant="primary">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </div>
-        );
-    }
-
-    if (!relations || relations.length === 0) {
-        return <div className="text-muted">No relations</div>;
-    }
 
     return (<>
             { relations.map((relation, index) => (

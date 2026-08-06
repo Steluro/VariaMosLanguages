@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LanguageInfo } from "./LanguageInfo";
+import { LanguageEditionInfo } from "./LanguageEditionInfo";
 import { queryLanguageById } from "../../../DataProvider/Services/languagesService";
 import { queryCollaborators } from "../../../DataProvider/Services/collaboratorService";
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
@@ -7,13 +7,12 @@ import { Tab, Tabs } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { ElementTypeContainer } from "./Elements/ElementTypeContainer";
 import { RelationTypeContainer } from "./Relations/RelationTypeContainer";
-import { ReificationTypeContainer } from "./Reifications/ReificationTypeContainer";
 
 interface LanguageViewProps {
   languageId: string;
 }
 
-export default function LanguageView({ languageId }: LanguageViewProps) {
+export default function LanguageEdition({ languageId }: LanguageViewProps) {
   const [language, setLanguage] = useState<Language | null>(null);
   const [loading, setLoading] = useState(true);
   const [collaborators, setCollaborators] = useState<any[]>([]);
@@ -63,7 +62,7 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
 
   return (
     <div>
-      <LanguageInfo language={language} />
+      <LanguageEditionInfo language={language} />
       <Tabs
         defaultActiveKey="elements">
         <Tab
@@ -81,14 +80,6 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
           unmountOnExit
         >
           <RelationTypeContainer languageUuid={language.uuid} />
-        </Tab>
-        <Tab
-          eventKey="reifications"
-          title="Reifications"
-          className="pt-3"
-          unmountOnExit
-        >
-          <ReificationTypeContainer languageUuid={language.uuid} />
         </Tab>
       </Tabs>
     </div>
