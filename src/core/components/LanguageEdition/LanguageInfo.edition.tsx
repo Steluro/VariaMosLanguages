@@ -6,9 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { queryCollaborators } from "../../../DataProvider/Services/collaboratorService";
 import { useSession } from "@variamosple/variamos-components";
 import { useState, useEffect } from "react";
-import { deleteLanguage } from "../../../DataProvider/Services/languagesService";
-import ConfirmationModal from "../ConfirmationModal";
-import CollaboratorModal from "../CollaboratorModal";
+import { updateLanguage } from "../../../DataProvider/Services/languagesService";
 
 interface LanguageInfoProps {
   language: Language;
@@ -18,13 +16,12 @@ export function LanguageEditionInfo({ language }: LanguageInfoProps) {
   const navigate = useNavigate();
   const { user } = useSession();
   const [userAccessLevel, setUserAccessLevel] = useState<string | null>(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
   const [languageName, setLanguageName] = useState(language.name);
 
   const checkUserAccess = async () => {
     // Check if user is owner
     if (language.ownerId === user?.id) {
+
       setUserAccessLevel("owner");
       return;
     }
@@ -50,8 +47,7 @@ export function LanguageEditionInfo({ language }: LanguageInfoProps) {
   };
 
   const handleBlurLanguageName = (name: string) => {
-    // TODO: Update language name
-    console.log(name)
+    updateLanguage(language.uuid, { name });
   };
 
   useEffect(() => {

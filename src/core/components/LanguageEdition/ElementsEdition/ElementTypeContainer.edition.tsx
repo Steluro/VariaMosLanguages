@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { queryLanguageElementTypes } from '../../../../DataProvider/Services/elementTypeService';
 import styles from './ElementTypeContainer.module.css';
-import { ElementAccordionBody } from './ElementAccordionBody';
+import { ElementAccordionBody } from './ElementAccordionBody.edition';
 
 interface ElementContainerProps {
     languageUuid: string
 }
 
-export function ElementTypeContainer({ languageUuid }: ElementContainerProps) {
+export function ElementEditionTypeContainer({ languageUuid }: ElementContainerProps) {
     const [elements, setElements] = useState<any[]>([]);
 
     useEffect(() => {

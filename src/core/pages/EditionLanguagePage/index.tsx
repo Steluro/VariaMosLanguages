@@ -7,8 +7,8 @@ import { queryCollaborators } from "../../../DataProvider/Services/collaboratorS
 import { queryLanguageById } from "../../../DataProvider/Services/languagesService";
 import ForbiddenPage from "../ForbiddenPage";
 import { Row, Spinner } from "react-bootstrap";
-import { LanguageEditionInfo } from "../../components/LanguageEdition/LanguageEditionInfo";
-import LanguageEdition from "../../components/LanguageEdition/LanguageEdition";
+import { LanguageEditionInfo } from "../../components/LanguageEdition/LanguageInfo.edition";
+import LanguageEdition from "../../components/LanguageEdition/Language.edition";
 
 
 export default function EditionLanguagePage() {

@@ -5,7 +5,7 @@ interface ElementShapeImageProps {
   style: any;
 }
 
-export function ElementShapeImage({ style }: ElementShapeImageProps) {
+export function ElementEditionImage({ style }: ElementShapeImageProps) {
   // Extract style properties
   const {
     backgroundColor = '#ffffff',

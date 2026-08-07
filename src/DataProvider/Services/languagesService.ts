@@ -125,6 +125,37 @@ export const createLanguage = (language: any): Promise<ResponseModel<Language>> 
     });
 };
 
-export const asyncUpdateLanguageName = async (languageUuid: string, name: string) => {
-    return LANGUAGES_CLIENT.put('/' + languageUuid, { name })
+export const updateLanguage = async (
+  languageUuid: string,
+  data: Partial<{
+    name: string;
+    type: "scope" | "domain" | "application";
+    publicVersionId?: string;
+  }>
+) => {
+  return LANGUAGES_CLIENT.put('/' + languageUuid, data)
+    .then((response) => {return response})
+    .catch((error) => {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.message);
+
+        const response = error.response?.data;
+
+        if (!!response) {
+          return response;
+        }
+
+        return new ResponseModel("BACK-ERROR").withError(
+          Number.parseInt(error.code || "500"),
+          "Error when comunicating with the back-end."
+        );
+      } else {
+        console.error("Unexpected error:", error);
+
+        return new ResponseModel("APP-ERROR").withError(
+          500,
+          "Error when trying to update language, please try again later."
+        );
+      }
+    });
 }

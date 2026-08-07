@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { LanguageEditionInfo } from "./LanguageEditionInfo";
+import { LanguageEditionInfo } from "./LanguageInfo.edition";
 import { queryLanguageById } from "../../../DataProvider/Services/languagesService";
 import { queryCollaborators } from "../../../DataProvider/Services/collaboratorService";
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
 import { Tab, Tabs } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
-import { ElementTypeContainer } from "./Elements/ElementTypeContainer";
+import { ElementEditionTypeContainer } from "./ElementsEdition/ElementTypeContainer.edition";
 import { RelationTypeContainer } from "./Relations/RelationTypeContainer";
 
 interface LanguageViewProps {
@@ -71,7 +71,7 @@ export default function LanguageEdition({ languageId }: LanguageViewProps) {
           className="pt-3"
           unmountOnExit
         >
-          <ElementTypeContainer languageUuid={language.uuid} />
+          <ElementEditionTypeContainer languageUuid={language.uuid} />
         </Tab>
         <Tab
           eventKey="relationships"
