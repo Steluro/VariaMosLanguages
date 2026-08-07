@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import styles from './ElementAccordionBody.module.css';
 import { ElementShapeImage } from './ElementShapeImage';
+import { ElementPropertieCard } from './ElementPropertieCard';
 
 interface ElementAccordionBodyProps {
   element: any;
@@ -26,9 +27,15 @@ export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {
               <h4 className={styles.sectionTitle}>Properties</h4>
               <div className={styles.content}>
                 {element.properties ? (
-                  <pre><code className="language-javascript">
-                    {JSON.stringify(element.properties, null, 2)}
-                  </code></pre>
+                  <div className="d-flex flex-column gap-2">
+                    {Object.entries(element.properties).map(([name, value]: [string, any]) => (
+                      <ElementPropertieCard
+                        key={name}
+                        name={name}
+                        type={value?.type || 'unknown'}
+                      />
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-muted">No properties</p>
                 )}

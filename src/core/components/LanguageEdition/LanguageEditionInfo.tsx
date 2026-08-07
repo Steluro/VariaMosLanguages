@@ -49,6 +49,11 @@ export function LanguageEditionInfo({ language }: LanguageInfoProps) {
     }
   };
 
+  const handleBlurLanguageName = (name: string) => {
+    // TODO: Update language name
+    console.log(name)
+  };
+
   useEffect(() => {
     if (language?.uuid && user?.id) {
       checkUserAccess();
@@ -63,6 +68,7 @@ export function LanguageEditionInfo({ language }: LanguageInfoProps) {
           type="text"
           value={languageName}
           onChange={(e) => setLanguageName(e.target.value)}
+          onBlur={(e) => handleBlurLanguageName(e.target.value)}
           className={styles.name}
         />
         <div className={styles.type}>{language.type}</div>

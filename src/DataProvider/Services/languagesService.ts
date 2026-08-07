@@ -124,3 +124,7 @@ export const createLanguage = (language: any): Promise<ResponseModel<Language>> 
       }
     });
 };
+
+export const asyncUpdateLanguageName = async (languageUuid: string, name: string) => {
+    return LANGUAGES_CLIENT.put('/' + languageUuid, { name })
+}

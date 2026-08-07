@@ -3,6 +3,7 @@ import { Accordion, Spinner } from 'react-bootstrap';
 import { queryLanguageReificationTypes } from '../../../../DataProvider/Services/reificationTypeService';
 import styles from './ReificationTypeContainer.module.css';
 import { ReificationAccordionBody } from './ReificationAccordionBody';
+import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpointsService';
 
 interface ReificationContainerProps {
     languageUuid: string
@@ -52,7 +53,7 @@ export function ReificationTypeContainer({ languageUuid }: ReificationContainerP
                             {reification.name}
                         </Accordion.Header>
                         <Accordion.Body>
-                            <ReificationAccordionBody reification={reification} />
+                            <ReificationAccordionBody reification={reification}/>
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>

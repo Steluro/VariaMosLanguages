@@ -83,9 +83,9 @@ export default function LanguageDetailPage() {
   return (
     <LanguageContextProvider>
       <LanguagePageLayout>
-        <div className="p-4">
-          <LanguageView languageId={languageId} />
-        </div>
+            <div className="p-4" style={{ marginLeft: '5rem', marginRight: '5rem' }}>
+               <LanguageView languageId={languageId} />
+             </div>
       </LanguagePageLayout>
     </LanguageContextProvider>
   );

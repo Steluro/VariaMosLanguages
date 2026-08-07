@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import styles from './RelationAccordionBody.module.css';
 import { RelationShapeImage } from './RelationShapeImage';
+import { RelationPropertieCard } from './RelationPropertieCard';
 
 interface RelationAccordionBodyProps {
   relation: any;
@@ -21,21 +22,27 @@ export function RelationAccordionBody({ relation }: RelationAccordionBodyProps) 
       </div>
       <div className={styles.details}>
         <Row>
-          <Col md={6}>
+          <Col md={5}>
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Properties</h4>
               <div className={styles.content}>
-                {relation.properties ? (
-                  <pre><code className="language-javascript">
-                    {JSON.stringify(relation.properties, null, 2)}
-                  </code></pre>
+                {relation.properties && Object.keys(relation.properties).length > 0 ? (
+                  <div className="d-flex flex-column gap-2">
+                    {Object.entries(relation.properties).map(([name, value]: [string, any]) => (
+                      <RelationPropertieCard
+                        key={name}
+                        name={name}
+                        type={value?.type || 'unknown'}
+                      />
+                    ))}
+                  </div>
                 ) : (
-                  <p className="text-muted">No properties</p>
+                  <p className="text-muted" style={{ margin: 0 }}>No properties</p>
                 )}
               </div>
             </div>
           </Col>
-          <Col md={6}>
+          <Col md={7}>
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
@@ -44,7 +51,7 @@ export function RelationAccordionBody({ relation }: RelationAccordionBodyProps) 
                     {JSON.stringify(relation.constraints, null, 2)}
                   </code></pre>
                 ) : (
-                  <p className="text-muted">No constraints</p>
+                  <p className="text-muted" style={{ margin: 0 }}>No constraints</p>
                 )}
               </div>
             </div>

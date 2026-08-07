@@ -6,7 +6,7 @@ import LanguageContextProvider from "../../context/LanguageContext/LanguageConte
 import { queryCollaborators } from "../../../DataProvider/Services/collaboratorService";
 import { queryLanguageById } from "../../../DataProvider/Services/languagesService";
 import ForbiddenPage from "../ForbiddenPage";
-import { Spinner } from "react-bootstrap";
+import { Row, Spinner } from "react-bootstrap";
 import { LanguageEditionInfo } from "../../components/LanguageEdition/LanguageEditionInfo";
 import LanguageEdition from "../../components/LanguageEdition/LanguageEdition";
 
@@ -91,8 +91,8 @@ export default function EditionLanguagePage() {
   return (
     <LanguageContextProvider>
       <LanguagePageLayout>
-        <div className="p-4">
-           <LanguageEdition languageId={languageId} />  
+        <div className="p-4" style={{ marginLeft: '5rem', marginRight: '5rem' }}>
+          <LanguageEdition languageId={languageId} />
         </div>
       </LanguagePageLayout>
     </LanguageContextProvider>
