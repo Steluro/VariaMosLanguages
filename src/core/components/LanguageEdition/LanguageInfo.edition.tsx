@@ -3,10 +3,10 @@ import { Language } from "../../../Domain/ProductLineEngineering/Entities/Langua
 import styles from "./LanguageInfo.module.css";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { queryCollaborators } from "../../../DataProvider/Services/collaboratorService";
+import { queryCollaborators } from "../../../DataProvider/Services/collaborator.service";
 import { useSession } from "@variamosple/variamos-components";
 import { useState, useEffect } from "react";
-import { updateLanguage } from "../../../DataProvider/Services/languagesService";
+import { updateLanguage } from "../../../DataProvider/Services/languages.service";
 
 interface LanguageInfoProps {
   language: Language;

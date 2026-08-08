@@ -4,8 +4,8 @@ import { useSession } from "@variamosple/variamos-components";
 import LanguageView from "../../components/LanguageView/LanguageView";
 import LanguagePageLayout from "../../components/LanguagePageLayout";
 import LanguageContextProvider from "../../context/LanguageContext/LanguageContextProvider";
-import { queryCollaborators } from "../../../DataProvider/Services/collaboratorService";
-import { queryLanguageById } from "../../../DataProvider/Services/languagesService";
+import { queryCollaborators } from "../../../DataProvider/Services/collaborator.service";
+import { queryLanguageById } from "../../../DataProvider/Services/languages.service";
 import ForbiddenPage from "../ForbiddenPage";
 import { Spinner } from "react-bootstrap";
 

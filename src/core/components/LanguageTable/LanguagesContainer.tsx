@@ -5,7 +5,7 @@ import {
 } from "@variamosple/variamos-components";
 import { useEffect, useState } from "react";
 import { Spinner, Row, Col, Button } from "react-bootstrap";
-import { createLanguage, queryLanguages } from "../../../DataProvider/Services/languagesService";
+import { createLanguage, queryLanguages } from "../../../DataProvider/Services/languages.service";
 import { PagedModel } from "../../../Domain/Core/Entity/PagedModel";
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
 import { SearchForm } from "../SearchForm";

@@ -3,7 +3,7 @@ import { Col, Row, Form } from 'react-bootstrap';
 import styles from './ElementAccordionBody.module.css';
 import { ElementEditionImage } from './ElemenImage.edition';
 import { PropertiesEdition } from './PropertiesElement.edition';
-import { updateElement } from '../../../../DataProvider/Services/elementTypeService';
+import { updateElement } from '../../../../DataProvider/Services/elementType.service';
 import { ConstraintsElement } from './ConstraintsElement.edition';
 
 interface ElementAccordionBodyProps {

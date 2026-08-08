@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-lisp';
-import { updateElement } from '../../../../DataProvider/Services/elementTypeService';
+import { updateElement } from '../../../../DataProvider/Services/elementType.service';
 import style from "./ConstraintsElement.module.css";
 
 interface ConstraintsEditionProps {

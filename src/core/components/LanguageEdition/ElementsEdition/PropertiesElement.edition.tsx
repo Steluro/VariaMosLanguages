@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { Plus, Trash } from 'react-bootstrap-icons';
-import { updateElement } from '../../../../DataProvider/Services/elementTypeService';
+import { updateElement } from '../../../../DataProvider/Services/elementType.service';
 import styles from './PropertiesElements.module.css';
 
 const TYPES = ['string', 'number', 'boolean'];

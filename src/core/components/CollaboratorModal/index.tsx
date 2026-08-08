@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Modal, Row, Col, Alert } from 'react-bootstrap';
 import { CollaboratorsContainer } from './CollaboratorContainer';
 import { AddCollaborator } from './AddCollaborator';
-import { inviteCollaborator, deleteCollaborator, updateCollaboratorRole, queryCollaborators } from '../../../DataProvider/Services/collaboratorService';
+import { inviteCollaborator, deleteCollaborator, updateCollaboratorRole, queryCollaborators } from '../../../DataProvider/Services/collaborator.service';
 
 export interface CollaboratorModalProps {
   languageId?: string;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
-import { queryLanguageElementTypes } from '../../../../DataProvider/Services/elementTypeService';
+import { queryLanguageElementTypes } from '../../../../DataProvider/Services/elementType.service';
 import styles from './ElementTypeContainer.module.css';
 import { ElementAccordionBody } from './ElementAccordionBody.edition';
 

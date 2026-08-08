@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { LanguageInfo } from "./LanguageInfo";
-import { queryLanguageById } from "../../../DataProvider/Services/languagesService";
-import { queryCollaborators } from "../../../DataProvider/Services/collaboratorService";
+import { queryLanguageById } from "../../../DataProvider/Services/languages.service";
+import { queryCollaborators } from "../../../DataProvider/Services/collaborator.service";
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
 import { Tab, Tabs } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";

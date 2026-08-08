@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import styles from './ReificationAccordionBody.module.css';
 import { RelationShapeImage } from './ReificationShapeImage';
 import { ReificationPropertieCard } from './ReificationPropertieCard';
-import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpointsService';
+import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
 
 interface RelationAccordionBodyProps {
   reification: any;

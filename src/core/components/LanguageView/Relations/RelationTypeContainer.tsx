@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion, Spinner } from 'react-bootstrap';
-import { queryLanguageRelationTypes } from '../../../../DataProvider/Services/relationTypeService';
+import { queryLanguageRelationTypes } from '../../../../DataProvider/Services/relationType.service';
 import styles from './RelationTypeContainer.module.css';
 import { RelationAccordionBody } from './RelationAccordionBody';
 
