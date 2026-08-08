@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import styles from './RelationAccordionBody.module.css';
-import { RelationShapeImage } from './RelationShapeImage';
+import { RelationShapeImage } from './RelationShapeImage.edition';
 
 interface RelationAccordionBodyProps {
   relation: any;

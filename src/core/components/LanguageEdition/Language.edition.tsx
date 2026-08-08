@@ -6,7 +6,8 @@ import { Language } from "../../../Domain/ProductLineEngineering/Entities/Langua
 import { Tab, Tabs } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { ElementEditionTypeContainer } from "./ElementsEdition/ElementTypeContainer.edition";
-import { RelationTypeContainer } from "./RelationsEdition/RelationTypeContainer";
+import { RelationTypeContainer } from "./RelationsEdition/RelationTypeContainer.edition";
+import { ReificationTypeContainer } from "./ReificationsEdition/ReificationTypeContainer.edition";
 
 interface LanguageViewProps {
   languageId: string;
@@ -81,6 +82,14 @@ export default function LanguageEdition({ languageId }: LanguageViewProps) {
         >
           <RelationTypeContainer languageUuid={language.uuid} />
         </Tab>
+        <Tab
+          eventKey="reifications"
+          title="Reifications"
+          className="pt-3"
+          unmountOnExit
+        >
+          <ReificationTypeContainer languageUuid={language.uuid} />
+        </Tab>  
       </Tabs>
     </div>
   );

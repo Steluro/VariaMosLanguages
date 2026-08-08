@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Accordion, Spinner } from 'react-bootstrap';
-import { queryLanguageElementTypes } from '../../../../DataProvider/Services/elementType.service';
-import styles from './ElementTypeContainer.module.css';
-import { ElementAccordionBody } from './ElementAccordionBody.edition';
+import { queryLanguageReificationTypes } from '../../../../DataProvider/Services/reificationType.service';
+import styles from './ReificationTypeContainer.module.css';
+import { ReificationAccordionBody } from './ReificationAccordionBody.edition';
+import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
 
-interface ElementContainerProps {
+interface ReificationContainerProps {
     languageUuid: string
 }
 
-export function ElementEditionTypeContainer({ languageUuid }: ElementContainerProps) {
-    const [elements, setElements] = useState<any[]>([]);
+export function ReificationTypeContainer({ languageUuid }: ReificationContainerProps) {
+    const [reifications, setReifications] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-        queryLanguageElementTypes(languageUuid).then((response) => {
-            setElements(response.data || []);
+        queryLanguageReificationTypes(languageUuid).then((response) => {
+            setReifications(response.data || []);
+        }).finally(() => {
             setLoading(false);
         });
     }, [languageUuid]);
@@ -38,21 +40,20 @@ export function ElementEditionTypeContainer({ languageUuid }: ElementContainerPr
             </div>
         );
     }
-    
-    if (!elements || elements.length === 0) {
-        return <div className="text-muted">No elements</div>;
+
+    if (!reifications || reifications.length === 0) {
+        return <div className="text-muted">No reifications</div>;
     }
 
-
     return (<>
-            { elements.map((element, index) => (
+            { reifications.map((reification, index) => (
                 <Accordion onSelect={handleAccordionEnter} className={styles.accordionItemSpacing} key={index}>
                     <Accordion.Item eventKey={index.toString()}>
                         <Accordion.Header>
-                            {element.name}
+                            {reification.name}
                         </Accordion.Header>
                         <Accordion.Body>
-                            <ElementAccordionBody element={element} />
+                            <ReificationAccordionBody reification={reification}/>
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
