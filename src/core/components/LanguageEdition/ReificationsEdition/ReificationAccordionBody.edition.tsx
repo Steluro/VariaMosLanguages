@@ -10,7 +10,7 @@ interface RelationAccordionBodyProps {
   reification: any;
 }
 
-export function ReificationAccordionBody({ reification }: RelationAccordionBodyProps) {
+export function ReificationAccordionBodyEdition({ reification }: RelationAccordionBodyProps) {
   const [endpoints, setEndpoints] = useState<any[]>([]);
 
   useEffect(() => {

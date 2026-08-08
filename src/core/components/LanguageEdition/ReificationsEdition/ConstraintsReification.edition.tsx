@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-lisp';
-import { updateElement } from '../../../../DataProvider/Services/elementType.service';
+import { updateReification } from '../../../../DataProvider/Services/reificationType.service';
 import style from "./ConstraintsReification.module.css";
 
 interface ConstraintsEditionProps {
@@ -22,7 +22,7 @@ export function ConstraintsReification({ constraints, languageId, elementUuid }:
     else{
         setCode(code.trim());
         if(code === `"""Please Edit Constraints"""`) return;
-        updateElement(languageId, elementUuid, {constraint: code});
+        updateReification(languageId, elementUuid, {constraint: code});
     }
   };
   

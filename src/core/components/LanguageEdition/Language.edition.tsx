@@ -7,7 +7,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { ElementEditionTypeContainer } from "./ElementsEdition/ElementTypeContainer.edition";
 import { RelationTypeContainer } from "./RelationsEdition/RelationTypeContainer.edition";
-import { ReificationTypeContainer } from "./ReificationsEdition/ReificationTypeContainer.edition";
+import { ReificationTypeContainerEdition } from "./ReificationsEdition/ReificationTypeContainer.edition";
 
 interface LanguageViewProps {
   languageId: string;
@@ -88,7 +88,7 @@ export default function LanguageEdition({ languageId }: LanguageViewProps) {
           className="pt-3"
           unmountOnExit
         >
-          <ReificationTypeContainer languageUuid={language.uuid} />
+          <ReificationTypeContainerEdition languageUuid={language.uuid} />
         </Tab>  
       </Tabs>
     </div>

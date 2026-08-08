@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import { Accordion, Spinner } from 'react-bootstrap';
 import { queryLanguageReificationTypes } from '../../../../DataProvider/Services/reificationType.service';
 import styles from './ReificationTypeContainer.module.css';
-import { ReificationAccordionBody } from './ReificationAccordionBody.edition';
+import { ReificationAccordionBodyEdition } from './ReificationAccordionBody.edition';
 import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
 
 interface ReificationContainerProps {
     languageUuid: string
 }
 
-export function ReificationTypeContainer({ languageUuid }: ReificationContainerProps) {
+export function ReificationTypeContainerEdition({ languageUuid }: ReificationContainerProps) {
     const [reifications, setReifications] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -53,7 +53,7 @@ export function ReificationTypeContainer({ languageUuid }: ReificationContainerP
                             {reification.name}
                         </Accordion.Header>
                         <Accordion.Body>
-                            <ReificationAccordionBody reification={reification}/>
+                            <ReificationAccordionBodyEdition reification={reification}/>
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
