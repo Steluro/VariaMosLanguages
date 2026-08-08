@@ -4,6 +4,7 @@ import styles from './ElementAccordionBody.module.css';
 import { ElementEditionImage } from './ElemenImage.edition';
 import { PropertiesEdition } from './PropertiesElement.edition';
 import { updateElement } from '../../../../DataProvider/Services/elementTypeService';
+import { ConstraintsElement } from './ConstraintsElement.edition';
 
 interface ElementAccordionBodyProps {
   element: any;
@@ -65,13 +66,8 @@ export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
-                {element.constraints ? (
-                  <pre><code className="language-javascript">
-                    {JSON.stringify(element.constraints, null, 2)}
-                  </code></pre>
-                ) : (
-                  <p className="text-muted">No constraints</p>
-                )}
+               <ConstraintsElement constraints={element.constraint} languageId={element.languageId} elementUuid={element.uuid}/>
+                
               </div>
             </div>
           </Col>

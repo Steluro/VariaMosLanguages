@@ -6,7 +6,7 @@ import { Language } from "../../../Domain/ProductLineEngineering/Entities/Langua
 import { Tab, Tabs } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { ElementEditionTypeContainer } from "./ElementsEdition/ElementTypeContainer.edition";
-import { RelationTypeContainer } from "./Relations/RelationTypeContainer";
+import { RelationTypeContainer } from "./RelationsEdition/RelationTypeContainer";
 
 interface LanguageViewProps {
   languageId: string;
