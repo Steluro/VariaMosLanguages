@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import styles from './RelationAccordionBody.module.css';
 import { RelationShapeImage } from './RelationShapeImage.edition';
+import { ConstraintsRelation } from './ConstraintsRelation.edition';
 
 interface RelationAccordionBodyProps {
   relation: any;
@@ -39,13 +40,7 @@ export function RelationAccordionBody({ relation }: RelationAccordionBodyProps) 
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
-                {relation.constraints ? (
-                  <pre><code className="language-javascript">
-                    {JSON.stringify(relation.constraints, null, 2)}
-                  </code></pre>
-                ) : (
-                  <p className="text-muted">No constraints</p>
-                )}
+                <ConstraintsRelation constraints={relation.constraint} languageId={relation.languageId} elementUuid={relation.uuid} />
               </div>
             </div>
           </Col>

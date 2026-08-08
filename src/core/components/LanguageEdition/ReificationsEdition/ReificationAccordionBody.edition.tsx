@@ -4,6 +4,7 @@ import styles from './ReificationAccordionBody.module.css';
 import { RelationShapeImage } from './ReificationShapeImage.edition';
 import { ReificationPropertieCard } from './ReificationPropertieCard.edition';
 import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
+import { ConstraintsReification } from './ConstraintsReification.edition';
 
 interface RelationAccordionBodyProps {
   reification: any;
@@ -77,13 +78,7 @@ export function ReificationAccordionBody({ reification }: RelationAccordionBodyP
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
-                {reification.constraints ? (
-                  <pre><code className="language-javascript">
-                    {JSON.stringify(reification.constraints, null, 2)}
-                  </code></pre>
-                ) : (
-                  <p className="text-muted" style={{ margin: 0 }}>No constraints</p>
-                )}
+                <ConstraintsReification constraints={reification.constraint} languageId={reification.languageId} elementUuid={reification.uuid} />
               </div>
             </div>
           </Col>
