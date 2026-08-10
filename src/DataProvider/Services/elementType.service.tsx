@@ -33,6 +33,21 @@ export const queryLanguageElementTypes = async (
     });
 };
 
+export const createElementType = async (
+  languageId: string,
+  data: Partial<{
+    languageId:string;
+    name: string;
+    description: string;
+    style: Record<string, unknown>;
+    properties: Record<string, unknown>;
+    constraint: string;
+  }>
+): Promise<ResponseModel<any>> => (
+  console.log("SERVICE : ",languageId, data),
+  LANGUAGES_CLIENT.post(`/${languageId}/element-types/`, data).then((response) => response).catch((error) => error)
+)
+
 export const updateElement = async (
   languageId: string,
   uuid: string,

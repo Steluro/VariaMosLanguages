@@ -18,6 +18,7 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
   const navigate = useNavigate();
   const { user } = useSession();
   const [userAccessLevel, setUserAccessLevel] = useState<string | null>(null);
+  const [userIsAdmin, setUserIsAdmin] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
 
@@ -27,25 +28,23 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
       setUserAccessLevel("owner");
       return;
     }
-    // Check if user is LanguageDirector
-    if (user.roles?.find((role: string) => role.toLowerCase() === "language director")) {
-      setUserAccessLevel("admin");
-      return;
-    }
     // If not owner or LanguageDirector, fetch collaborators and check user's role
     try {
       const collaborators = await queryCollaborators(language.uuid);
       
-      const userCollaborator = collaborators?.find((collaborator: any) => collaborator.id === user?.id);
+      const userCollaborator = collaborators?.find((collaborator: any) => collaborator.user.id === user?.id);
       if (userCollaborator) {
         setUserAccessLevel(userCollaborator.role);
-      } else {
-        setUserAccessLevel(null);
+      }
+      // Check if user is LanguageDirector
+      if (user.roles?.find((role: string) => role.toLowerCase() === "language director")) {
+        setUserIsAdmin(true);
       }
     } catch (error) {
       console.error("Error checking user access:", error);
       setUserAccessLevel(null);
     }
+    console.log(userAccessLevel);
   };
 
   useEffect(() => {
@@ -83,9 +82,9 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
         <div className={`${styles.status} ${styles[language.status]}`}>{language.status}</div>
         {language.status.toLowerCase()==="draft" && (
         <div className={styles.buttonRow}>
-          {(userAccessLevel === "owner") && <Button className="btn-Variamos-green" onClick={() => setShowShareModal(true)}><ShareFill/></Button>}
-          {(userAccessLevel === "owner" || userAccessLevel === "writer") && <Button className="btn-Variamos-yellow"><PencilFill/></Button>}
-          {(userAccessLevel === "owner" || userAccessLevel === "admin") && <Button className="btn-Variamos-red" onClick={handleDeleteLanguage}><TrashFill/></Button>}
+          {(userAccessLevel === "owner" || userAccessLevel === "manager") && <Button className="btn-Variamos-green" onClick={() => setShowShareModal(true)}><ShareFill/></Button>}
+          {(userAccessLevel === "owner" || userAccessLevel === "editor" || userAccessLevel === "manager") && <Button className="btn-Variamos-yellow" onClick={()=>navigate(`/${language.uuid}/edit`)}><PencilFill/></Button>}
+          {(userAccessLevel === "owner" || userIsAdmin) && <Button className="btn-Variamos-red" onClick={handleDeleteLanguage}><TrashFill/></Button>}
         </div>)}
       </div>
     </div>

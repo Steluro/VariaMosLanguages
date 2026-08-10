@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Accordion, Spinner } from 'react-bootstrap';
-import { queryLanguageElementTypes } from '../../../../DataProvider/Services/elementType.service';
+import { Accordion, Spinner, Button } from 'react-bootstrap';
+import { createElementType, queryLanguageElementTypes } from '../../../../DataProvider/Services/elementType.service';
+import { PlusCircle } from 'react-bootstrap-icons';
 import styles from './ElementTypeContainer.module.css';
 import { ElementAccordionBody } from './ElementAccordionBody.edition';
-
+import CreationModal from '../CreationModal'
+import { create } from 'domain';
 interface ElementContainerProps {
     languageUuid: string
 }
@@ -11,6 +13,7 @@ interface ElementContainerProps {
 export function ElementEditionTypeContainer({ languageUuid }: ElementContainerProps) {
     const [elements, setElements] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [creationModal, setCreationModal] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -29,6 +32,15 @@ export function ElementEditionTypeContainer({ languageUuid }: ElementContainerPr
         }
     };
 
+    const handleElementCreation = (name :string) => {
+        console.log(languageUuid, name);
+        createElementType(languageUuid, {languageId: languageUuid, name: name}).then((response) => {
+            queryLanguageElementTypes(languageUuid).then((response) => {
+                setElements(response.data || []);
+            });
+        })
+    } 
+
     if (loading) {
         return (
             <div className="w-100 text-center" style={{ marginTop: "2rem" }}>
@@ -45,6 +57,9 @@ export function ElementEditionTypeContainer({ languageUuid }: ElementContainerPr
 
 
     return (<>
+            <Button variant="primary" className={styles.accordionItemSpacing} onClick={() => setCreationModal(true)}>
+                Add Element <PlusCircle className="ms-2" /> 
+            </Button>
             { elements.map((element, index) => (
                 <Accordion onSelect={handleAccordionEnter} className={styles.accordionItemSpacing} key={index}>
                     <Accordion.Item eventKey={index.toString()}>
@@ -57,6 +72,13 @@ export function ElementEditionTypeContainer({ languageUuid }: ElementContainerPr
                     </Accordion.Item>
                 </Accordion>
             ))
-        }</>
+            }
+            <CreationModal
+                show={creationModal}
+                objectName="Element"
+                onHide={() => {setCreationModal(false)}}
+                onCreate={handleElementCreation}
+            />
+        </>
     );
 }

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Accordion, Spinner } from 'react-bootstrap';
-import { queryLanguageReificationTypes } from '../../../../DataProvider/Services/reificationType.service';
 import styles from './ReificationTypeContainer.module.css';
 import { ReificationAccordionBody } from './ReificationAccordionBody';
+import { queryLanguageReificationTypes } from '../../../../DataProvider/Services/reificationType.service';
 import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
 
 interface ReificationContainerProps {
