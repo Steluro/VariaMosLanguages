@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Accordion, Spinner, Button } from "react-bootstrap";
 import {
   createElementType,
   deleteElementType,
   queryLanguageElementTypes,
 } from "../../../../DataProvider/Services/elementType.service";
-import { PlusCircle, Trash } from "react-bootstrap-icons";
+import { PlusCircle } from "react-bootstrap-icons";
 import styles from "./ElementTypeContainer.module.css";
 import { ElementAccordionBody } from "./ElementAccordionBody.edition";
 import CreationModal from "../CreationModal";

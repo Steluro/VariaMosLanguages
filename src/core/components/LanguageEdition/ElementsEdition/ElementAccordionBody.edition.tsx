@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
 import styles from "./ElementAccordionBody.module.css";
 import { ElementEditionImage } from "./ElemenImage.edition";
 import { PropertiesEdition } from "./PropertiesElement.edition";
-import {
-  updateElement,
-  deleteElementType,
-} from "../../../../DataProvider/Services/elementType.service";
+import { updateElement } from "../../../../DataProvider/Services/elementType.service";
 import { ConstraintsElement } from "./ConstraintsElement.edition";
 import { Trash } from "react-bootstrap-icons";
-import ConfirmationModal from "../../ConfirmationModal";
 
 interface ElementAccordionBodyProps {
   element: any;
