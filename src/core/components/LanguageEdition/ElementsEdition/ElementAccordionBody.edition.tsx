@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import { Col, Row, Form } from 'react-bootstrap';
+import { Col, Row, Form, Button } from 'react-bootstrap';
 import styles from './ElementAccordionBody.module.css';
 import { ElementEditionImage } from './ElemenImage.edition';
 import { PropertiesEdition } from './PropertiesElement.edition';
-import { updateElement } from '../../../../DataProvider/Services/elementType.service';
+import { updateElement, deleteElementType } from '../../../../DataProvider/Services/elementType.service';
 import { ConstraintsElement } from './ConstraintsElement.edition';
+import { Trash } from 'react-bootstrap-icons';
+import ConfirmationModal from '../../ConfirmationModal';
 
 interface ElementAccordionBodyProps {
   element: any;
+  setToDeleteElementUuid: (uuid: string) => void;
 }
 
-export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {
+export function ElementAccordionBody({ element, setToDeleteElementUuid }: ElementAccordionBodyProps) {
   const [elementName, setElementName] = useState(element.name || 'Untitled');
   const [elementDescription, setElementDescription] = useState(element.description || 'No description');
-
   const handleBlurElementName = (name: string) => {
     updateElement(element.languageId, element.uuid, { name });
   };
@@ -21,6 +23,10 @@ export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {
   const handleBlurElementDescription = (description: string) => {
     updateElement(element.languageId, element.uuid, { description });
   };
+
+  const handleElementDeletion = () => {
+    setToDeleteElementUuid(element.uuid);
+  }
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -66,12 +72,20 @@ export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
-               <ConstraintsElement constraints={element.constraint} languageId={element.languageId} elementUuid={element.uuid}/>
-                
+               <ConstraintsElement constraints={element.constraint} languageId={element.languageId} elementUuid={element.uuid}/>  
               </div>
             </div>
           </Col>
         </Row>
+          <div className={styles.deleteButton}>
+            <Button 
+              variant="outline-danger" 
+              onClick={() => {handleElementDeletion();}}
+              >
+              Delete Element
+              <Trash className='ms-2'/>
+            </Button>
+          </div>
       </div>
     </div>
   );

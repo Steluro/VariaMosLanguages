@@ -62,3 +62,10 @@
   border-radius: 0.25rem;
   overflow-x: auto;
 }
+
+
+.deleteButton{
+  margin-top: 1rem;
+  display : flex;
+  justify-content: right;
+}

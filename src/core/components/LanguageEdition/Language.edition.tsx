@@ -22,7 +22,6 @@ export default function LanguageEdition({ languageId }: LanguageViewProps) {
     try {
       const collaboratorsResponse = await queryCollaborators(languageUuid);
       setCollaborators(collaboratorsResponse);
-      console.log("Collaborators:", collaboratorsResponse);
     } catch (error) {
       console.error("Error fetching collaborators:", error);
       setCollaborators([]);
