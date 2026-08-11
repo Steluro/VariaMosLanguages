@@ -1,8 +1,10 @@
-import React from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Col, Row, Button , Form} from "react-bootstrap";
 import styles from "./RelationAccordionBody.module.css";
 import { RelationShapeImage } from "./RelationShapeImage.edition";
 import { ConstraintsRelation } from "./ConstraintsRelation.edition";
+import { updateRelation } from "../../../../DataProvider/Services/relationType.service";
+import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { Trash } from "react-bootstrap-icons";
 
 interface RelationAccordionBodyProps {
@@ -14,9 +16,19 @@ export function RelationAccordionBody({
   relation,
   setToDeleteRelationUuid,
 }: RelationAccordionBodyProps) {
+  const [relationName, setRelationName] = useState(relation.name||"Untitled");
+  const [relationDescription, setRelationDescription] = useState(relation.description||"No description");
   const handleRelationDeletion = () => {
     setToDeleteRelationUuid(relation.uuid);
   };
+
+  const handleBlurRelationName = (name: string) => {
+      updateRelation(relation.languageId, relation.uuid, { name });
+    };
+  
+    const handleBlurRelationDescription = (description: string) => {
+      updateRelation(relation.languageId, relation.uuid, { description });
+    };
 
   return (
     <div className={styles.container}>
@@ -25,8 +37,20 @@ export function RelationAccordionBody({
           <RelationShapeImage style={relation.style} />
         </div>
         <div className={styles.info}>
-          <h3 className={styles.name}>{relation.name}</h3>
-          <p className={styles.description}>{relation.description}</p>
+          <Form.Control
+            type="text"
+            value={relationName}
+            onChange={(e) => setRelationName(e.target.value)}
+            onBlur={(e) => handleBlurRelationName(e.target.value)}
+            className={styles.sectionTitle}
+          />
+          <Form.Control
+            as="textarea"
+            value={relationDescription}
+            onChange={(e) => setRelationDescription(e.target.value)}
+            onBlur={(e) => handleBlurRelationDescription(e.target.value)}
+            className={styles.description}
+          />
         </div>
       </div>
       <div className={styles.details}>
@@ -36,11 +60,12 @@ export function RelationAccordionBody({
               <h4 className={styles.sectionTitle}>Properties</h4>
               <div className={styles.content}>
                 {relation.properties ? (
-                  <pre>
-                    <code className="language-javascript">
-                      {JSON.stringify(relation.properties, null, 2)}
-                    </code>
-                  </pre>
+                 <PropertiesEdition
+                     properties={relation.properties}
+                     languageId={relation.languageId}
+                     objectUuid={relation.uuid}
+                     updateFunction={updateRelation}
+                    />
                 ) : (
                   <p className="text-muted">No properties</p>
                 )}

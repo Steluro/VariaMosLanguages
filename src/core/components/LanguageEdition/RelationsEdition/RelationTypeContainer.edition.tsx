@@ -122,7 +122,7 @@ export function RelationTypeContainer({
         show={deletionModal}
         onCancel={() => setDeletionModal(false)}
         onConfirm={handleRelationDeletion}
-        message="Are your sure you want to delete this element?"
+        message="Are your sure you want to delete this relation?"
         confirmButtonVariant="danger"
       />
     </>
