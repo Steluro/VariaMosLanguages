@@ -24,7 +24,7 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
 
   const checkUserAccess = async () => {
     // Check if user is owner
-    if (language.ownerId === user?.id) {
+    if (language.owner.id === user?.id) {
       setUserAccessLevel("owner");
       return;
     }

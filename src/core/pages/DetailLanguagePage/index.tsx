@@ -25,19 +25,18 @@ export default function LanguageDetailPage() {
       }
 
       try {
-        // Get language details to check if it's public
         const languageResponse = await queryLanguageById(languageId);
         const language = languageResponse.data;
 
-        // If language is public (has publicVersionId), allow access
+        // If language is public allow access
         if (language?.status.toLowerCase() === "published") {
           setHasAccess(true);
           setLoading(false);
           return;
         }
 
-        // If not public, check if user is owner or collaborator
-        if (language?.ownerId === user?.id) {
+        // If not public, check if user is owner
+        if (language?.owner.id === user?.id) {
           setHasAccess(true);
           setLoading(false);
           return;
@@ -48,7 +47,7 @@ export default function LanguageDetailPage() {
         const collaborators = collaboratorsResponse;
 
         const isCollaborator = collaborators?.some((collaborator: any) => collaborator.user?.id === user?.id);
-        setHasAccess(isCollaborator || false);
+        setHasAccess(isCollaborator);
       } catch (error) {
         console.error("Error checking access:", error);
         setHasAccess(false);
