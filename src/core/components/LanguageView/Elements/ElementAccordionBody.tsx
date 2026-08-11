@@ -3,6 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import styles from './ElementAccordionBody.module.css';
 import { ElementShapeImage } from './ElementShapeImage';
 import { ElementPropertieCard } from './ElementPropertieCard';
+import { Constraints } from '../Constraints/Constraints';
 
 interface ElementAccordionBodyProps {
   element: any;
@@ -46,10 +47,8 @@ export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
-                {element.constraints ? (
-                  <pre><code className="language-javascript">
-                    {JSON.stringify(element.constraints, null, 2)}
-                  </code></pre>
+                {element.constraint ? (
+                  <Constraints code={element.constraint} />
                 ) : (
                   <p className="text-muted" style={{ margin: 0 }}>No constraints</p>
                 )}
