@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Col, Row, Button , Form} from "react-bootstrap";
 import styles from "./RelationAccordionBody.module.css";
 import { RelationShapeImage } from "./RelationShapeImage.edition";
-import { ConstraintsRelation } from "./ConstraintsRelation.edition";
+import { ConstraintsEdition } from "../ConstraintsEdition/Constraints.edition";
 import { updateRelation } from "../../../../DataProvider/Services/relationType.service";
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { Trash } from "react-bootstrap-icons";
@@ -76,10 +76,11 @@ export function RelationAccordionBody({
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
-                <ConstraintsRelation
+                <ConstraintsEdition
                   constraints={relation.constraint}
                   languageId={relation.languageId}
                   elementUuid={relation.uuid}
+                  updateFunction={updateRelation}
                 />
               </div>
             </div>

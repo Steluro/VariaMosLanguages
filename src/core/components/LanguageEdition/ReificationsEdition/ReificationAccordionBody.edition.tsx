@@ -5,7 +5,7 @@ import { RelationShapeImage } from "./ReificationShapeImage.edition";
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { queryReificationTypeEndpoints } from "../../../../DataProvider/Services/reificatonTypeEndpoints.service";
 import { updateReificationType } from "../../../../DataProvider/Services/reificationType.service";
-import { ConstraintsReification } from "./ConstraintsReification.edition";
+import { ConstraintsEdition}  from "../ConstraintsEdition/Constraints.edition";
 import { Trash } from "react-bootstrap-icons";
 
 interface RelationAccordionBodyProps {
@@ -113,10 +113,11 @@ export function ReificationAccordionBodyEdition({
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
-                <ConstraintsReification
+                <ConstraintsEdition
                   constraints={reification.constraint}
                   languageId={reification.languageId}
                   elementUuid={reification.uuid}
+                  updateFunction={updateReificationType}
                 />
               </div>
             </div>

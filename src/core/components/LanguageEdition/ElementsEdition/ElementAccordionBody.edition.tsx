@@ -4,7 +4,7 @@ import styles from "./ElementAccordionBody.module.css";
 import { ElementEditionImage } from "./ElemenImage.edition";
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { updateElement } from "../../../../DataProvider/Services/elementType.service";
-import { ConstraintsElement } from "./ConstraintsElement.edition";
+import { ConstraintsEdition } from "../ConstraintsEdition/Constraints.edition";
 import { Trash } from "react-bootstrap-icons";
 
 interface ElementAccordionBodyProps {
@@ -77,10 +77,11 @@ export function ElementAccordionBody({
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
-                <ConstraintsElement
+                <ConstraintsEdition
                   constraints={element.constraint}
                   languageId={element.languageId}
                   elementUuid={element.uuid}
+                  updateFunction={updateElement}
                 />
               </div>
             </div>

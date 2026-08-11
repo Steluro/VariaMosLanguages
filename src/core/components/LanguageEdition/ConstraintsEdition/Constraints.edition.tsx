@@ -2,27 +2,25 @@ import {useEffect, useState} from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-lisp';
-import { updateReification } from '../../../../DataProvider/Services/reificationType.service';
-import style from "./ConstraintsReification.module.css";
+import style from "./Constraints.module.css";
+import { ResponseModel } from '@variamosple/variamos-components';
 
 interface ConstraintsEditionProps {
   constraints: string;
   languageId: string;
   elementUuid: string;
+  updateFunction : (languageId: string, objectUuid: string, data: Partial<{ constraint: string }>) => Promise<ResponseModel<any>>
 }
 
-
-
-export function ConstraintsReification({ constraints, languageId, elementUuid }: ConstraintsEditionProps) {
-  const [code, setCode] = useState<string>(constraints||`"""Please Edit Constraints"""`);
+export function ConstraintsEdition({ constraints, languageId, elementUuid, updateFunction }: ConstraintsEditionProps) {
+  const [code, setCode] = useState<string>(constraints||"");
   const handleEditorBlur = () => {
     if(!code.trim()){
-      setCode(`"""Please Edit Constraints"""`);
+        updateFunction(languageId, elementUuid, {constraint: ""});
     }
     else{
         setCode(code.trim());
-        if(code === `"""Please Edit Constraints"""`) return;
-        updateReification(languageId, elementUuid, {constraint: code});
+        updateFunction(languageId, elementUuid, {constraint: code});
     }
   };
   
@@ -33,6 +31,7 @@ export function ConstraintsReification({ constraints, languageId, elementUuid }:
       onValueChange={code => setCode(code)}
       highlight={code => highlight(code, languages.lisp, 'lisp')}
       padding={10}
+      placeholder='Place for constraints...'
       onBlur={handleEditorBlur}
       style={{
         fontFamily: '"Fira code", "Fira Mono", monospace',
