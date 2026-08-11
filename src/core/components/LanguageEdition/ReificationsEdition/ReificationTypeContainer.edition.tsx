@@ -36,6 +36,12 @@ export function ReificationTypeContainerEdition({
       });
   }, [languageUuid]);
 
+   useEffect(() => {
+    if (toDeleteReificationUuid) {
+      setDeletionModal(true);
+    }
+  }, [toDeleteReificationUuid]);
+
   const handleAccordionEnter = () => {
     // Trigger Prism syntax highlighting when accordion opens
     if (typeof window !== "undefined" && (window as any).Prism) {
