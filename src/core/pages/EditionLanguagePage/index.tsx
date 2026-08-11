@@ -40,7 +40,7 @@ export default function EditionLanguagePage() {
         }
         
         // If user is owner, allow access
-        if (language?.ownerId === user?.id) {
+        if (language?.owner.id === user?.id) {
           setHasAccess(true);
           setLoading(false);
           return;
