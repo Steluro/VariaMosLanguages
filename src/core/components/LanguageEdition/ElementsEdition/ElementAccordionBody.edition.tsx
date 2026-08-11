@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
 import styles from "./ElementAccordionBody.module.css";
 import { ElementEditionImage } from "./ElemenImage.edition";
-import { PropertiesEdition } from "./PropertiesElement.edition";
+import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { updateElement } from "../../../../DataProvider/Services/elementType.service";
 import { ConstraintsElement } from "./ConstraintsElement.edition";
 import { Trash } from "react-bootstrap-icons";
@@ -64,7 +64,8 @@ export function ElementAccordionBody({
                   <PropertiesEdition
                     properties={element.properties}
                     languageId={element.languageId}
-                    elementUuid={element.uuid}
+                    objectUuid={element.uuid}
+                    updateFunction={updateElement}
                   />
                 ) : (
                   <p className="text-muted">No properties</p>

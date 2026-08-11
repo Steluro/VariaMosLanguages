@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { Plus, Trash } from 'react-bootstrap-icons';
-import { updateElement } from '../../../../DataProvider/Services/elementType.service';
-import styles from './PropertiesElements.module.css';
+import styles from './Properties.module.css';
+import { ResponseModel } from '../../../../Domain/Core/Entity/ResponseModel';
 
 const TYPES = ['string', 'number', 'boolean'];
 
 interface PropertiesEditionProps {
   properties: Record<string, any>;
   languageId: string;
-  elementUuid: string;
+  objectUuid: string;
+  updateFunction: (languageId:string, objectUuid: string, data: Partial<{
+    name: string;
+    description: string;
+    style: Record<string, unknown>;
+    properties: Record<string, unknown>;
+    constraint: string;
+  }>) => Promise<ResponseModel<any>>;
 }
 
-export function PropertiesEdition({ properties, languageId, elementUuid }: PropertiesEditionProps) {
+export function PropertiesEdition({ properties, languageId, objectUuid, updateFunction }: PropertiesEditionProps) {
   const [localProperties, setLocalProperties] = useState<Record<string, any>>(properties);
   const [propertyNames, setPropertyNames] = useState<Record<string, string>>(
     Object.keys(properties).reduce((acc, key) => ({ ...acc, [key]: key }), {})
@@ -28,7 +35,7 @@ export function PropertiesEdition({ properties, languageId, elementUuid }: Prope
       const newType = propertyTypes[originalKey] || 'string';
       newProperties[newName] = { type: newType };
     });
-    updateElement(languageId, elementUuid, { properties: newProperties });
+    updateFunction(languageId, objectUuid, { properties: newProperties });
   };
 
   const handleAddProperty = () => {
@@ -39,7 +46,7 @@ export function PropertiesEdition({ properties, languageId, elementUuid }: Prope
     setLocalProperties(newProperties);
     setPropertyNames(newNames);
     setPropertyTypes(newTypes);
-    updateElement(languageId, elementUuid, { properties: newProperties });
+    updateFunction(languageId, objectUuid, { properties: newProperties });
   };
 
   const handleDeleteProperty = (propertyName: string) => {
@@ -52,7 +59,7 @@ export function PropertiesEdition({ properties, languageId, elementUuid }: Prope
     setLocalProperties(newProperties);
     setPropertyNames(newNames);
     setPropertyTypes(newTypes);
-    updateElement(languageId, elementUuid, { properties: newProperties });
+    updateFunction(languageId, objectUuid, { properties: newProperties });
   };
 
   const handlePropertyNameChange = (originalKey: string, newName: string) => {

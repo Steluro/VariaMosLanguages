@@ -9,6 +9,7 @@
 
 .dropdown{
   width: 30%;
+  min-width: 6rem
 }
 
 .property_name{

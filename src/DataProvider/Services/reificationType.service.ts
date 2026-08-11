@@ -65,6 +65,19 @@ export const createReificationType = async (
   LANGUAGES_CLIENT.post(`/${languageId}/reification-types/`, data).then((response) => response).catch((error) => error)
 )
 
+export const updateReificationType = async (
+  languageId: string,
+  uuid: string,
+  data: Partial<{
+    name: string;
+    description: string;
+    style: Record<string, unknown>;
+    properties: Record<string, unknown>;
+    constraint: string;
+  }>
+): Promise<ResponseModel<any>> => (
+  LANGUAGES_CLIENT.put(`/${languageId}/reification-types/${uuid}`, data).then((response) => response).catch((error) => error)
+)
 
 export const deleteReificationType = async (
   languageId: string,

@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
 import styles from "./ReificationAccordionBody.module.css";
 import { RelationShapeImage } from "./ReificationShapeImage.edition";
-import { ReificationPropertieCard } from "./ReificationPropertieCard.edition";
+import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { queryReificationTypeEndpoints } from "../../../../DataProvider/Services/reificatonTypeEndpoints.service";
+import { updateReificationType } from "../../../../DataProvider/Services/reificationType.service";
 import { ConstraintsReification } from "./ConstraintsReification.edition";
 import { Trash } from "react-bootstrap-icons";
 
@@ -17,6 +18,9 @@ export function ReificationAccordionBodyEdition({
   setToDeleteReificationUuid,
 }: RelationAccordionBodyProps) {
   const [endpoints, setEndpoints] = useState<any[]>([]);
+  const [reificationName, setReifificationName] = useState(reification.name || "Untitled");
+  const [reificationDescription, setReificationDescription] =
+    useState(reification.description|| "No description");
 
   useEffect(() => {
     queryReificationTypeEndpoints(reification.languageId, reification.uuid)
@@ -31,6 +35,14 @@ export function ReificationAccordionBodyEdition({
     console.log(endpoints);
   }, [reification.languageId, reification.uuid]);
 
+  const handleBlurReificationName = (name: string) => {
+  updateReificationType(reification.languageId, reification.uuid, { name });
+  };
+  
+   const handleBlurReificationtDescription = (description: string) => {
+  updateReificationType(reification.languageId, reification.uuid, { description });
+  };
+
   const handleReificationDeletion = () => {
     setToDeleteReificationUuid(reification.uuid);
   };
@@ -42,8 +54,20 @@ export function ReificationAccordionBodyEdition({
           <RelationShapeImage style={reification.style} />
         </div>
         <div className={styles.info}>
-          <h3 className={styles.name}>{reification.name}</h3>
-          <p className={styles.description}>{reification.description}</p>
+          <Form.Control
+            type="text"
+            value={reificationName}
+            onChange={(e) => setReifificationName(e.target.value)}
+            onBlur={(e) => handleBlurReificationName(e.target.value)}
+            className={styles.sectionTitle}
+          />
+          <Form.Control
+            as="textarea"
+            value={reificationDescription}
+            onChange={(e) => setReificationDescription(e.target.value)}
+            onBlur={(e) => handleBlurReificationtDescription(e.target.value)}
+            className={styles.description}
+          />
         </div>
       </div>
       <div className={styles.details}>
@@ -52,19 +76,13 @@ export function ReificationAccordionBodyEdition({
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Properties</h4>
               <div className={styles.content}>
-                {reification.properties &&
-                Object.keys(reification.properties).length > 0 ? (
-                  <div className="d-flex flex-column gap-2">
-                    {Object.entries(reification.properties).map(
-                      ([name, value]: [string, any]) => (
-                        <ReificationPropertieCard
-                          key={name}
-                          name={name}
-                          type={value?.type || "unknown"}
-                        />
-                      ),
-                    )}
-                  </div>
+                {reification.properties ? (
+                  <PropertiesEdition
+                    properties={reification.properties}
+                    languageId={reification.languageId}
+                    objectUuid={reification.uuid}
+                    updateFunction={updateReificationType}
+                  />
                 ) : (
                   <p className="text-muted" style={{ margin: 0 }}>
                     No properties
