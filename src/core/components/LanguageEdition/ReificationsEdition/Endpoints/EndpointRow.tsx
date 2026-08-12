@@ -30,49 +30,35 @@ export const EndpointRow = ({ endpoint, onNameChange, onAddElement, onRemoveElem
               placeholder="Endpoint name"
             />
           </Col>
-          <Col >
+          <Col xs="auto">
             <Form.Control
               type="number"
               value={arity}
               onChange={(e) => onArityChange(endpoint.uuid, parseInt(e.target.value))}
               placeholder="Enter arity (use -1 for inf)"
               min="-1"
-              className='w-auto'
+              style={{ width: '4rem' }}
             />
           </Col>
-          <Col >
-            <div className="d-flex flex-wrap gap-2">
-              {endpoint.elementName && (
-                <div className="d-flex align-items-center gap-2 bg-light p-2 rounded">
-                  <span>{endpoint.elementName}</span>
-                  <Button 
-                    variant="outline-danger" 
-                    size="sm" 
-                    onClick={() => onRemoveElement(endpoint.uuid)}
-                    className="p-1"
-                  >
-                    <Trash size={14} />
-                  </Button>
-                </div>
-              )}
-            </div>
+          <Col className="d-flex flex-wrap gap-2" style={{ overflowX: 'auto', minWidth: 0 }}>
+            
           </Col>
-          <Col xs={1} className="d-flex justify-content-end">
-            <Button 
-              variant="outline-primary" 
-              size="sm" 
+          <Col xs="auto" className="d-flex gap-2 ms-auto">
+            <Button
+              variant="outline-primary"
+              size="sm"
               onClick={() => onAddElement(endpoint.uuid)}
               className="px-2"
+              name="add element"
             >
               <Plus size={14} />
             </Button>
-          </Col>
-          <Col className="d-flex justify-content-end">
-            <Button 
-              variant="outline-danger" 
-              size="sm" 
+            <Button
+              variant="outline-danger"
+              size="sm"
               onClick={() => onDeleteEndpoint(endpoint.uuid)}
               className="px-2"
+              name="delete endpoint"
             >
               <Trash size={14} />
             </Button>
