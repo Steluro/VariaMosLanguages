@@ -7,6 +7,7 @@ import { queryReificationTypeEndpoints } from "../../../../DataProvider/Services
 import { updateReificationType } from "../../../../DataProvider/Services/reificationType.service";
 import { ConstraintsEdition}  from "../ConstraintsEdition/Constraints.edition";
 import { Trash } from "react-bootstrap-icons";
+import { ReificationEndpointsEdition } from "./Endpoints/ReificationEndpoints.edition";
 
 interface RelationAccordionBodyProps {
   reification: any;
@@ -72,7 +73,7 @@ export function ReificationAccordionBodyEdition({
       </div>
       <div className={styles.details}>
         <Row>
-          <Col md={4}>
+          <Col md={6}>
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Properties</h4>
               <div className={styles.content}>
@@ -91,25 +92,7 @@ export function ReificationAccordionBodyEdition({
               </div>
             </div>
           </Col>
-          <Col md={4}>
-            <div className={styles.section}>
-              <h4 className={styles.sectionTitle}>Endpoints</h4>
-              <div className={styles.content}>
-                {endpoints.length > 0 ? (
-                  <div className="d-flex flex-column gap-2">
-                    {endpoints.map((endpoint, index) => (
-                      <div key={index}>{endpoint.name}</div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted" style={{ margin: 0 }}>
-                    No endpoints
-                  </p>
-                )}
-              </div>
-            </div>
-          </Col>
-          <Col md={4}>
+          <Col md={6}>
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
@@ -123,6 +106,17 @@ export function ReificationAccordionBodyEdition({
             </div>
           </Col>
         </Row>
+         <Col md={12} className={styles.details}>
+            <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>Endpoints</h4>
+              <div className={styles.content}>
+                  <ReificationEndpointsEdition 
+                    languageUuid={reification.languageId}
+                    reificationUuid={reification.uuid}
+                  />
+              </div>
+            </div>
+          </Col>
         <div className={styles.deleteButton}>
           <Button
             variant="outline-danger"
