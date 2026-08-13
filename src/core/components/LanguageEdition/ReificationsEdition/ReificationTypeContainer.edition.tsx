@@ -123,7 +123,7 @@ export function ReificationTypeContainerEdition({
           show={deletionModal}
           onCancel={() => setDeletionModal(false)}
           onConfirm={handleConfirmDeletion}
-          message="Are your sure you want to delete this element?"
+          message="Are your sure you want to delete this reification?"
           confirmButtonVariant="danger"
         />
     </>
