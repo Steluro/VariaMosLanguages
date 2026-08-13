@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { Plus, Trash } from 'react-bootstrap-icons';
 import { queryReificationTypeEndpoints, createReificationTypeEndpoint, updateReificationTypeEndpoint, deleteReificationTypeEndpoint } from '../../../../../DataProvider/Services/reificatonTypeEndpoints.service';
+import { queryLanguageElementTypes } from '../../../../../DataProvider/Services/elementType.service';
 import { EndpointCreationModal } from './EndpointCreationModal';
 import { EndpointRow } from './EndpointRow';
 import { set } from 'immer/dist/internal';
@@ -17,15 +18,37 @@ interface Endpoint {
   elementName?: string;
 }
 
+interface ElementType {
+  languageId: string;
+  uuid: string;
+  name: string;
+  description: string;
+  style?: Record<string, unknown>;
+  properties?: Record<string, unknown>;
+  constraint?: string;
+}
+
 export function ReificationEndpointsEdition({ reificationUuid, languageUuid }: ReificationEndpointsProps) {
   const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showEndpointModal, setShowEndpointModal] = useState(false);
-  
+  const [elements, setElements] = useState<ElementType[]>([]);
+
   useEffect(() => {
     setIsLoading(true);
     reloadEndpoints(languageUuid, reificationUuid);
+    loadElements(languageUuid);
   }, [languageUuid, reificationUuid]);
+
+  const loadElements = async (languageUuid: string) => {
+    try {
+      const response = await queryLanguageElementTypes(languageUuid);
+      setElements(response.data || []);
+    } catch (error) {
+      console.error('Failed to fetch elements:', error);
+      setElements([]);
+    }
+  };
 
   const reloadEndpoints = async (languageUuid: string, reificationUuid: string)=>{
      await queryReificationTypeEndpoints(languageUuid, reificationUuid)
@@ -53,12 +76,21 @@ export function ReificationEndpointsEdition({ reificationUuid, languageUuid }: R
     updateReificationTypeEndpoint(languageUuid, reificationUuid, uuid, { arity: newArity });
   };
 
-  const handleAddElement = (uuid: string) => {
-    console.log("Add element to endpoint:", uuid);
+  const handleAddElement = async (endpoint, element) => {
+    console.log("Add element to endpoint:", endpoint.uuid, element.uuid);
+    const existingElementUuids = endpoint.elementTypes?.map(et => et.uuid) || [];
+    setIsLoading(true);
+    await updateReificationTypeEndpoint(languageUuid, reificationUuid, endpoint.uuid, { elementTypes: [...existingElementUuids, element.uuid] });
+    reloadEndpoints(languageUuid, reificationUuid);
   };
 
-  const handleRemoveElement = (uuid: string) => {
-    console.log("Remove element from endpoint:", uuid);
+  const handleRemoveElement = async (endpoint, element) => {
+    console.log("Remove element from endpoint:", element.uuid);
+    const ElementUuids = endpoint.elementTypes?.filter(et => et.uuid !== element.uuid).map(et => et.uuid) || [];
+    console.log(ElementUuids);
+    setIsLoading(true);
+    await updateReificationTypeEndpoint(languageUuid, reificationUuid, endpoint.uuid, { elementTypes: [...ElementUuids] });
+    reloadEndpoints(languageUuid, reificationUuid);
   };
 
   const handleAddEndpoint = () => {
@@ -98,6 +130,7 @@ export function ReificationEndpointsEdition({ reificationUuid, languageUuid }: R
               onAddElement={handleAddElement}
               onRemoveElement={handleRemoveElement}
               onDeleteEndpoint={handleDeleteEndpoint}
+              availableElements={elements}
             />
           </Row>
         ))
