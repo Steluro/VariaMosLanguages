@@ -2,10 +2,11 @@ import axios from "axios";
 
 import { ResponseModel } from "@variamosple/variamos-components";
 import { LANGUAGES_CLIENT } from "../../Infraestructure/AxiosConfig";
+import { ElementType } from "../../Domain/ProductLineEngineering/Entities/ElementType";
 
 export const queryLanguageElementTypes = async (
   languageUuid: string
-): Promise<ResponseModel<any>> => {
+): Promise<ResponseModel<ElementType[]>> => {
   return LANGUAGES_CLIENT.get('/' + languageUuid + '/element-types/')
     .then((response) => {return response})
     .catch((error) => {

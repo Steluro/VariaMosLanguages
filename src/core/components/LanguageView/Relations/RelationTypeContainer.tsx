@@ -3,13 +3,14 @@ import { Accordion, Spinner } from 'react-bootstrap';
 import { queryLanguageRelationTypes } from '../../../../DataProvider/Services/relationType.service';
 import styles from './RelationTypeContainer.module.css';
 import { RelationAccordionBody } from './RelationAccordionBody';
+import { RelationType } from '../../../../Domain/ProductLineEngineering/Entities/RelationType';
 
 interface RelationContainerProps {
     languageUuid: string
 }
 
 export function RelationTypeContainer({ languageUuid }: RelationContainerProps) {
-    const [relations, setRelations] = useState<any[]>([]);
+    const [relations, setRelations] = useState<RelationType[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

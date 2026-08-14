@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LANGUAGES_CLIENT } from "../../Infraestructure/AxiosConfig";
 import { ResponseModel } from "@variamosple/variamos-components";
-import { User } from "../../Domain/ProductLineEngineering/Entities/User";
+import { UserReference } from "../../Domain/ProductLineEngineering/Entities/UserReference";
 
 export async function queryCollaborators(uuid: string) {
     return LANGUAGES_CLIENT.get(`/${uuid}/collaborators`)

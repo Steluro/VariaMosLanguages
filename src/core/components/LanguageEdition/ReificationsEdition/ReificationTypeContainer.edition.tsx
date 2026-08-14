@@ -11,6 +11,7 @@ import { ReificationAccordionBodyEdition } from "./ReificationAccordionBody.edit
 import CreationModal from "../CreationModal";
 import ConfirmationModal from "../../ConfirmationModal";
 import { queryReificationTypeEndpoints } from "../../../../DataProvider/Services/reificatonTypeEndpoints.service";
+import { ReificationType } from "../../../../Domain/ProductLineEngineering/Entities/ReificationType";
 
 interface ReificationContainerProps {
   languageUuid: string;
@@ -19,7 +20,7 @@ interface ReificationContainerProps {
 export function ReificationTypeContainerEdition({
   languageUuid,
 }: ReificationContainerProps) {
-  const [reifications, setReifications] = useState<any[]>([]);
+  const [reifications, setReifications] = useState<ReificationType[]>([]);
   const [loading, setLoading] = useState(true);
     const [creationModal, setCreationModal] = useState(false);
   const [deletionModal, setDeletionModal] = useState(false);

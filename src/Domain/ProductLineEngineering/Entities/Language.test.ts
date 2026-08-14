@@ -7,7 +7,6 @@ test('The constructor should give the right values', () => {
 
   expect(language.uuid).toBe('uuid-345');
   expect(language.name).toBe('test_name');
-  expect(language.ownerId).toBe('owner-id-123');
   expect(language.type).toBe('domain');
   expect(language.status).toBe('published');
 });

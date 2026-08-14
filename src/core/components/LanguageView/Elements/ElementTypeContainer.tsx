@@ -3,13 +3,14 @@ import { Accordion, Spinner } from 'react-bootstrap';
 import { queryLanguageElementTypes } from '../../../../DataProvider/Services/elementType.service';
 import styles from './ElementTypeContainer.module.css';
 import { ElementAccordionBody } from './ElementAccordionBody';
+import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
 interface ElementContainerProps {
     languageUuid: string
 }
 
 export function ElementTypeContainer({ languageUuid }: ElementContainerProps) {
-    const [elements, setElements] = useState<any[]>([]);
+    const [elements, setElements] = useState<ElementType[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

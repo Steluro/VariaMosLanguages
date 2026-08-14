@@ -6,6 +6,7 @@ import { ConstraintsEdition } from "../ConstraintsEdition/Constraints.edition";
 import { updateRelation } from "../../../../DataProvider/Services/relationType.service";
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { Trash } from "react-bootstrap-icons";
+import { RelationEndpointsEdition } from "./RelationEndpoints.edition";
 
 interface RelationAccordionBodyProps {
   relation: any;
@@ -82,6 +83,16 @@ export function RelationAccordionBody({
                   elementUuid={relation.uuid}
                   updateFunction={updateRelation}
                 />
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12} className={styles.details}>
+          <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>Endpoints</h4>
+              <div className={styles.content}>
+                <RelationEndpointsEdition languageUuid={relation.languageId} relationUuid={relation.uuid} />
               </div>
             </div>
           </Col>

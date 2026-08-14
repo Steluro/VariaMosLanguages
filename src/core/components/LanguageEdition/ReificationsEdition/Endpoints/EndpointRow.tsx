@@ -1,17 +1,19 @@
 import {useState} from 'react';
 import { Form, Button, Col, Alert, Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Plus, Trash, X } from 'react-bootstrap-icons';
+import { ReificationTypeEndpoint } from '../../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
+import { ElementType } from '../../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
 
 
 interface EndpointRowProps {
-  endpoint: any;
+  endpoint: ReificationTypeEndpoint;
   onNameChange: (uuid: string, newName: string) => void;
   onArityChange: (uuid: string, newArity: number) => void;
-  onAddElement: (endpoint, element: any) => void;
-  onRemoveElement: (endpoint, element: any) => void;
+  onAddElement: (endpoint : ReificationTypeEndpoint, element: ElementType) => void;
+  onRemoveElement: (endpoint : ReificationTypeEndpoint, element: ElementType) => void;
   onDeleteEndpoint: (uuid: string) => void;
-  availableElements?: any;
+  availableElements?: ElementType[];
 }
 
 export const EndpointRow = ({ endpoint, onNameChange, onAddElement, onRemoveElement, onArityChange, onDeleteEndpoint, availableElements = [] }: EndpointRowProps) => {

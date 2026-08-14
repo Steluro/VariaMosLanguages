@@ -8,6 +8,7 @@ import { Spinner } from "react-bootstrap";
 import { ElementTypeContainer } from "./Elements/ElementTypeContainer";
 import { RelationTypeContainer } from "./Relations/RelationTypeContainer";
 import { ReificationTypeContainer } from "./Reifications/ReificationTypeContainer";
+import { UserReference } from "../../../Domain/ProductLineEngineering/Entities/UserReference";
 
 interface LanguageViewProps {
   languageId: string;
@@ -16,13 +17,12 @@ interface LanguageViewProps {
 export default function LanguageView({ languageId }: LanguageViewProps) {
   const [language, setLanguage] = useState<Language | null>(null);
   const [loading, setLoading] = useState(true);
-  const [collaborators, setCollaborators] = useState<any[]>([]);
+  const [collaborators, setCollaborators] = useState<UserReference[]>([]);
 
   const fetchCollaborators = async (languageUuid: string) => {
     try {
       const collaboratorsResponse = await queryCollaborators(languageUuid);
       setCollaborators(collaboratorsResponse);
-      console.log("Collaborators:", collaboratorsResponse);
     } catch (error) {
       console.error("Error fetching collaborators:", error);
       setCollaborators([]);

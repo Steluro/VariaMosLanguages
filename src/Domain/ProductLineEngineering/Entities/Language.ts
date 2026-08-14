@@ -1,15 +1,14 @@
 export class Language {
   uuid: string;
   name: string;
-  ownerId: string;
   type: "scope" | "domain" | "application";
   status: "draft" | "pending" | "published" | "deleted";
-  publicVersionId?: string;
   createdAt?: Date;
   updatedAt?: Date;
   owner?: {
     id: string;
     name: string;
+    email: string;
   };
 
   constructor(
@@ -21,14 +20,12 @@ export class Language {
     publicVersionId?: string,
     createdAt?: Date,
     updatedAt?: Date,
-    owner?: { id: string; name: string }
+    owner?: { id: string; name: string, email: string }
   ) {
     this.uuid = uuid;
     this.name = name;
-    this.ownerId = ownerId;
     this.type = type;
     this.status = status;
-    this.publicVersionId = publicVersionId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.owner = owner;

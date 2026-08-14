@@ -1,9 +1,10 @@
 import { ResponseModel } from "@variamosple/variamos-components"
 import { LANGUAGES_CLIENT } from "../../Infraestructure/AxiosConfig"
 import  axios from "axios"
+import { ReificationType } from "../../Domain/ProductLineEngineering/Entities/ReificationType";
 
 export async function queryLanguageReificationTypes(languageId :string):
-    Promise<ResponseModel<any>> {
+    Promise<ResponseModel<ReificationType[]>> {
       return LANGUAGES_CLIENT.get(`/${languageId}/reification-types`)
       .then((response) => response)
       .catch((error) => {

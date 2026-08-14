@@ -4,9 +4,10 @@ import styles from './RelationAccordionBody.module.css';
 import { RelationShapeImage } from './RelationShapeImage';
 import { RelationPropertieCard } from './RelationPropertieCard';
 import { Constraints } from '../Constraints/Constraints';
+import { RelationType } from '../../../../Domain/ProductLineEngineering/Entities/RelationType';
 
 interface RelationAccordionBodyProps {
-  relation: any;
+  relation: RelationType;
 }
 
 export function RelationAccordionBody({ relation }: RelationAccordionBodyProps) {

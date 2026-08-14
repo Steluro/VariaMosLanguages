@@ -8,9 +8,11 @@ import { updateReificationType } from "../../../../DataProvider/Services/reifica
 import { ConstraintsEdition}  from "../ConstraintsEdition/Constraints.edition";
 import { Trash } from "react-bootstrap-icons";
 import { ReificationEndpointsEdition } from "./Endpoints/ReificationEndpoints.edition";
+import { ReificationType } from "../../../../Domain/ProductLineEngineering/Entities/ReificationType";
+import { ReificationTypeEndpoint } from "../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint";
 
 interface RelationAccordionBodyProps {
-  reification: any;
+  reification: ReificationType;
   setToDeleteReificationUuid : (uuid : string) => void;
 }
 
@@ -18,7 +20,7 @@ export function ReificationAccordionBodyEdition({
   reification,
   setToDeleteReificationUuid,
 }: RelationAccordionBodyProps) {
-  const [endpoints, setEndpoints] = useState<any[]>([]);
+  const [endpoints, setEndpoints] = useState<ReificationTypeEndpoint[]>([]);
   const [reificationName, setReifificationName] = useState(reification.name || "Untitled");
   const [reificationDescription, setReificationDescription] =
     useState(reification.description|| "No description");

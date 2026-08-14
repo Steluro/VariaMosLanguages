@@ -4,13 +4,14 @@ import styles from './ReificationTypeContainer.module.css';
 import { ReificationAccordionBody } from './ReificationAccordionBody';
 import { queryLanguageReificationTypes } from '../../../../DataProvider/Services/reificationType.service';
 import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
+import { ReificationType } from '../../../../Domain/ProductLineEngineering/Entities/ReificationType';
 
 interface ReificationContainerProps {
     languageUuid: string
 }
 
 export function ReificationTypeContainer({ languageUuid }: ReificationContainerProps) {
-    const [reifications, setReifications] = useState<any[]>([]);
+    const [reifications, setReifications] = useState<ReificationType[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

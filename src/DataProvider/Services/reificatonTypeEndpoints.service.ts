@@ -30,6 +30,7 @@ export async function updateReificationTypeEndpoint(
       name : string
       arity : number
       style : Record<string, unknown>
+      elementTypes : Partial<Element>[]
   }>
 ) {
   const response = await LANGUAGES_CLIENT.put(

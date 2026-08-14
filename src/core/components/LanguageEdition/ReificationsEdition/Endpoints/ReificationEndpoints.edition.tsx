@@ -6,30 +6,17 @@ import { queryLanguageElementTypes } from '../../../../../DataProvider/Services/
 import { EndpointCreationModal } from './EndpointCreationModal';
 import { EndpointRow } from './EndpointRow';
 import { set } from 'immer/dist/internal';
+import { ReificationTypeEndpoint } from '../../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
+import { ElementType } from '../../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
 interface ReificationEndpointsProps {
   reificationUuid: string;
   languageUuid: string;
 }
 
-interface Endpoint {
-  uuid: string;
-  name: string;
-  elementName?: string;
-}
-
-interface ElementType {
-  languageId: string;
-  uuid: string;
-  name: string;
-  description: string;
-  style?: Record<string, unknown>;
-  properties?: Record<string, unknown>;
-  constraint?: string;
-}
 
 export function ReificationEndpointsEdition({ reificationUuid, languageUuid }: ReificationEndpointsProps) {
-  const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
+  const [endpoints, setEndpoints] = useState<ReificationTypeEndpoint[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showEndpointModal, setShowEndpointModal] = useState(false);
   const [elements, setElements] = useState<ElementType[]>([]);
@@ -76,15 +63,14 @@ export function ReificationEndpointsEdition({ reificationUuid, languageUuid }: R
     updateReificationTypeEndpoint(languageUuid, reificationUuid, uuid, { arity: newArity });
   };
 
-  const handleAddElement = async (endpoint, element) => {
-    console.log("Add element to endpoint:", endpoint.uuid, element.uuid);
+  const handleAddElement = async (endpoint : ReificationTypeEndpoint, element : ElementType) => {
     const existingElementUuids = endpoint.elementTypes?.map(et => et.uuid) || [];
     setIsLoading(true);
     await updateReificationTypeEndpoint(languageUuid, reificationUuid, endpoint.uuid, { elementTypes: [...existingElementUuids, element.uuid] });
     reloadEndpoints(languageUuid, reificationUuid);
   };
 
-  const handleRemoveElement = async (endpoint, element) => {
+  const handleRemoveElement = async (endpoint :ReificationTypeEndpoint, element : ElementType) => {
     console.log("Remove element from endpoint:", element.uuid);
     const ElementUuids = endpoint.elementTypes?.filter(et => et.uuid !== element.uuid).map(et => et.uuid) || [];
     console.log(ElementUuids);

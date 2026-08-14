@@ -20,7 +20,7 @@ export function LanguageEditionInfo({ language }: LanguageInfoProps) {
 
   const checkUserAccess = async () => {
     // Check if user is owner
-    if (language.ownerId === user?.id) {
+    if (language.owner.id === user?.id) {
 
       setUserAccessLevel("owner");
       return;
@@ -69,9 +69,6 @@ export function LanguageEditionInfo({ language }: LanguageInfoProps) {
         />
         <div className={styles.type}>{language.type}</div>
         <div className={styles.uuid}>UUID : {language.uuid}</div>
-        {language.publicVersionId && (
-          <div className={styles.uuid}>Public Version : <span className={styles.clickable} onClick={()=>navigate(`/${language.publicVersionId}`)}>{language.publicVersionId}</span></div>
-        )}
         <div className={`${styles.owner}`}>
           <span className={styles.icon}><PersonFill/></span>
           <span>{language?.owner?.name || "Unknown"}</span>

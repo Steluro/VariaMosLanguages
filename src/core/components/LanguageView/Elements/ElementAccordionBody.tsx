@@ -4,9 +4,10 @@ import styles from './ElementAccordionBody.module.css';
 import { ElementShapeImage } from './ElementShapeImage';
 import { ElementPropertieCard } from './ElementPropertieCard';
 import { Constraints } from '../Constraints/Constraints';
+import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
 interface ElementAccordionBodyProps {
-  element: any;
+  element: ElementType;
 }
 
 export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {

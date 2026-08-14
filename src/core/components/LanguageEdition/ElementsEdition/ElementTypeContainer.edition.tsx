@@ -10,6 +10,8 @@ import styles from "./ElementTypeContainer.module.css";
 import { ElementAccordionBody } from "./ElementAccordionBody.edition";
 import CreationModal from "../CreationModal";
 import ConfirmationModal from "../../ConfirmationModal";
+import { ElementType } from "../../../../Domain/ProductLineEngineering/Entities/ElementType";
+
 interface ElementContainerProps {
   languageUuid: string;
 }
@@ -17,7 +19,7 @@ interface ElementContainerProps {
 export function ElementEditionTypeContainer({
   languageUuid,
 }: ElementContainerProps) {
-  const [elements, setElements] = useState<any[]>([]);
+  const [elements, setElements] = useState<ElementType[]>([]);
   const [loading, setLoading] = useState(true);
   const [creationModal, setCreationModal] = useState(false);
   const [deletionModal, setDeletionModal] = useState(false);

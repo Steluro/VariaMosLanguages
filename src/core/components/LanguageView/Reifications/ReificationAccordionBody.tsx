@@ -5,13 +5,15 @@ import { RelationShapeImage } from './ReificationShapeImage';
 import { ReificationPropertieCard } from './ReificationPropertieCard';
 import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
 import { Constraints } from '../Constraints/Constraints';
+import { ReificationType } from '../../../../Domain/ProductLineEngineering/Entities/ReificationType';
+import { ReificationTypeEndpoint } from '../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
 
 interface RelationAccordionBodyProps {
-  reification: any;
+  reification: ReificationType;
 }
 
 export function ReificationAccordionBody({ reification }: RelationAccordionBodyProps) {
-  const [endpoints, setEndpoints] = useState<any[]>([]);
+  const [endpoints, setEndpoints] = useState<ReificationTypeEndpoint[]>([]);
 
   useEffect(() => {
     queryReificationTypeEndpoints(reification.languageId, reification.uuid)

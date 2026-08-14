@@ -6,9 +6,10 @@ import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { updateElement } from "../../../../DataProvider/Services/elementType.service";
 import { ConstraintsEdition } from "../ConstraintsEdition/Constraints.edition";
 import { Trash } from "react-bootstrap-icons";
+import { ElementType } from "../../../../Domain/ProductLineEngineering/Entities/ElementType";
 
 interface ElementAccordionBodyProps {
-  element: any;
+  element: ElementType;
   setToDeleteElementUuid: (uuid: string) => void;
 }
 
