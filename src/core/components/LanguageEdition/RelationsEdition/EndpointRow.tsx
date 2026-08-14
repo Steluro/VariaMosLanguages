@@ -4,22 +4,23 @@ import { Plus, Trash, X } from 'react-bootstrap-icons';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
 
-
 interface EndpointRowProps {
   elementType: ElementType[];
   endpointName: string;
   availableElements: ElementType[];
+  onAddElement: (element: ElementType) => void;
+  onRemoveElement: (element: ElementType) => void;
 }
 
-export const EndpointRow = ({ elementType, endpointName,availableElements = [] }: EndpointRowProps) => {
+export const EndpointRow = ({ elementType, endpointName,onAddElement,onRemoveElement, availableElements = [] }: EndpointRowProps) => {
+
     return (
         <>
           <Col xs={3}>
             <strong>{endpointName}</strong>
           </Col>
           <Col className="d-flex flex-wrap gap-2" style={{ overflowX: 'auto', minWidth: 0 }}>
-          {JSON.stringify(elementType)}
-            {/* {endpoint.elementTypes.map((elementType) => (
+            {elementType.map((elementType) => (
               <OverlayTrigger
                 key={elementType.uuid}
                 placement="top"
@@ -32,12 +33,13 @@ export const EndpointRow = ({ elementType, endpointName,availableElements = [] }
                     size="sm"
                     className="p-0 text-danger"
                     style={{ border: 'none' }}
+                    onClick={()=>onRemoveElement(elementType)}
                   >
                     <X size={14} />
                   </Button>
                 </div>
               </OverlayTrigger>
-            ))} */}
+            ))}
           </Col>
           <Col xs="auto" className="d-flex gap-2 ms-auto">
             <Dropdown>
@@ -56,7 +58,9 @@ export const EndpointRow = ({ elementType, endpointName,availableElements = [] }
               `}</style>
               <Dropdown.Menu>
                 {availableElements.map((element) => (
-                  <Dropdown.Item key={element.uuid} >
+                  <Dropdown.Item 
+                  key={element.uuid}
+                  onClick={()=>onAddElement(element)} >
                     {element.name}
                   </Dropdown.Item>
                 ))}

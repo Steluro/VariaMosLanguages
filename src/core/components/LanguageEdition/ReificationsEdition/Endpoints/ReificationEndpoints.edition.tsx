@@ -71,9 +71,7 @@ export function ReificationEndpointsEdition({ reificationUuid, languageUuid }: R
   };
 
   const handleRemoveElement = async (endpoint :ReificationTypeEndpoint, element : ElementType) => {
-    console.log("Remove element from endpoint:", element.uuid);
     const ElementUuids = endpoint.elementTypes?.filter(et => et.uuid !== element.uuid).map(et => et.uuid) || [];
-    console.log(ElementUuids);
     setIsLoading(true);
     await updateReificationTypeEndpoint(languageUuid, reificationUuid, endpoint.uuid, { elementTypes: [...ElementUuids] });
     reloadEndpoints(languageUuid, reificationUuid);

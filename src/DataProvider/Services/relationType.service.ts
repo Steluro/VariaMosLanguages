@@ -34,7 +34,9 @@ export const queryLanguageRelationTypes = async (
     });
 };
 
-
+export const queryRelationById = async (languageId: string, uuid: string) => {
+  return LANGUAGES_CLIENT.get(`/${languageId}/relation-types/${uuid}`).then(response => response);
+}
 export const updateRelation = async (
   languageId: string,
   uuid: string,
@@ -44,6 +46,8 @@ export const updateRelation = async (
     style: Record<string, unknown>;
     properties: Record<string, unknown>;
     constraint: string;
+    sources: string[];
+    targets: string[];
   }>
 ): Promise<ResponseModel<any>> => {
   return LANGUAGES_CLIENT.put(`/${languageId}/relation-types/${uuid}`, data)
