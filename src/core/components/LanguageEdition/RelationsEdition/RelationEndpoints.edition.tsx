@@ -7,16 +7,17 @@ import { EndpointRow } from './EndpointRow';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 import { RelationType } from '../../../../Domain/ProductLineEngineering/Entities/RelationType';
 
-export function RelationEndpointsEdition(
-  languageUuid : string,
-  relation : RelationType ) {
+interface RelationEndpointsProps {
+  relation: RelationType
+}
+export function RelationEndpointsEdition({ relation }: RelationEndpointsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [elements, setElements] = useState<ElementType[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
-    loadElements(languageUuid);
-  }, [languageUuid]);
+    loadElements(relation.languageId);
+  }, [relation]);
 
   const loadElements = async (languageUuid: string) => {
     try {

@@ -7,9 +7,10 @@ import { updateRelation } from "../../../../DataProvider/Services/relationType.s
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { Trash } from "react-bootstrap-icons";
 import { RelationEndpointsEdition } from "./RelationEndpoints.edition";
+import { RelationType } from "../../../../Domain/ProductLineEngineering/Entities/RelationType";
 
 interface RelationAccordionBodyProps {
-  relation: any;
+  relation: RelationType;
   setToDeleteRelationUuid: (uuid: string) => void;
 }
 
@@ -92,7 +93,8 @@ export function RelationAccordionBody({
           <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Endpoints</h4>
               <div className={styles.content}>
-                <RelationEndpointsEdition languageUuid={relation.languageId} relationUuid={relation.uuid} />
+                <RelationEndpointsEdition
+                relation={relation} />
               </div>
             </div>
           </Col>
