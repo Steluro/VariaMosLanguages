@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Infinity } from 'react-bootstrap-icons';
 import styles from './ReificationAccordionBody.module.css';
 import { RelationShapeImage } from './ReificationShapeImage';
 import { ReificationPropertieCard } from './ReificationPropertieCard';
@@ -38,7 +39,7 @@ export function ReificationAccordionBody({ reification }: RelationAccordionBodyP
       </div>
       <div className={styles.details}>
         <Row>
-          <Col md={4}>
+          <Col md={5}>
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Properties</h4>
               <div className={styles.content}>
@@ -57,26 +58,8 @@ export function ReificationAccordionBody({ reification }: RelationAccordionBodyP
                 )}
               </div>
             </div>
-          </Col>
-          <Col md={4}>
-            <div className={styles.section}>
-              <h4 className={styles.sectionTitle}>Endpoints</h4>
-              <div className={styles.content}>
-                {endpoints.length > 0 ? (
-                  <div className="d-flex flex-column gap-2">
-                    {endpoints.map((endpoint, index) => (
-                      <div key={index}>
-                        {endpoint.name}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted" style={{ margin: 0 }}>No endpoints</p>
-                )}
-              </div>
-            </div>
-          </Col>
-          <Col md={4}>
+          </Col>  
+          <Col md={7}>
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
@@ -84,6 +67,44 @@ export function ReificationAccordionBody({ reification }: RelationAccordionBodyP
                   <Constraints code={reification.constraint} />
                 ) : (
                   <p className="text-muted" style={{ margin: 0 }}>No constraints</p>
+                )}
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+           <Col md={12} className={styles.details}>
+            <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>Endpoints</h4>
+              <div className={styles.content}>
+                {endpoints.length > 0 ? (
+                  <div className="d-flex flex-column gap-2">
+                    {endpoints.map((endpoint) => (
+                      <Row key={endpoint.uuid} className="align-items-center g-2">
+                        <Col xs={3}>
+                          <span className="fw-bold">{endpoint.name}</span>
+                        </Col>
+                        <Col xs="auto">
+                          <span className="text-primary">{endpoint.arity === -1 ? <Infinity /> : endpoint.arity}</span>
+                        </Col>
+                        <Col className="d-flex flex-wrap gap-2">
+                          {endpoint.elementTypes.map((elementType) => (
+                            <OverlayTrigger
+                              key={elementType.uuid}
+                              placement="top"
+                              overlay={<Tooltip>{elementType.description}</Tooltip>}
+                            >
+                              <div className="d-flex align-items-center gap-2 bg-white border rounded p-2" style={{ height: '38px' }}>
+                                <span>{elementType.name}</span>
+                              </div>
+                            </OverlayTrigger>
+                          ))}
+                        </Col>
+                      </Row>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted" style={{ margin: 0 }}>No endpoints</p>
                 )}
               </div>
             </div>

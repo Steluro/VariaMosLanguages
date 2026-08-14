@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import styles from './RelationAccordionBody.module.css';
 import { RelationShapeImage } from './RelationShapeImage';
 import { RelationPropertieCard } from './RelationPropertieCard';
@@ -52,6 +52,58 @@ export function RelationAccordionBody({ relation }: RelationAccordionBodyProps) 
                   <Constraints code={relation.constraint} />
                 ) : (
                   <p className="text-muted" style={{ margin: 0 }}>No constraints</p>
+                )}
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12} className={styles.details}>
+            <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>Sources</h4>
+              <div className={styles.content}>
+                {relation.sources && relation.sources.length > 0 ? (
+                  <div className="d-flex flex-wrap gap-2">
+                    {relation.sources.map((elementType) => (
+                      <OverlayTrigger
+                        key={elementType.uuid}
+                        placement="top"
+                        overlay={<Tooltip>{elementType.description}</Tooltip>}
+                      >
+                        <div className="d-flex align-items-center gap-2 bg-white border rounded p-2" style={{ height: '38px' }}>
+                          <span>{elementType.name}</span>
+                        </div>
+                      </OverlayTrigger>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted" style={{ margin: 0 }}>No sources</p>
+                )}
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12} className={styles.details}>
+            <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>Targets</h4>
+              <div className={styles.content}>
+                {relation.targets && relation.targets.length > 0 ? (
+                  <div className="d-flex flex-wrap gap-2">
+                    {relation.targets.map((elementType) => (
+                      <OverlayTrigger
+                        key={elementType.uuid}
+                        placement="top"
+                        overlay={<Tooltip>{elementType.description}</Tooltip>}
+                      >
+                        <div className="d-flex align-items-center gap-2 bg-white border rounded p-2" style={{ height: '38px' }}>
+                          <span>{elementType.name}</span>
+                        </div>
+                      </OverlayTrigger>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted" style={{ margin: 0 }}>No targets</p>
                 )}
               </div>
             </div>
