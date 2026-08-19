@@ -130,6 +130,7 @@ export const updateLanguage = async (
   data: Partial<{
     name: string;
     type: "scope" | "domain" | "application";
+    status : "draft" | "pending" | "published" | "deleted";
     publicVersionId?: string;
   }>
 ) => {

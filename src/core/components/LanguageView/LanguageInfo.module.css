@@ -70,6 +70,12 @@
   background-color : orange;
 }
 
+.disabled {
+  color: #6c757d !important;
+  background-color: #e9ecef !important;
+  cursor: not-allowed;
+}
+
 .timestamp {
   color: #7f7f7f;
   gap: 0.5rem;

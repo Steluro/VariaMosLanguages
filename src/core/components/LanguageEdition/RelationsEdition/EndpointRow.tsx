@@ -12,7 +12,7 @@ interface EndpointRowProps {
   onRemoveElement: (element: ElementType) => void;
 }
 
-export const EndpointRow = ({ elementType, endpointName,onAddElement,onRemoveElement, availableElements = [] }: EndpointRowProps) => {
+export const EndpointRow = ({ elementType, endpointName,onAddElement,onRemoveElement, availableElements }: EndpointRowProps) => {
 
     return (
         <>
@@ -20,7 +20,7 @@ export const EndpointRow = ({ elementType, endpointName,onAddElement,onRemoveEle
             <strong>{endpointName}</strong>
           </Col>
           <Col className="d-flex flex-wrap gap-2" style={{ overflowX: 'auto', minWidth: 0 }}>
-            {elementType.map((elementType) => (
+            {elementType &&elementType.map((elementType) => (
               <OverlayTrigger
                 key={elementType.uuid}
                 placement="top"

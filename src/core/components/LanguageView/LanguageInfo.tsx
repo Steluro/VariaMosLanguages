@@ -1,20 +1,23 @@
 import { PencilFill, PersonFill, Share, ShareFill, Trash, TrashFill } from "react-bootstrap-icons";
 import { Language } from "../../../Domain/ProductLineEngineering/Entities/Language";
 import styles from "./LanguageInfo.module.css";
-import { Button } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { queryCollaborators } from "../../../DataProvider/Services/collaborator.service";
 import { useSession } from "@variamosple/variamos-components";
 import { useState, useEffect } from "react";
-import { deleteLanguage } from "../../../DataProvider/Services/languages.service";
+import { deleteLanguage, updateLanguage } from "../../../DataProvider/Services/languages.service";
 import ConfirmationModal from "../ConfirmationModal";
 import CollaboratorModal from "../CollaboratorModal";
+import { set } from "immer/dist/internal";
 
 interface LanguageInfoProps {
   language: Language;
+  setNewStatus: (status : "draft" | "pending" | "published") => void;
+  setWithdrawLanguageDirector: (withdrawLanguageDirector: boolean) => void;
 }
 
-export function LanguageInfo({ language }: LanguageInfoProps) {
+export function LanguageInfo({ language, setNewStatus, setWithdrawLanguageDirector }: LanguageInfoProps) {
   const navigate = useNavigate();
   const { user } = useSession();
   const [userAccessLevel, setUserAccessLevel] = useState<string | null>(null);
@@ -26,7 +29,6 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
     // Check if user is owner
     if (language.owner.id === user?.id) {
       setUserAccessLevel("owner");
-      return;
     }
     // If not owner or LanguageDirector, fetch collaborators and check user's role
     try {
@@ -37,19 +39,19 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
         setUserAccessLevel(userCollaborator.role);
       }
       // Check if user is LanguageDirector
-      if (user.roles?.find((role: string) => role.toLowerCase() === "language director")) {
+      if (user.roles?.find((role: string) => role.toLowerCase() === "language director"|| role.toLowerCase() === "administrator")) {
         setUserIsAdmin(true);
       }
     } catch (error) {
       console.error("Error checking user access:", error);
       setUserAccessLevel(null);
     }
-    console.log(userAccessLevel);
   };
 
   useEffect(() => {
     if (language?.uuid && user?.id) {
       checkUserAccess();
+      console.log(language.status, userAccessLevel, userIsAdmin);
     }
   }, [language?.uuid, user?.id]);
 
@@ -76,11 +78,32 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
         </div>
       </div>
       <div className={styles.column}>
-        <div className={`${styles.status} ${styles[language.status]}`}>{language.status}</div>
-        {language.status.toLowerCase()==="draft" && (
+        {((language.status.toLowerCase()==="draft" || language.status.toLowerCase()==="pending") && userAccessLevel === "owner") || (language.status.toLowerCase()==="pending" && userIsAdmin) ? (
+          <Dropdown>
+            <Dropdown.Toggle className={`${styles.status} ${styles[language.status]}`} variant="none">
+              {language.status}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {userIsAdmin && language.status.toLowerCase() === "pending" ? (
+                <>
+                  <Dropdown.Item className={styles.draft} onClick={() => {setNewStatus("draft"); setWithdrawLanguageDirector(true);}}>draft</Dropdown.Item>
+                  <Dropdown.Item className={styles.published} onClick={() => {setNewStatus("published");}}>published</Dropdown.Item>
+                </>
+              ) : userAccessLevel === "owner" && (
+                <>
+                  <Dropdown.Item disabled={language.status.toLowerCase() === "draft"} className={language.status.toLowerCase() === "draft" ? styles.disabled : styles.draft} onClick={language.status.toLowerCase() !== "draft" ? () => {setNewStatus("draft");} : undefined}>draft</Dropdown.Item>
+                  <Dropdown.Item disabled={language.status.toLowerCase() === "pending"} className={language.status.toLowerCase() === "pending" ? styles.disabled : styles.pending} onClick={language.status.toLowerCase() !== "pending" ? () => {setNewStatus("pending")}: undefined}>pending</Dropdown.Item>
+                </>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          <div className={`${styles.status} ${styles[language.status]}`}>{language.status}</div>
+        )}
+        {(language.status.toLowerCase()==="draft"||language.status.toLowerCase()==="pending") && (
         <div className={styles.buttonRow}>
           {(userAccessLevel === "owner" || userAccessLevel === "manager") && <Button className="btn-Variamos-green" onClick={() => setShowShareModal(true)}><ShareFill/></Button>}
-          {(userAccessLevel === "owner" || userAccessLevel === "editor" || userAccessLevel === "manager") && <Button className="btn-Variamos-yellow" onClick={()=>navigate(`/${language.uuid}/edit`)}><PencilFill/></Button>}
+          {(userAccessLevel === "owner" || userAccessLevel === "editor" || userAccessLevel === "manager")&& language.status.toLowerCase()!=="pending" && <Button className="btn-Variamos-yellow" onClick={()=>navigate(`/${language.uuid}/edit`)}><PencilFill/></Button>}
           {(userAccessLevel === "owner" || userIsAdmin) && <Button className="btn-Variamos-red" onClick={handleDeleteLanguage}><TrashFill/></Button>}
         </div>)}
       </div>
@@ -94,6 +117,7 @@ export function LanguageInfo({ language }: LanguageInfoProps) {
       confirmButtonVariant="danger"
       cancelLabel="Cancel"
     />
+
     <CollaboratorModal
       languageId={language.uuid}
       show={showShareModal}
