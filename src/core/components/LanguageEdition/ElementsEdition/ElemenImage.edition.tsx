@@ -1,83 +1,76 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ElementShapeImage.module.css';
+import StylePropertyModal from '../StyleEdition/StylePropertyModal';
+import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
+import { updateElement } from '../../../../DataProvider/Services/elementType.service';
 
 interface ElementShapeImageProps {
-  style: any;
+  element: ElementType;
 }
 
-export function ElementEditionImage({ style }: ElementShapeImageProps) {
-  // Extract style properties
-  const {
-    backgroundColor = '#ffffff',
-    borderColor = '#0d6efd',
-    borderWidth = 2,
-    borderRadius = 8,
-    width = 80,
-    height = 80,
-    shape = 'rectangle', // rectangle, circle, diamond, etc.
-    color = '#ffffff',
-    fontSize = 32,
-  } = style || {};
+export function ElementEditionImage({ element }: ElementShapeImageProps) {
+  const [showStyleModal,setShowStyleModal]=useState(false);
+  const [style, setStyle] = useState<Record<string, any>>(element.style || {});
+  const [containerStyle, setContainerStyle] = useState<React.CSSProperties>({});
+  const [titleStyle, setTitleStyle] = useState<Record<string, any>>({});
+  const [propertiesStyle, setPropertiesStyle] = useState<Record<string, any>>({});
 
-  const svgStyle: React.CSSProperties = {
-    width: `${width}px`,
-    height: `${height}px`,
-  };
+  useEffect(()=>{  
+  // Extract styles for title, properties, and body categories
+  // Map title and properties to text category in the JSON
+  const title = (style.title || {}) as Record<string, any>;
+  const properties = (style.properties || {}) as Record<string, any>;
+  const body = (style.body || {}) as Record<string, any>;
 
-  const shapeStyle: React.CSSProperties = {
-    fill: backgroundColor,
-    stroke: borderColor,
-    strokeWidth: borderWidth,
-  };
+  setContainerStyle({
+    width: '200px',
+    height: '100%',
+    borderStyle: 'solid',
+    display: 'flex',
+    flexDirection: 'column',
+    ...body,
+  });
 
-  const textStyle: React.CSSProperties = {
-    fill: color,
-    fontSize: `${fontSize}px`,
+  setTitleStyle({
+    fontSize: '1rem',
     fontWeight: 'bold',
-    textAnchor: 'middle',
-    dominantBaseline: 'middle',
-  };
+    textAlign: 'center',
+    ...title ,
+  });
 
-  // Render different shapes based on shape property
-  const renderShape = () => {
-    switch (shape) {
-      case 'circle':
-        return (
-          <circle
-            cx={width / 2}
-            cy={height / 2}
-            r={(Math.min(width, height) / 2) - borderWidth}
-            style={shapeStyle}
-          />
-        );
-      case 'diamond':
-        return (
-          <polygon
-            points={`${width / 2},${borderWidth} ${width - borderWidth},${height / 2} ${width / 2},${height - borderWidth} ${borderWidth},${height / 2}`}
-            style={shapeStyle}
-          />
-        );
-      case 'rectangle':
-      default:
-        return (
-          <rect
-            x={borderWidth / 2}
-            y={borderWidth / 2}
-            width={width - borderWidth}
-            height={height - borderWidth}
-            rx={borderRadius}
-            ry={borderRadius}
-            style={shapeStyle}
-          />
-        );
-    }
+  setPropertiesStyle({
+    fontSize: '0.75rem',
+    marginTop: '0.5rem',
+    textAlign: 'center',
+    ...properties,
+  });
+  }, [style]);
+
+  
+  const handleStyleChange = (newStyle: Record<string, unknown>) => {
+    updateElement(element.languageId, element.uuid, { style: newStyle });
+    setStyle(newStyle);
+    setShowStyleModal(false);
   };
 
   return (
-    <div className={styles.container}>
-      <svg style={svgStyle} viewBox={`0 0 ${width} ${height}`}>
-        {renderShape()}
-      </svg>
+    <>
+    <div className={styles.container} onClick={()=>setShowStyleModal(true)}>
+      <div style={containerStyle}>
+        <span style={titleStyle}>{element.name}</span>
+        <div style={propertiesStyle}>
+          {Object.entries(element.properties || {}).map(([key, value]) => (
+            <div key={key}>{key}: {String(value)}</div>
+          ))}
+        </div>
+      </div>
     </div>
+    <StylePropertyModal
+      show = {showStyleModal}
+      actualStyle={style}
+      onHide={()=>setShowStyleModal(false)}
+      onSelectProperty={handleStyleChange}
+    />
+    </>
   );
 }

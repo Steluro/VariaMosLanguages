@@ -1,0 +1,27 @@
+{
+  "body": {
+    "backgroundColor": {
+      "inputType": "color"
+    },
+    "borderColor": {
+      "inputType": "color"
+    },
+    "borderStyle":{
+      "inputType":"select",
+      "options":["solid","dashed","dotted","double","groove","ridge","inset","outset"]
+    },
+    "borderWidth": {
+      "inputType": ["number", "select"],
+      "options":["px","rem","em"] 
+    }
+  },
+  "text":{
+    "size":{
+      "inputType": ["number", "select"],
+      "options":["px","rem","em"] 
+    },
+    "color":{
+      "inputType": "color"
+    }
+  }
+}

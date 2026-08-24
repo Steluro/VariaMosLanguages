@@ -36,7 +36,7 @@ export function ElementAccordionBody({
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.icon}>
-          <ElementEditionImage style={element.style} />
+          <ElementEditionImage element={element} />
         </div>
         <div className={styles.info}>
           <Form.Control

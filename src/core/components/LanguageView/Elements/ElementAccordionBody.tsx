@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import styles from './ElementAccordionBody.module.css';
-import { ElementShapeImage } from './ElementShapeImage';
+import { ElementViewImage } from './ElementShapeImage.view';
 import { ElementPropertieCard } from './ElementPropertieCard';
 import { Constraints } from '../Constraints/Constraints';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
@@ -15,7 +15,7 @@ export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.icon}>
-          <ElementShapeImage style={element.style} />
+          <ElementViewImage element={element} />
         </div>
         <div className={styles.info}>
           <h3 className={styles.name}>{element.name}</h3>

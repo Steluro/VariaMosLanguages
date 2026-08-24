@@ -131,7 +131,7 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
       onConfirm={() => handleStatusChange(newStatus!)}
       message={message}
       confirmLabel="Change Status"
-      confirmButtonVariant="warning"  
+      confirmButtonVariant="primary"  
       cancelLabel="Cancel"
     />
     </div>
