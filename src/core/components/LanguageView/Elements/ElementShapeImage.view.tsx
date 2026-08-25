@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
+import type {CSSProperties} from 'react';
 import styles from './ElementShapeImage.module.css';
 import StyleViewModal from '../StyleViewModal';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
@@ -9,53 +10,54 @@ interface ElementShapeImageProps {
 
 export function ElementViewImage({ element }: ElementShapeImageProps) {
   const [showStyleModal, setShowStyleModal] = useState(false);
-  const style = element.style || {};
-  
-  // Extract styles for title, properties, and body categories
-  const titleStyle = (style as Record<string, unknown>).title as Record<string, string> || {};
-  const propertiesStyle = (style as Record<string, unknown>).properties as Record<string, string> || {};
-  const bodyStyle = (style as Record<string, unknown>).body as Record<string, string> || {};
 
-  const containerStyle: React.CSSProperties = {
-    ...bodyStyle,
+  // Extract styles for title, properties, and body categories
+  const title = (element.style.title || {}) as Record<string, unknown>;
+  const properties = (element.style.properties || {}) as Record<string, unknown>;
+  const body = (element.style.body || {}) as Record<string, unknown>;
+
+  const containerStyle: CSSProperties = {
     width: '200px',
     height: '100%',
     borderStyle: 'solid',
     display: 'flex',
     flexDirection: 'column',
+    ...body,
   };
 
-  const titleCss: React.CSSProperties = {
-    ...titleStyle,
+  const titleStyle: CSSProperties = {
     fontSize: '1rem',
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center' as const,
+    ...title,
   };
 
-  const propertiesCss: React.CSSProperties = {
-    ...propertiesStyle,
+  const propertiesStyle: CSSProperties = {
     fontSize: '0.75rem',
     marginTop: '0.5rem',
-    textAlign: 'center',
+    textAlign: 'center' as const,
+    ...properties,
   };
-
+useEffect(()=>{
+  console.log(body,containerStyle);
+},[body,containerStyle])
   return (
     <>
-    <div className={styles.container} onClick={() => setShowStyleModal(true)}>
-      <div style={containerStyle}>
-        <span style={titleCss}>{element.name}</span>
-        <div style={propertiesCss}>
-          {Object.entries(element.properties || {}).map(([key, value]) => (
-            <div key={key}>{key}: {String(value)}</div>
-          ))}
+      <div className={styles.container} onClick={() => {setShowStyleModal(true)}}>
+        <div style={containerStyle}>
+          <span style={titleStyle}>{element.name}</span>
+          <div style={propertiesStyle}>
+            {Object.entries(element.properties || {}).map(([key, value]) => (
+              <div key={key}>{key}: {String(value)}</div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-    <StyleViewModal
-      show={showStyleModal}
-      actualStyle={style}
-      onHide={() => setShowStyleModal(false)}
-    />
+      <StyleViewModal
+        show={showStyleModal}
+        actualStyle={element.style}
+        onHide={() => setShowStyleModal(false)}
+      />
     </>
   );
 }
