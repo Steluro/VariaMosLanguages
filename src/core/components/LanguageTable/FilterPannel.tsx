@@ -8,7 +8,7 @@ interface FilterPannelProps {
 }
 
 const STATUS_OPTIONS = ["draft", "pending", "published", "deleted"];
-const ACCESS_LEVEL = ["viewer", "editor", "collaborator"];
+const ACCESS_LEVEL = ["viewer", "editor", "manager"];
 const TYPE_OPTIONS = ["scope", "domain", "application"];
 
 export function FilterPannel({
@@ -156,7 +156,7 @@ export function FilterPannel({
           </Form.Group>)}
        {variant.toLowerCase() == "shared" && (
         <Form.Group className="mb-3" controlId="filterSharedWith">
-            <Form.Label>Acces Level</Form.Label>
+            <Form.Label>Access Level</Form.Label>
             {ACCESS_LEVEL.map((accessLevel) => (
                 <Form.Check
                   key={accessLevel}
