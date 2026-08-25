@@ -4,7 +4,7 @@ import { Plus, Trash } from 'react-bootstrap-icons';
 import styles from './Properties.module.css';
 import { ResponseModel } from '../../../../Domain/Core/Entity/ResponseModel';
 
-const TYPES = ['string', 'number', 'boolean'];
+const TYPES = ['string', 'integer', 'boolean'];
 
 interface PropertiesEditionProps {
   properties: Record<string, any>;
