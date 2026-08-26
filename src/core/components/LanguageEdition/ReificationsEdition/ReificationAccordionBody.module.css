@@ -12,6 +12,8 @@
 
 .icon {
   flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
 }
 
 .info {

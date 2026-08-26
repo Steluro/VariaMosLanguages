@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
 import styles from "./ReificationAccordionBody.module.css";
-import { RelationShapeImage } from "./ReificationShapeImage.edition";
+import { ReificationEditionImage } from "./ReificationImage.edition";
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { queryReificationTypeEndpoints } from "../../../../DataProvider/Services/reificatonTypeEndpoints.service";
 import { updateReificationType } from "../../../../DataProvider/Services/reificationType.service";
@@ -54,7 +54,7 @@ export function ReificationAccordionBodyEdition({
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.icon}>
-          <RelationShapeImage style={reification.style} />
+          <ReificationEditionImage reification={reification} />
         </div>
         <div className={styles.info}>
           <Form.Control

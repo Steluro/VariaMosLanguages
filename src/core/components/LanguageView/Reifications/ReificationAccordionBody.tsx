@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Col, Row, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Infinity } from 'react-bootstrap-icons';
 import styles from './ReificationAccordionBody.module.css';
-import { RelationShapeImage } from './ReificationShapeImage';
+import { ReificationViewImage } from './ReificationViewImage';
 import { ReificationPropertieCard } from './ReificationPropertieCard';
 import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
 import { Constraints } from '../Constraints/Constraints';
@@ -30,7 +30,7 @@ export function ReificationAccordionBody({ reification }: RelationAccordionBodyP
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.icon}>
-          <RelationShapeImage style={reification.style} />
+          <ReificationViewImage reification={reification} />
         </div>
         <div className={styles.info}>
           <h3 className={styles.name}>{reification.name}</h3>
