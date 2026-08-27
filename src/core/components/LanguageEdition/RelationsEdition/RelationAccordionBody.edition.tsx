@@ -36,7 +36,7 @@ export function RelationAccordionBody({
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.icon}>
-          <RelationShapeImage style={relation.style} />
+          <RelationShapeImage relation={relation} />
         </div>
         <div className={styles.info}>
           <Form.Control

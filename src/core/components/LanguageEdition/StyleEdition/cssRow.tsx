@@ -2,14 +2,34 @@ import { Form } from 'react-bootstrap';
 import { cssProperties } from './cssProperties';
 
 interface cssRowProps {
-  category: keyof typeof cssProperties;
+  category: "body" | "title" | "properties" | "style" | "markerStart" | "markerEnd";
   propertyName: string;
   value: string | number;
   onChange: (value: string | number) => void;
 }
 
 export default function CssRow({ category, propertyName, value, onChange }: cssRowProps) {
-  const propertyConfig = cssProperties[category==="body"?"body":"text"]?.[propertyName as keyof typeof cssProperties[keyof typeof cssProperties]];
+
+  function getCssGroup(category){
+    switch (category) {
+      case "body":
+        return "body";
+      case "title":
+        return "text";
+      case "properties":
+        return "text";
+      case "style":
+        return "style";
+      case "markerStart":
+        return "marker";
+      case "markerEnd":
+        return "marker";
+      default:
+        return "Unknown";
+    }
+  }
+
+  const propertyConfig = cssProperties[getCssGroup(category)]?.[propertyName as keyof typeof cssProperties[keyof typeof cssProperties]];
   
   if (!propertyConfig) {
     return null;
@@ -96,7 +116,7 @@ export default function CssRow({ category, propertyName, value, onChange }: cssR
 
   return (
     <Form.Group className="mb-2 d-flex align-items-center">
-      <Form.Label className="mb-0 me-2 fw-bold" style={{ minWidth: '120px' }}>
+      <Form.Label className="mb-0 me-2 fw-bold" style={{ minWidth: '180px' }}>
         {propertyName}:
       </Form.Label>
       {renderInput()}

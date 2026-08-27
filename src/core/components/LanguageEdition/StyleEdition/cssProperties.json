@@ -23,5 +23,39 @@
     "color":{
       "inputType": "color"
     }
+  },  
+  "style": {
+    "stroke": {
+      "inputType": "color"
+    },
+    "strokeWidth": {
+      "inputType": ["number", "select"],
+      "options": ["px", "rem", "em"]
+    },
+    "strokeDasharray": {
+      "inputType": "text",
+      "placeholder": "Ex: 5,5"
+    }
+  },
+  "marker": {
+    "type": {
+      "inputType": "select",
+      "options": ["arrow", "arrowclosed", "circle","none"]
+    },
+    "width": {
+      "inputType": ["number", "select"],
+      "options": ["px", "rem", "em"]
+    },
+    "height": {
+      "inputType": ["number", "select"],
+      "options": ["px", "rem", "em"]
+    },
+    "color": {
+      "inputType": "color"
+    },
+    "orient": {
+      "inputType": "select",
+      "options": ["auto", "0deg", "90deg", "180deg", "270deg"]
+    }
   }
 }
