@@ -22,7 +22,7 @@ export function ReificationTypeContainerEdition({
 }: ReificationContainerProps) {
   const [reifications, setReifications] = useState<ReificationType[]>([]);
   const [loading, setLoading] = useState(true);
-    const [creationModal, setCreationModal] = useState(false);
+  const [creationModal, setCreationModal] = useState(false);
   const [deletionModal, setDeletionModal] = useState(false);
   const [toDeleteReificationUuid, setToDeleteReificationUuid] = useState<string>(null);
 
@@ -37,7 +37,7 @@ export function ReificationTypeContainerEdition({
       });
   }, [languageUuid]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (toDeleteReificationUuid) {
       setDeletionModal(true);
     }
@@ -53,39 +53,39 @@ export function ReificationTypeContainerEdition({
   };
 
   const handleReificationCreation = (name: string) => {
-      setLoading(true);
-      createReificationType(languageUuid, {
-        languageId: languageUuid,
-        name: name,
-      }).then((response) => {
-        queryLanguageReificationTypes(languageUuid).then((response) => {
-          setReifications(response.data || []);
-          setLoading(false);
-        });
+    setLoading(true);
+    createReificationType(languageUuid, {
+      languageId: languageUuid,
+      name: name,
+    }).then((response) => {
+      queryLanguageReificationTypes(languageUuid).then((response) => {
+        setReifications(response.data || []);
+        setLoading(false);
       });
-    };
-  
-    const handleConfirmDeletion = () => {
-      setLoading(true);
-      deleteReificationType(languageUuid, toDeleteReificationUuid).then((response) => {
-        queryLanguageReificationTypes(languageUuid).then((response) => {
-          setReifications(response.data || []);
-          setLoading(false);
-        });
+    });
+  };
+
+  const handleConfirmDeletion = () => {
+    setLoading(true);
+    deleteReificationType(languageUuid, toDeleteReificationUuid).then((response) => {
+      queryLanguageReificationTypes(languageUuid).then((response) => {
+        setReifications(response.data || []);
+        setLoading(false);
       });
-      setToDeleteReificationUuid("");
-      setDeletionModal(false);
-    };
+    });
+    setToDeleteReificationUuid("");
+    setDeletionModal(false);
+  };
 
 
   return (
     <><Button
-        variant="primary"
-        className={styles.accordionItemSpacing}
-        onClick={() => setCreationModal(true)}
-      >
-        Add Reification <PlusCircle className="ms-2" />
-      </Button>
+      variant="primary"
+      className={styles.accordionItemSpacing}
+      onClick={() => setCreationModal(true)}
+    >
+      Add Reification <PlusCircle className="ms-2" />
+    </Button>
       {loading && (
         <div className="w-100 text-center">
           <Spinner animation="border" role="status" variant="primary" />
@@ -96,37 +96,34 @@ export function ReificationTypeContainerEdition({
       )}
       {!loading && reifications.length > 0 && (
         <>
-      {reifications.map((reification, index) => (
-        <Accordion
-          onSelect={handleAccordionEnter}
-          className={styles.accordionItemSpacing}
-          key={index}
-        >
-          <Accordion.Item eventKey={index.toString()}>
-            <Accordion.Header>{reification.name}</Accordion.Header>
-            <Accordion.Body>
-              <ReificationAccordionBodyEdition reification={reification} setToDeleteReificationUuid={setToDeleteReificationUuid} />
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      ))}
-      </>
+          {reifications.map((reification, index) => (
+            <Accordion
+              onSelect={handleAccordionEnter}
+              className={styles.accordionItemSpacing}
+              key={index}
+            >
+              <Accordion.Item eventKey={index.toString()}>
+                <ReificationAccordionBodyEdition reification={reification} setToDeleteReificationUuid={setToDeleteReificationUuid} />
+              </Accordion.Item>
+            </Accordion>
+          ))}
+        </>
       )}
       <CreationModal
-          show={creationModal}
-          objectName="Reification"
-          onHide={() => {
-            setCreationModal(false);
-          }}
-          onCreate={handleReificationCreation}
-        />
-        <ConfirmationModal
-          show={deletionModal}
-          onCancel={() => setDeletionModal(false)}
-          onConfirm={handleConfirmDeletion}
-          message="Are your sure you want to delete this reification?"
-          confirmButtonVariant="danger"
-        />
+        show={creationModal}
+        objectName="Reification"
+        onHide={() => {
+          setCreationModal(false);
+        }}
+        onCreate={handleReificationCreation}
+      />
+      <ConfirmationModal
+        show={deletionModal}
+        onCancel={() => setDeletionModal(false)}
+        onConfirm={handleConfirmDeletion}
+        message="Are your sure you want to delete this reification?"
+        confirmButtonVariant="danger"
+      />
     </>
   );
 }

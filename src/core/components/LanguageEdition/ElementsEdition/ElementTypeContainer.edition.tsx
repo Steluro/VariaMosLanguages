@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Accordion, Spinner, Button } from "react-bootstrap";
+import {  Accordion, Spinner, Button } from "react-bootstrap";
 import {
   createElementType,
   deleteElementType,
@@ -99,15 +99,10 @@ export function ElementEditionTypeContainer({
               key={index}
             >
               <Accordion.Item eventKey={index.toString()}>
-                <Accordion.Header>
-                  <div>{element.name}</div>
-                </Accordion.Header>
-                <Accordion.Body>
                   <ElementAccordionBody
                     element={element}
                     setToDeleteElementUuid={setToDeleteElementUuid}
                   />
-                </Accordion.Body>
               </Accordion.Item>
             </Accordion>
           ))}

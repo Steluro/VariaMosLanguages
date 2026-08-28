@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { Accordion, Col, Row, Form, Button } from "react-bootstrap";
 import styles from "./ReificationAccordionBody.module.css";
 import { ReificationEditionImage } from "./ReificationImage.edition";
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { queryReificationTypeEndpoints } from "../../../../DataProvider/Services/reificatonTypeEndpoints.service";
-import { updateReificationType } from "../../../../DataProvider/Services/reificationType.service";
+import { updateReificationType, getReificationType } from "../../../../DataProvider/Services/reificationType.service";
 import { ConstraintsEdition}  from "../ConstraintsEdition/Constraints.edition";
 import { Trash } from "react-bootstrap-icons";
 import { ReificationEndpointsEdition } from "./Endpoints/ReificationEndpoints.edition";
@@ -20,6 +20,7 @@ export function ReificationAccordionBodyEdition({
   reification,
   setToDeleteReificationUuid,
 }: RelationAccordionBodyProps) {
+  const [accordionReification, setAccordionReification] = useState<ReificationType>(reification);
   const [endpoints, setEndpoints] = useState<ReificationTypeEndpoint[]>([]);
   const [reificationName, setReifificationName] = useState(reification.name || "Untitled");
   const [reificationDescription, setReificationDescription] =
@@ -38,12 +39,32 @@ export function ReificationAccordionBodyEdition({
     console.log(endpoints);
   }, [reification.languageId, reification.uuid]);
 
-  const handleBlurReificationName = (name: string) => {
-  updateReificationType(reification.languageId, reification.uuid, { name });
+  const handleBlurReificationName = async (name: string) => {
+    await updateReificationType(reification.languageId, reification.uuid, { name });
+    await getReificationType(accordionReification.languageId, reification.uuid).then((response) => {
+      setAccordionReification(response.data);
+    });
   };
-  
-   const handleBlurReificationtDescription = (description: string) => {
-  updateReificationType(reification.languageId, reification.uuid, { description });
+
+  const handleBlurReificationtDescription = async (description: string) => {
+    await updateReificationType(reification.languageId, reification.uuid, { description });
+    await getReificationType(accordionReification.languageId, reification.uuid).then((response) => {
+      setAccordionReification(response.data);
+    });
+  };
+
+  const updateFunction = async(languageId: string, objectUuid: string, data: Partial<{
+    name: string;
+    description: string;
+    style: Record<string, unknown>;
+    properties: Record<string, unknown>;
+    constraint: string;
+  }>) => {
+    const response = await updateReificationType(languageId, objectUuid, data);
+    await getReificationType(accordionReification.languageId, reification.uuid).then((res) => {
+      setAccordionReification(res.data);
+    });
+    return response;
   };
 
   const handleReificationDeletion = () => {
@@ -51,10 +72,15 @@ export function ReificationAccordionBodyEdition({
   };
 
   return (
+    <>
+    <Accordion.Header>
+      <div>{accordionReification.name}</div>
+    </Accordion.Header>
+    <Accordion.Body>
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.icon}>
-          <ReificationEditionImage reification={reification} />
+          <ReificationEditionImage reification={accordionReification} />
         </div>
         <div className={styles.info}>
           <Form.Control
@@ -79,12 +105,12 @@ export function ReificationAccordionBodyEdition({
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Properties</h4>
               <div className={styles.content}>
-                {reification.properties ? (
+                {accordionReification.properties ? (
                   <PropertiesEdition
-                    properties={reification.properties}
-                    languageId={reification.languageId}
-                    objectUuid={reification.uuid}
-                    updateFunction={updateReificationType}
+                    properties={accordionReification.properties}
+                    languageId={accordionReification.languageId}
+                    objectUuid={accordionReification.uuid}
+                    updateFunction={updateFunction}
                   />
                 ) : (
                   <p className="text-muted" style={{ margin: 0 }}>
@@ -99,10 +125,10 @@ export function ReificationAccordionBodyEdition({
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
                 <ConstraintsEdition
-                  constraints={reification.constraint}
-                  languageId={reification.languageId}
-                  elementUuid={reification.uuid}
-                  updateFunction={updateReificationType}
+                  constraints={accordionReification.constraint}
+                  languageId={accordionReification.languageId}
+                  elementUuid={accordionReification.uuid}
+                  updateFunction={updateFunction}
                 />
               </div>
             </div>
@@ -112,9 +138,9 @@ export function ReificationAccordionBodyEdition({
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Endpoints</h4>
               <div className={styles.content}>
-                  <ReificationEndpointsEdition 
-                    languageUuid={reification.languageId}
-                    reificationUuid={reification.uuid}
+                  <ReificationEndpointsEdition
+                    languageUuid={accordionReification.languageId}
+                    reificationUuid={accordionReification.uuid}
                   />
               </div>
             </div>
@@ -132,5 +158,7 @@ export function ReificationAccordionBodyEdition({
         </div>
       </div>
     </div>
+    </Accordion.Body>
+    </>
   );
 }

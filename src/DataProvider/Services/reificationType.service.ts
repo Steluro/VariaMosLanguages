@@ -66,6 +66,18 @@ export const createReificationType = async (
   LANGUAGES_CLIENT.post(`/${languageId}/reification-types/`, data).then((response) => response).catch((error) => error)
 )
 
+export const getReificationType = async (
+  languageId: string,
+  uuid: string
+): Promise<ResponseModel<ReificationType>> => {
+  return LANGUAGES_CLIENT.get(`/${languageId}/reification-types/${uuid}`)
+    .then((response) => response)
+    .catch((error) => {
+      console.error("Axios error:", error.message);
+      return error;
+    });
+};
+
 export const updateReificationType = async (
   languageId: string,
   uuid: string,

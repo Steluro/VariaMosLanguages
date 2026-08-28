@@ -16,7 +16,7 @@ interface PropertiesEditionProps {
     style: Record<string, unknown>;
     properties: Record<string, unknown>;
     constraint: string;
-  }>) => Promise<ResponseModel<any>>;
+  }>) => (void);
 }
 
 export function PropertiesEdition({ properties, languageId, objectUuid, updateFunction }: PropertiesEditionProps) {

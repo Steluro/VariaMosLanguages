@@ -98,13 +98,10 @@ export function RelationTypeContainer({
               key={index}
             >
               <Accordion.Item eventKey={index.toString()}>
-                <Accordion.Header>{relation.name}</Accordion.Header>
-                <Accordion.Body>
-                  <RelationAccordionBody
-                    relation={relation}
-                    setToDeleteRelationUuid={setToDeleteRelationUuid}
-                  />
-                </Accordion.Body>
+                <RelationAccordionBody
+                  relation={relation}
+                  setToDeleteRelationUuid={setToDeleteRelationUuid}
+                />
               </Accordion.Item>
             </Accordion>
           ))}

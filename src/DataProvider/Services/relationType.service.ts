@@ -34,6 +34,18 @@ export const queryLanguageRelationTypes = async (
     });
 };
 
+export const getRelationType = async (
+  languageId: string,
+  uuid: string
+): Promise<ResponseModel<RelationType>> => {
+  return LANGUAGES_CLIENT.get(`/${languageId}/relation-types/${uuid}`)
+    .then((response) => response)
+    .catch((error) => {
+      console.error("Axios error:", error.message);
+      return error;
+    });
+};
+
 export const queryRelationById = async (languageId: string, uuid: string) => {
   return LANGUAGES_CLIENT.get(`/${languageId}/relation-types/${uuid}`).then(response => response);
 }

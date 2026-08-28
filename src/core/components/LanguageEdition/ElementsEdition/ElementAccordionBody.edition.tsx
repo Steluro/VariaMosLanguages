@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { Accordion, Col, Row, Form, Button } from "react-bootstrap";
 import styles from "./ElementAccordionBody.module.css";
 import { ElementEditionImage } from "./ElemenImage.edition";
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
-import { updateElement } from "../../../../DataProvider/Services/elementType.service";
+import { updateElement, getElement } from "../../../../DataProvider/Services/elementType.service";
 import { ConstraintsEdition } from "../ConstraintsEdition/Constraints.edition";
 import { Trash } from "react-bootstrap-icons";
 import { ElementType } from "../../../../Domain/ProductLineEngineering/Entities/ElementType";
@@ -17,26 +17,51 @@ export function ElementAccordionBody({
   element,
   setToDeleteElementUuid,
 }: ElementAccordionBodyProps) {
+  const [accordionElement, setAccordionElement] = useState<ElementType>(element);
   const [elementName, setElementName] = useState(element.name || "Untitled");
   const [elementDescription, setElementDescription] = useState(
     element.description || "No description",
   );
-  const handleBlurElementName = (name: string) => {
-    updateElement(element.languageId, element.uuid, { name });
+  const handleBlurElementName = async (name: string) => {
+    await updateElement(element.languageId, element.uuid, { name });
+    await getElement(accordionElement.languageId, element.uuid).then((response) => {
+      setAccordionElement(response.data);
+    })
   };
 
-  const handleBlurElementDescription = (description: string) => {
-    updateElement(element.languageId, element.uuid, { description });
+  const handleBlurElementDescription = async (description: string) => {
+    await updateElement(element.languageId, element.uuid, { description });
+    await getElement(accordionElement.languageId, element.uuid).then((response) => {
+      setAccordionElement(response.data);
+    })
+  };
+
+  const updateFunction = async(languageId: string, objectUuid: string, data: Partial<{
+    name: string;
+    description: string;
+    style: Record<string, unknown>;
+    properties: Record<string, unknown>;
+    constraint: string;
+  }>) =>{
+    await updateElement(languageId, objectUuid, data);
+    await getElement(accordionElement.languageId, element.uuid).then((response) => {
+      setAccordionElement(response.data);
+    })
   };
 
   const handleElementDeletion = () => {
     setToDeleteElementUuid(element.uuid);
   };
   return (
+    <>
+    <Accordion.Header>
+      <div>{accordionElement.name}</div>
+    </Accordion.Header>
+    <Accordion.Body>
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.icon}>
-          <ElementEditionImage element={element} />
+          <ElementEditionImage element={accordionElement} />
         </div>
         <div className={styles.info}>
           <Form.Control
@@ -63,10 +88,10 @@ export function ElementAccordionBody({
               <div className={styles.content}>
                 {element.properties ? (
                   <PropertiesEdition
-                    properties={element.properties}
-                    languageId={element.languageId}
-                    objectUuid={element.uuid}
-                    updateFunction={updateElement}
+                    properties={accordionElement.properties}
+                    languageId={accordionElement.languageId}
+                    objectUuid={accordionElement.uuid}
+                    updateFunction={updateFunction}
                   />
                 ) : (
                   <p className="text-muted">No properties</p>
@@ -101,5 +126,7 @@ export function ElementAccordionBody({
         </div>
       </div>
     </div>
+    </Accordion.Body>
+    </>
   );
 }

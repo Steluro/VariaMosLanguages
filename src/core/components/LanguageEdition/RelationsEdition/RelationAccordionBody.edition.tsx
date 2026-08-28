@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Col, Row, Button , Form} from "react-bootstrap";
+import { Accordion, Col, Row, Button , Form} from "react-bootstrap";
 import styles from "./RelationAccordionBody.module.css";
 import { RelationShapeImage } from "./RelationShapeImage.edition";
 import { ConstraintsEdition } from "../ConstraintsEdition/Constraints.edition";
-import { updateRelation } from "../../../../DataProvider/Services/relationType.service";
+import { updateRelation, getRelationType } from "../../../../DataProvider/Services/relationType.service";
 import { PropertiesEdition } from "../PropertiesEdition/Properties.edition";
 import { Trash } from "react-bootstrap-icons";
 import { RelationEndpointsEdition } from "./RelationEndpoints.edition";
@@ -18,25 +18,54 @@ export function RelationAccordionBody({
   relation,
   setToDeleteRelationUuid,
 }: RelationAccordionBodyProps) {
+  const [accordionRelation, setAccordionRelation] = useState<RelationType>(relation);
   const [relationName, setRelationName] = useState(relation.name||"Untitled");
   const [relationDescription, setRelationDescription] = useState(relation.description||"No description");
+
+  const handleBlurRelationName = async (name: string) => {
+    await updateRelation(relation.languageId, relation.uuid, { name });
+    await getRelationType(accordionRelation.languageId, relation.uuid).then((response) => {
+      setAccordionRelation(response.data);
+    });
+  };
+
+  const handleBlurRelationDescription = async (description: string) => {
+    await updateRelation(relation.languageId, relation.uuid, { description });
+    await getRelationType(accordionRelation.languageId, relation.uuid).then((response) => {
+      setAccordionRelation(response.data);
+    });
+  };
+
+  const updateFunction = async(languageId: string, objectUuid: string, data: Partial<{
+    name: string;
+    description: string;
+    style: Record<string, unknown>;
+    properties: Record<string, unknown>;
+    constraint: string;
+    sources: string[];
+    targets: string[];
+  }>) => {
+    const response = await updateRelation(languageId, objectUuid, data);
+    await getRelationType(accordionRelation.languageId, relation.uuid).then((res) => {
+      setAccordionRelation(res.data);
+    });
+    return response;
+  };
+
   const handleRelationDeletion = () => {
     setToDeleteRelationUuid(relation.uuid);
   };
 
-  const handleBlurRelationName = (name: string) => {
-      updateRelation(relation.languageId, relation.uuid, { name });
-    };
-  
-    const handleBlurRelationDescription = (description: string) => {
-      updateRelation(relation.languageId, relation.uuid, { description });
-    };
-
   return (
+    <>
+    <Accordion.Header>
+      <div>{accordionRelation.name}</div>
+    </Accordion.Header>
+    <Accordion.Body>
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.icon}>
-          <RelationShapeImage relation={relation} />
+          <RelationShapeImage relation={accordionRelation} />
         </div>
         <div className={styles.info}>
           <Form.Control
@@ -61,12 +90,12 @@ export function RelationAccordionBody({
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Properties</h4>
               <div className={styles.content}>
-                {relation.properties ? (
+                {accordionRelation.properties ? (
                  <PropertiesEdition
-                     properties={relation.properties}
-                     languageId={relation.languageId}
-                     objectUuid={relation.uuid}
-                     updateFunction={updateRelation}
+                     properties={accordionRelation.properties}
+                     languageId={accordionRelation.languageId}
+                     objectUuid={accordionRelation.uuid}
+                     updateFunction={updateFunction}
                     />
                 ) : (
                   <p className="text-muted">No properties</p>
@@ -79,10 +108,10 @@ export function RelationAccordionBody({
               <h4 className={styles.sectionTitle}>Constraints</h4>
               <div className={styles.content}>
                 <ConstraintsEdition
-                  constraints={relation.constraint}
-                  languageId={relation.languageId}
-                  elementUuid={relation.uuid}
-                  updateFunction={updateRelation}
+                  constraints={accordionRelation.constraint}
+                  languageId={accordionRelation.languageId}
+                  elementUuid={accordionRelation.uuid}
+                  updateFunction={updateFunction}
                 />
               </div>
             </div>
@@ -94,7 +123,7 @@ export function RelationAccordionBody({
               <h4 className={styles.sectionTitle}>Endpoints</h4>
               <div className={styles.content}>
                 <RelationEndpointsEdition
-                relation={relation} />
+                relation={accordionRelation} />
               </div>
             </div>
           </Col>
@@ -112,5 +141,7 @@ export function RelationAccordionBody({
         </div>
       </div>
     </div>
+    </Accordion.Body>
+    </>
   );
 }
