@@ -24,7 +24,7 @@ export function ReificationAccordionBodyEdition({
   const [endpoints, setEndpoints] = useState<ReificationTypeEndpoint[]>([]);
   const [reificationName, setReifificationName] = useState(reification.name || "Untitled");
   const [reificationDescription, setReificationDescription] =
-    useState(reification.description|| "No description");
+    useState(reification.description);
 
   useEffect(() => {
     queryReificationTypeEndpoints(reification.languageId, reification.uuid)
@@ -96,6 +96,7 @@ export function ReificationAccordionBodyEdition({
             onChange={(e) => setReificationDescription(e.target.value)}
             onBlur={(e) => handleBlurReificationtDescription(e.target.value)}
             className={styles.description}
+            placeholder="Enter a description"
           />
         </div>
       </div>

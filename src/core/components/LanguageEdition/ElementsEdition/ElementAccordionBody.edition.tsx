@@ -19,9 +19,7 @@ export function ElementAccordionBody({
 }: ElementAccordionBodyProps) {
   const [accordionElement, setAccordionElement] = useState<ElementType>(element);
   const [elementName, setElementName] = useState(element.name || "Untitled");
-  const [elementDescription, setElementDescription] = useState(
-    element.description || "No description",
-  );
+  const [elementDescription, setElementDescription] = useState(element.description);
   const handleBlurElementName = async (name: string) => {
     await updateElement(element.languageId, element.uuid, { name });
     await getElement(accordionElement.languageId, element.uuid).then((response) => {
@@ -77,6 +75,7 @@ export function ElementAccordionBody({
             onChange={(e) => setElementDescription(e.target.value)}
             onBlur={(e) => handleBlurElementDescription(e.target.value)}
             className={styles.description}
+            placeholder="Enter a description"
           />
         </div>
       </div>

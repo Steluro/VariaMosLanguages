@@ -20,7 +20,7 @@ export function RelationAccordionBody({
 }: RelationAccordionBodyProps) {
   const [accordionRelation, setAccordionRelation] = useState<RelationType>(relation);
   const [relationName, setRelationName] = useState(relation.name||"Untitled");
-  const [relationDescription, setRelationDescription] = useState(relation.description||"No description");
+  const [relationDescription, setRelationDescription] = useState(relation.description);
 
   const handleBlurRelationName = async (name: string) => {
     await updateRelation(relation.languageId, relation.uuid, { name });
@@ -81,6 +81,7 @@ export function RelationAccordionBody({
             onChange={(e) => setRelationDescription(e.target.value)}
             onBlur={(e) => handleBlurRelationDescription(e.target.value)}
             className={styles.description}
+            placeholder="Enter a description"
           />
         </div>
       </div>
