@@ -88,6 +88,14 @@ export function ReificationEndpointsEdition({ reificationUuid, languageUuid }: R
     reloadEndpoints(languageUuid, reificationUuid);
   }
 
+  const handleStyleChange = async (uuid: string, newStyle: Record<string, unknown>) => {
+    const updatedEndpoints = endpoints.map(ep =>
+      ep.uuid === uuid ? { ...ep, style: newStyle } : ep
+    );
+    setEndpoints(updatedEndpoints);
+    await updateReificationTypeEndpoint(languageUuid, reificationUuid, uuid, { style: newStyle });
+  };
+
   const addEndpoint = async (name:string, arity:number) => {
     console.log("add Endpoint", languageUuid, reificationUuid, name, arity)
     await createReificationTypeEndpoint(languageUuid, reificationUuid,{reificationTypeId: reificationUuid, name, arity});
@@ -107,13 +115,14 @@ export function ReificationEndpointsEdition({ reificationUuid, languageUuid }: R
       ) : (
         endpoints.map((endpoint) => (
           <Row key={endpoint.uuid} className="align-items-center g-2">
-            <EndpointRow 
-              endpoint={endpoint} 
+            <EndpointRow
+              endpoint={endpoint}
               onNameChange={handleEndpointNameChange}
               onArityChange={handleArityChange}
               onAddElement={handleAddElement}
               onRemoveElement={handleRemoveElement}
               onDeleteEndpoint={handleDeleteEndpoint}
+              onStyleChange={handleStyleChange}
               availableElements={elements}
             />
           </Row>

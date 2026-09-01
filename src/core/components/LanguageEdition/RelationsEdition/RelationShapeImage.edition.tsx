@@ -3,7 +3,7 @@ import styles from './RelationShapeImage.module.css';
 import StylePropertyModal from '../StyleEdition/StylePropertyModal';
 import { RelationType } from '../../../../Domain/ProductLineEngineering/Entities/RelationType';
 import { updateRelation } from '../../../../DataProvider/Services/relationType.service';
-import { ReactFlow, Edge } from 'reactflow';
+import { ReactFlow, Edge, MiniMap, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 interface RelationShapeImageProps {
@@ -14,7 +14,9 @@ export function RelationShapeImage({ relation }: RelationShapeImageProps) {
   const [showStyleModal, setShowStyleModal] = useState(false);
   const [style, setStyle] = useState<Record<string, any>>(relation.style || {});
   const [containerStyle, setContainerStyle] = useState<React.CSSProperties>({});
-  const [propertiesStyle, setPropertiesStyle] = useState<Record<string, any>>({});
+const [markerStart, setMarkerStart] = useState<Record<string, any>>({});
+const [markerEnd, setMarkerEnd] = useState<Record<string, any>>({});
+
 
   useEffect(() => {
     // Extract styles for edge categories
@@ -22,43 +24,44 @@ export function RelationShapeImage({ relation }: RelationShapeImageProps) {
     const markerStart = (style.markerStart || {}) as Record<string, any>;
     const markerEnd = (style.markerEnd || {}) as Record<string, any>;
 
-    setContainerStyle({
-      stroke: edgeStyle.stroke || '#000',
-      strokeWidth: parseInt(edgeStyle.strokeWidth as string) || 2,
-      strokeDasharray: edgeStyle.strokeDasharray,
-    });
-
-    setPropertiesStyle({
-      markerStart,
-      markerEnd,
-    });
+    setContainerStyle(edgeStyle);
+    setMarkerStart(markerStart);
+    setMarkerEnd(markerEnd);
   }, [style]);
 
-  const nodes = [
-    { id: '1', position: { x: 0, y: 0 }, data: { label: '' }, style: { width: 5, height: 5 } },
-    { id: '2', position: { x: 170, y: 100 }, data: { label: '' }, style: { width: 5, height: 5 } },
-  ];
+  const initialNodes = [
+  {
+    id: 'n1',
+    position: { x: 0, y: 0 },
+    data: { label: 'Source' },
+    type: 'input',
+  },
+  {
+    id: 'n2',
+    position: { x: 100, y: 100 },
+    data: { label: 'Target' },
+    type: 'output',
+  },
+];
 
   const edge: Edge = {
     id: 'e1-2',
-    source: '1',
-    target: '2',
+    source: 'n1',
+    target: 'n2',
     style: {
-      stroke: containerStyle.stroke,
-      strokeWidth: containerStyle.strokeWidth,
+      stroke: containerStyle.stroke || "#000",
+      strokeWidth: containerStyle.strokeWidth || 2,
       strokeDasharray: containerStyle.strokeDasharray,
     },
     markerStart: {
-      type : propertiesStyle.markerStart?.type || 'none',
-      width : parseInt(propertiesStyle.markerStart?.width as string) || 10,
-      height : parseInt(propertiesStyle.markerStart?.height as string) || 10,
-      color : propertiesStyle.markerStart?.color || '#000'
+      type : markerStart?.type || 'none',
+      color : markerStart?.color || '#000',
+      strokeWidth : markerStart?.strokeWidth || 1,
     },
     markerEnd: {
-      type : propertiesStyle.markerEnd?.type || 'none',
-      width : parseInt(propertiesStyle.markerEnd?.width as string) || 10,
-      height : parseInt(propertiesStyle.markerEnd?.height as string) || 10,
-      color : propertiesStyle.markerEnd?.color || '#000'
+      type : markerEnd?.type || 'none',
+      color : markerEnd?.color || '#000',
+      strokeWidth : markerEnd?.strokeWidth || 1,
     }
   };
 
@@ -67,18 +70,25 @@ export function RelationShapeImage({ relation }: RelationShapeImageProps) {
     setStyle(newStyle);
     setShowStyleModal(false);
   };
-
+  console.log(edge);
   return (
     <>
-      <div className={styles.container} onClick={() => setShowStyleModal(true)} style={{ width: '200px', height: '100px' }}>
+      <div className={styles.container} onClick={() => setShowStyleModal(true)}>
         <ReactFlow
-          nodes={nodes}
+          nodes={initialNodes}
           edges={[edge]}
           fitView
           style={{ width: '100%', height: '100%' }}
           nodesDraggable={false}
+          nodesConnectable={false}
           elementsSelectable={false}
-        />
+          zoomOnScroll={false}
+          panOnScroll={false}
+          zoomOnDoubleClick={false}
+          panOnDrag={false}
+        >
+          <Background />
+        </ReactFlow>
       </div>
       <StylePropertyModal
         show={showStyleModal}

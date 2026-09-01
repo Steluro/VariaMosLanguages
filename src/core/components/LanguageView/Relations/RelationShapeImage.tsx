@@ -1,83 +1,63 @@
 import React from 'react';
 import styles from './RelationShapeImage.module.css';
+import { ReactFlow, Edge } from 'reactflow';
+import 'reactflow/dist/style.css';
 
 interface RelationShapeImageProps {
   style: any;
 }
 
 export function RelationShapeImage({ style }: RelationShapeImageProps) {
-  // Extract style properties
-  const {
-    backgroundColor = '#ffffff',
-    borderColor = '#0d6efd',
-    borderWidth = 2,
-    borderRadius = 8,
-    width = 80,
-    height = 80,
-    shape = 'rectangle', // rectangle, circle, diamond, etc.
-    color = '#ffffff',
-    fontSize = 32,
-  } = style || {};
+  // Extract edge style properties
+  const edgeStyle = (style.style || {}) as Record<string, any>;
+  const markerStart = (style.markerStart || {}) as Record<string, any>;
+  const markerEnd = (style.markerEnd || {}) as Record<string, any>;
 
-  const svgStyle: React.CSSProperties = {
-    width: `${width}px`,
-    height: `${height}px`,
+  const containerStyle = {
+    stroke: edgeStyle.stroke || '#000',
+    strokeWidth: parseInt(edgeStyle.strokeWidth as string) || 2,
+    strokeDasharray: edgeStyle.strokeDasharray,
   };
 
-  const shapeStyle: React.CSSProperties = {
-    fill: backgroundColor,
-    stroke: borderColor,
-    strokeWidth: borderWidth,
-  };
+  const nodes = [
+    { id: 'n1', position: { x: 0, y: 0 }, data: { label: 'Source' }, type: 'input' },
+    { id: 'n2', position: { x: 100, y: 100 }, data: { label: 'Target' }, type: 'output' },
+  ];
 
-  const textStyle: React.CSSProperties = {
-    fill: color,
-    fontSize: `${fontSize}px`,
-    fontWeight: 'bold',
-    textAnchor: 'middle',
-    dominantBaseline: 'middle',
-  };
-
-  // Render different shapes based on shape property
-  const renderShape = () => {
-    switch (shape) {
-      case 'circle':
-        return (
-          <circle
-            cx={width / 2}
-            cy={height / 2}
-            r={(Math.min(width, height) / 2) - borderWidth}
-            style={shapeStyle}
-          />
-        );
-      case 'diamond':
-        return (
-          <polygon
-            points={`${width / 2},${borderWidth} ${width - borderWidth},${height / 2} ${width / 2},${height - borderWidth} ${borderWidth},${height / 2}`}
-            style={shapeStyle}
-          />
-        );
-      case 'rectangle':
-      default:
-        return (
-          <rect
-            x={borderWidth / 2}
-            y={borderWidth / 2}
-            width={width - borderWidth}
-            height={height - borderWidth}
-            rx={borderRadius}
-            ry={borderRadius}
-            style={shapeStyle}
-          />
-        );
-    }
+  const edge: Edge = {
+    id: 'e1-2',
+    source: 'n1',
+    target: 'n2',
+    style: {
+      stroke: containerStyle.stroke,
+      strokeWidth: containerStyle.strokeWidth,
+      strokeDasharray: containerStyle.strokeDasharray,
+    },
+    markerStart: {
+      type: markerStart?.type || 'dot',
+      color: markerStart?.color || '#000',
+    },
+    markerEnd: {
+      type: markerEnd?.type || 'dot',
+      color: markerEnd?.color || '#000',
+    },
   };
 
   return (
     <div className={styles.container}>
-      <svg style={svgStyle} viewBox={`0 0 ${width} ${height}`}>
-        {renderShape()}
-      </svg>
+      <ReactFlow
+        nodes={nodes}
+        edges={[edge]}
+        fitView
+        style={{ width: '100%', height: '100%' }}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        elementsSelectable={false}
+        zoomOnScroll={false}
+        panOnScroll={false}
+        zoomOnDoubleClick={false}
+        panOnDrag={false}
+      />
     </div>
   );
 }

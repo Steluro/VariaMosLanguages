@@ -3,6 +3,7 @@ import { Form, Button, Col, Alert, Dropdown, OverlayTrigger, Tooltip } from 'rea
 import { Plus, Trash, X } from 'react-bootstrap-icons';
 import { ReificationTypeEndpoint } from '../../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
 import { ElementType } from '../../../../../Domain/ProductLineEngineering/Entities/ElementType';
+import { EndpointStyle } from './EndpointStyle';
 
 
 
@@ -13,10 +14,11 @@ interface EndpointRowProps {
   onAddElement: (endpoint : ReificationTypeEndpoint, element: ElementType) => void;
   onRemoveElement: (endpoint : ReificationTypeEndpoint, element: ElementType) => void;
   onDeleteEndpoint: (uuid: string) => void;
+  onStyleChange: (uuid: string, newStyle: Record<string, unknown>) => void;
   availableElements?: ElementType[];
 }
 
-export const EndpointRow = ({ endpoint, onNameChange, onAddElement, onRemoveElement, onArityChange, onDeleteEndpoint, availableElements = [] }: EndpointRowProps) => {
+export const EndpointRow = ({ endpoint, onNameChange, onAddElement, onRemoveElement, onArityChange, onDeleteEndpoint, onStyleChange, availableElements = [] }: EndpointRowProps) => {
   const [arity, setArity] = useState(endpoint.arity.toString());
     return (
         <>
@@ -25,6 +27,9 @@ export const EndpointRow = ({ endpoint, onNameChange, onAddElement, onRemoveElem
               Arity must be a positive integer or -1 for infinity
             </Alert>
           )}
+          <Col xs="auto">
+            <EndpointStyle style={endpoint.style || {}} onStyleChange={(newStyle) => onStyleChange(endpoint.uuid, newStyle)} />
+          </Col>
           <Col xs={3}>
             <Form.Control
               type="text"

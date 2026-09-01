@@ -39,7 +39,6 @@ export default function StylePropertyModal({ show, actualStyle,onHide, onSelectP
       <Modal.Body>
         {actualStyle && (
           <div className="mt-3">
-            {JSON.stringify(newStyle)}
             {Object.entries(newStyle).map(([category, properties]) => (
               <div  className="mb-3">
                 <div className="text-primary fw-bold" style={{ fontSize: '1.1rem' }}>
