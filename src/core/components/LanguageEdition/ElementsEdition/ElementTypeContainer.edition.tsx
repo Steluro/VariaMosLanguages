@@ -11,6 +11,7 @@ import { ElementAccordionBody } from "./ElementAccordionBody.edition";
 import CreationModal from "../CreationModal";
 import ConfirmationModal from "../../ConfirmationModal";
 import { ElementType } from "../../../../Domain/ProductLineEngineering/Entities/ElementType";
+import { set } from "immer/dist/internal";
 
 interface ElementContainerProps {
   languageUuid: string;
@@ -118,7 +119,7 @@ export function ElementEditionTypeContainer({
       />
       <ConfirmationModal
         show={deletionModal}
-        onCancel={() => setDeletionModal(false)}
+        onCancel={() => {setDeletionModal(false); setToDeleteElementUuid(null)}}
         onConfirm={handleConfirmDeletion}
         message="Are your sure you want to delete this element?"
         confirmButtonVariant="danger"

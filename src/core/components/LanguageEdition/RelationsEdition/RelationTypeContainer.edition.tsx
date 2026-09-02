@@ -87,7 +87,7 @@ export function RelationTypeContainer({
         </div>
       )}
       {!loading && relations.length === 0 && (
-        <div className="text-muted">No elements</div>
+        <div className="text-muted">No relations</div>
       )}
       {!loading && relations.length > 0 && (
         <>
@@ -117,7 +117,7 @@ export function RelationTypeContainer({
       />
       <ConfirmationModal
         show={deletionModal}
-        onCancel={() => setDeletionModal(false)}
+        onCancel={() => {setDeletionModal(false);setToDeleteRelationUuid(null)}}
         onConfirm={handleRelationDeletion}
         message="Are your sure you want to delete this relation?"
         confirmButtonVariant="danger"

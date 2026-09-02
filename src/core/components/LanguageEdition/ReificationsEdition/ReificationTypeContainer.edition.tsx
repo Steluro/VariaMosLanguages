@@ -92,7 +92,7 @@ export function ReificationTypeContainerEdition({
         </div>
       )}
       {!loading && reifications.length === 0 && (
-        <div className="text-muted">No elements</div>
+        <div className="text-muted">No reifications</div>
       )}
       {!loading && reifications.length > 0 && (
         <>
@@ -119,7 +119,7 @@ export function ReificationTypeContainerEdition({
       />
       <ConfirmationModal
         show={deletionModal}
-        onCancel={() => setDeletionModal(false)}
+        onCancel={() => {setDeletionModal(false); setToDeleteReificationUuid(null);}}
         onConfirm={handleConfirmDeletion}
         message="Are your sure you want to delete this reification?"
         confirmButtonVariant="danger"
