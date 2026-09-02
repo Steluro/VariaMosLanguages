@@ -38,9 +38,7 @@ export function ElementViewImage({ element }: ElementShapeImageProps) {
     textAlign: 'center' as const,
     ...properties,
   };
-useEffect(()=>{
-  console.log(body,containerStyle);
-},[body,containerStyle])
+  
   return (
     <>
       <div className={styles.container} onClick={() => {setShowStyleModal(true)}}>

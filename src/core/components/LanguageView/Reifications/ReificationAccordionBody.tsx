@@ -8,6 +8,7 @@ import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services
 import { Constraints } from '../Constraints/Constraints';
 import { ReificationType } from '../../../../Domain/ProductLineEngineering/Entities/ReificationType';
 import { ReificationTypeEndpoint } from '../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
+import { EndpointStyleView } from './EndpointStyleView';
 
 interface RelationAccordionBodyProps {
   reification: ReificationType;
@@ -81,11 +82,15 @@ export function ReificationAccordionBody({ reification }: RelationAccordionBodyP
                   <div className="d-flex flex-column gap-2">
                     {endpoints.map((endpoint) => (
                       <Row key={endpoint.uuid} className="align-items-center g-2">
+                        <Col xs="auto">
+                        <EndpointStyleView endpoint={endpoint} />
+                        </Col>
                         <Col xs={3}>
                           <span className="fw-bold">{endpoint.name}</span>
                         </Col>
                         <Col xs="auto">
-                          <span className="text-primary">{endpoint.arity === -1 ? <Infinity /> : endpoint.arity}</span>
+                          <span className="text-primary">
+                            Arity : {endpoint.arity === -1 ? <Infinity /> : endpoint.arity}</span>
                         </Col>
                         <Col className="d-flex flex-wrap gap-2">
                           {endpoint.elementTypes.map((elementType) => (
