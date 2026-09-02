@@ -70,10 +70,10 @@ const [markerEnd, setMarkerEnd] = useState<Record<string, any>>({});
     setStyle(newStyle);
     setShowStyleModal(false);
   };
-  console.log(edge);
+  
   return (
     <>
-      <div className={styles.container} onClick={() => setShowStyleModal(true)}>
+      <div className={styles.container}  onClick={() => setShowStyleModal(true)}>
         <ReactFlow
           nodes={initialNodes}
           edges={[edge]}

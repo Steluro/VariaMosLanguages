@@ -28,7 +28,7 @@ export const EndpointRow = ({ endpoint, onNameChange, onAddElement, onRemoveElem
             </Alert>
           )}
           <Col xs="auto">
-            <EndpointStyle style={endpoint.style || {}} onStyleChange={(newStyle) => onStyleChange(endpoint.uuid, newStyle)} />
+            <EndpointStyle endpoint={endpoint} onStyleChange={(newStyle) => onStyleChange(endpoint.uuid, newStyle)} />
           </Col>
           <Col xs={3}>
             <Form.Control
@@ -42,7 +42,7 @@ export const EndpointRow = ({ endpoint, onNameChange, onAddElement, onRemoveElem
             <Form.Control
               type="number"
               value={arity}
-              onChange={(e) => onArityChange(endpoint.uuid, parseInt(e.target.value))}
+              onChange={(e) => {setArity(e.target.value);onArityChange(endpoint.uuid, parseInt(e.target.value))}}
               placeholder="Enter arity (use -1 for inf)"
               min="-1"
               style={{ width: '4rem' }}

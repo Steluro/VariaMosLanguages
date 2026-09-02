@@ -1,77 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './EndpointStyle.module.css';
-import { ReactFlow, Edge, Position, Node } from 'reactflow';
+import { ReactFlow, Edge, Position, Node, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 import StylePropertyModal from '../../StyleEdition/StylePropertyModal';
-
+import { ReificationTypeEndpoint } from '../../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
+import { set } from 'immer/dist/internal';
 interface EndpointStyleProps {
-  style: any;
+  endpoint : ReificationTypeEndpoint;
   onStyleChange: (newStyle: Record<string, unknown>) => void;
 }
 
-export function EndpointStyle({ style, onStyleChange }: EndpointStyleProps) {
+export function EndpointStyle({ endpoint, onStyleChange }: EndpointStyleProps) {
   const [showStyleModal, setShowStyleModal] = useState(false);
 
-  // Extract edge style properties
-  const edgeStyle = (style.style || {}) as Record<string, any>;
-  const markerStart = (style.markerStart || {}) as Record<string, any>;
-  const markerEnd = (style.markerEnd || {}) as Record<string, any>;
-
- 
-
-  const nodes : Node[] = [
+  const nodes: Node[] = [
     {
       id: 'n1',
+      type: 'input',
       position: { x: 0, y: 30 },
       data: { label: 'Rei.' },
-      type: 'input',
-      style: { width: 20, height: 20 },
+      style: { width: 50, height: 50 },
       sourcePosition: Position.Right,
     },
     {
       id: 'n2',
-      position: { x: 150, y: 30 },
+      position: { x: 200, y: 30 },
       data: { label: 'Elt.' },
       type: 'output',
-      style: { width: 20, height: 20 },
+      style: { width: 50, height: 50 },
       targetPosition: Position.Left,
     },
   ];
-
-  const edge: Edge = {
-    id: 'e1-2',
-    source: 'n1',
-    target: 'n2',
-    style: {
-      stroke: edgeStyle.stroke || '#000',
-      strokeWidth: edgeStyle.strokeWidth || 2,
-      strokeDasharray: edgeStyle.strokeDasharray,
-    },
-    markerStart: {
-      type: markerStart?.type || 'none',
-      color: markerStart?.color || '#000',
-      strokeWidth: markerStart?.strokeWidth || 1,
-    },
-    markerEnd: {
-      type: markerEnd?.type || 'none',
-      color: markerEnd?.color || '#000',
-      strokeWidth: markerEnd?.strokeWidth || 1,
-    },
-  };
+  const edge : Edge = {
+      id: 'e1-2',
+      source: 'n1',
+      target: 'n2',
+      style: {
+        stroke: endpoint.style.style["stroke"] || '#000',
+        strokeWidth: endpoint.style.style['strokeWidth'] || 2,
+        strokeDasharray: endpoint.style.style['strokeDasharray'],
+      },
+      markerStart: {
+        type: endpoint.style.markerStart["type"] || 'none',
+        color: endpoint.style.markerStart['color'] || '#000',
+        strokeWidth: endpoint.style.markerStart["strokeWidth"] || 1,
+      },
+      markerEnd: {
+        type: endpoint.style.markerEnd["type"] || 'none',
+        color: endpoint.style.markerEnd["color"] || '#000',
+        strokeWidth: endpoint.style.markerEnd["strokeWidth"] || 1,
+      },
+    };
 
   const handleStyleChange = (newStyle: Record<string, unknown>) => {
     onStyleChange(newStyle);
     setShowStyleModal(false);
   };
-  console.log(edge);
   return (
     <>
-      <div className={styles.container} onClick={() => setShowStyleModal(true)}>
+      <div className={styles.container}  onClick={() => setShowStyleModal(true)}>
         <ReactFlow
           nodes={nodes}
           edges={[edge]}
           fitView
-          style={{ width: '100%', height: '100%' }}
+          // style={{ width: '100%', height: '100%' }}
           nodesDraggable={false}
           nodesConnectable={false}
           elementsSelectable={false}
@@ -79,11 +71,13 @@ export function EndpointStyle({ style, onStyleChange }: EndpointStyleProps) {
           panOnScroll={false}
           zoomOnDoubleClick={false}
           panOnDrag={false}
-        />
+        >
+          <Background />
+        </ReactFlow>
       </div>
       <StylePropertyModal
         show={showStyleModal}
-        actualStyle={style}
+        actualStyle={endpoint.style}
         onHide={() => setShowStyleModal(false)}
         onSelectProperty={handleStyleChange}
       />
