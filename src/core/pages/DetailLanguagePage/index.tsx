@@ -24,6 +24,11 @@ export default function LanguageDetailPage() {
         return;
       }
 
+      if (user.roles?.find((role: string) => role.toLowerCase() === "administrator" || role.toLowerCase() === "language director")) {
+        setHasAccess(true);
+        setLoading(false);
+        return;
+      }
       try {
         const languageResponse = await queryLanguageById(languageId);
         const language = languageResponse.data;

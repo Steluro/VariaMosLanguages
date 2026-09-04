@@ -59,8 +59,8 @@ export function ElementEditionImage({ element }: ElementShapeImageProps) {
       <div style={containerStyle}>
         <span style={titleStyle}>{element.name}</span>
         <div style={propertiesStyle}>
-          {Object.entries(element.properties || {}).map(([key, value]) => (
-            <div key={key}>{key}: {String(value)}</div>
+          {Object.entries(element.properties || {}).map(([key]) => (
+            <div key={key}>{key}</div>
           ))}
         </div>
       </div>

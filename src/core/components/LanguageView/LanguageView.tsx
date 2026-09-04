@@ -38,6 +38,7 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
     setShowStatusModal(false);
     setLoading(true);
     await updateLanguage(language.uuid, { status: newStatus });
+    setNewStatus(null);
     loadLanguage(language.uuid);
   };
 
@@ -127,7 +128,7 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
       </Tabs>
       <ConfirmationModal
       show={showStatusModal}
-      onCancel={() => setShowStatusModal(false)}
+      onCancel={() => {setShowStatusModal(false);setNewStatus(null)}}
       onConfirm={() => handleStatusChange(newStatus!)}
       message={message}
       confirmLabel="Change Status"

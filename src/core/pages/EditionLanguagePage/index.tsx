@@ -31,6 +31,12 @@ export default function EditionLanguagePage() {
         const languageResponse = await queryLanguageById(languageId);
         const language = languageResponse.data;
 
+        if (user.roles?.find((role: string) => role.toLowerCase() === "administrator" || role.toLowerCase() === "language director")) {
+        setHasAccess(true);
+        setLoading(false);
+        return;
+      }
+      
         //If language is Public, can't be modified
         if (language?.status === "published") {
           setHasAccess(false);

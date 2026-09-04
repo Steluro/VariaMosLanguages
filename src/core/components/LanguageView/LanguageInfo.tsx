@@ -103,7 +103,7 @@ export function LanguageInfo({ language, setNewStatus, setWithdrawLanguageDirect
         {(language.status.toLowerCase()==="draft"||language.status.toLowerCase()==="pending") && (
         <div className={styles.buttonRow}>
           {(userAccessLevel === "owner" || userAccessLevel === "manager") && <Button className="btn-Variamos-green" onClick={() => setShowShareModal(true)}><ShareFill/></Button>}
-          {(userAccessLevel === "owner" || userAccessLevel === "editor" || userAccessLevel === "manager")&& language.status.toLowerCase()!=="pending" && <Button className="btn-Variamos-yellow" onClick={()=>navigate(`/${language.uuid}/edit`)}><PencilFill/></Button>}
+          {(userAccessLevel === "owner" || userAccessLevel === "editor" || userAccessLevel === "manager" || userIsAdmin)&& language.status.toLowerCase()!=="pending" && <Button className="btn-Variamos-yellow" onClick={()=>navigate(`/${language.uuid}/edit`)}><PencilFill/></Button>}
           {(userAccessLevel === "owner" || userIsAdmin) && <Button className="btn-Variamos-red" onClick={handleDeleteLanguage}><TrashFill/></Button>}
         </div>)}
       </div>

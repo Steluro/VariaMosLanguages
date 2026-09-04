@@ -22,7 +22,6 @@ export const LanguagesList: FC<LanguagesProps> = ({
   totalPages,
   setShowCreationModal,
 }) => {
-  const { user } = useSession();
   const navigate = useNavigate();
   let [myLanguages, active, all] = [false, false, false];
 
@@ -41,7 +40,10 @@ export const LanguagesList: FC<LanguagesProps> = ({
       break;}
 
   if (!languages?.length) {
-    return <Alert variant="info">No results available</Alert>;
+    return (<div><Button variant="primary" onClick={() => setShowCreationModal(true)}>
+            <span>New Language</span>
+            <PlusCircle className="ms-2"/>
+          </Button><Alert variant="info">No results available</Alert></div>);
   }
 
   return (
