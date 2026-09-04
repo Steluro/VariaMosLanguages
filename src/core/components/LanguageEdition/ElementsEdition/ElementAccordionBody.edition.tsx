@@ -8,11 +8,23 @@ import { ConstraintsEdition } from "../ConstraintsEdition/Constraints.edition";
 import { Trash } from "react-bootstrap-icons";
 import { ElementType } from "../../../../Domain/ProductLineEngineering/Entities/ElementType";
 
+/**
+ * Props for the ElementAccordionBody component
+ * @interface ElementAccordionBodyProps
+ * @property {ElementType} element - The element type to display
+ * @property {(uuid: string) => void} setToDeleteElementUuid - Callback to set the UUID of element to delete
+ */
 interface ElementAccordionBodyProps {
   element: ElementType;
   setToDeleteElementUuid: (uuid: string) => void;
 }
 
+/**
+ * Accordion body component for editing element type details
+ * Displays element image, name, description, properties, and constraints
+ * @param {ElementAccordionBodyProps} props - The component props
+ * @returns {JSX.Element} The rendered element accordion body component
+ */
 export function ElementAccordionBody({
   element,
   setToDeleteElementUuid,
@@ -20,6 +32,10 @@ export function ElementAccordionBody({
   const [accordionElement, setAccordionElement] = useState<ElementType>(element);
   const [elementName, setElementName] = useState(element.name || "Untitled");
   const [elementDescription, setElementDescription] = useState(element.description);
+  /**
+   * Handle element name update on blur event
+   * @param {string} name - The new element name
+   */
   const handleBlurElementName = async (name: string) => {
     await updateElement(element.languageId, element.uuid, { name });
     await getElement(accordionElement.languageId, element.uuid).then((response) => {
@@ -27,6 +43,10 @@ export function ElementAccordionBody({
     })
   };
 
+  /**
+   * Handle element description update on blur event
+   * @param {string} description - The new element description
+   */
   const handleBlurElementDescription = async (description: string) => {
     await updateElement(element.languageId, element.uuid, { description });
     await getElement(accordionElement.languageId, element.uuid).then((response) => {
@@ -34,6 +54,12 @@ export function ElementAccordionBody({
     })
   };
 
+  /**
+   * Generic update function for element properties
+   * @param {string} languageId - The language ID
+   * @param {string} objectUuid - The element UUID
+   * @param {Partial<{name: string; description: string; style: Record<string, unknown>; properties: Record<string, unknown>; constraint: string;}>} data - The data to update
+   */
   const updateFunction = async(languageId: string, objectUuid: string, data: Partial<{
     name: string;
     description: string;
@@ -47,6 +73,9 @@ export function ElementAccordionBody({
     })
   };
 
+  /**
+   * Handle element deletion request
+   */
   const handleElementDeletion = () => {
     setToDeleteElementUuid(element.uuid);
   };

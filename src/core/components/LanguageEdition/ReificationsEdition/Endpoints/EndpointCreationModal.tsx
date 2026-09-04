@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import { Modal, Form, Button, Alert } from 'react-bootstrap';
 
+/**
+ * Props for the EndpointCreationModal component
+ * @interface EndpointCreationModalProps
+ * @property {boolean} show - Whether the modal is visible
+ * @property {() => void} onHide - Callback when the modal is closed
+ * @property {(name: string, arity: number) => void} onConfirm - Callback when endpoint is created with name and arity
+ */
 interface EndpointCreationModalProps {
   show: boolean;
   onHide: () => void;
   onConfirm: (name: string, arity: number) => void;
 }
 
+/**
+ * Modal component for creating new endpoints with name and arity
+ * @param {EndpointCreationModalProps} props - The component props
+ * @returns {JSX.Element} The rendered endpoint creation modal
+ */
 export function EndpointCreationModal({ show, onHide, onConfirm }: EndpointCreationModalProps) {
   const [name, setName] = useState('');
   const [arity, setArity] = useState<string>('1');
   const [showInvalidNumberAlert, setShowInvalidNumberAlert] = useState(false);
 
+  /**
+   * Handle endpoint creation with validation
+   */
   const handleCreate = () => {
     const arityValue = arity === '-1' ? -1 : parseInt(arity, 10);
     if (name.trim() && (arityValue === -1 || (arityValue > 0 && !isNaN(arityValue)))) {
@@ -25,6 +40,9 @@ export function EndpointCreationModal({ show, onHide, onConfirm }: EndpointCreat
     }
   };
 
+  /**
+   * Handle modal cancel and reset form
+   */
   const handleCancel = () => {
     setName('');
     setArity('1');

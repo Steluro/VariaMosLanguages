@@ -6,6 +6,14 @@ import { ResponseModel } from '../../../../Domain/Core/Entity/ResponseModel';
 
 const TYPES = ['string', 'integer', 'boolean'];
 
+/**
+ * Props for the PropertiesEdition component
+ * @interface PropertiesEditionProps
+ * @property {Record<string, any>} properties - The properties object to edit
+ * @property {string} languageId - The ID of the language
+ * @property {string} objectUuid - The UUID of the object
+ * @property {(languageId:string, objectUuid: string, data: Partial<{name: string; description: string; style: Record<string, unknown>; properties: Record<string, unknown>; constraint: string;}>) => void} updateFunction - Function to update properties
+ */
 interface PropertiesEditionProps {
   properties: Record<string, any>;
   languageId: string;
@@ -19,6 +27,12 @@ interface PropertiesEditionProps {
   }>) => (void);
 }
 
+/**
+ * Component for editing object properties with type selection
+ * Allows adding, deleting, and renaming properties with types (string, integer, boolean)
+ * @param {PropertiesEditionProps} props - The component props
+ * @returns {JSX.Element} The rendered properties editor component
+ */
 export function PropertiesEdition({ properties, languageId, objectUuid, updateFunction }: PropertiesEditionProps) {
   const [localProperties, setLocalProperties] = useState<Record<string, any>>(properties);
   const [propertyNames, setPropertyNames] = useState<Record<string, string>>(
@@ -28,6 +42,9 @@ export function PropertiesEdition({ properties, languageId, objectUuid, updateFu
     Object.entries(properties).reduce((acc, [key, value]) => ({ ...acc, [key]: value?.type || 'string' }), {})
   );
 
+  /**
+   * Update properties with current names and types
+   */
   const handleUpdateProperties = () => {
     const newProperties: Record<string, any> = {};
     Object.keys(localProperties).forEach((originalKey) => {
@@ -38,6 +55,9 @@ export function PropertiesEdition({ properties, languageId, objectUuid, updateFu
     updateFunction(languageId, objectUuid, { properties: newProperties });
   };
 
+  /**
+   * Add a new property with default string type
+   */
   const handleAddProperty = () => {
     const newKey = `property_${Object.keys(localProperties).length + 1}`;
     const newProperties = { ...localProperties, [newKey]: { type: 'string' } };
@@ -49,6 +69,10 @@ export function PropertiesEdition({ properties, languageId, objectUuid, updateFu
     updateFunction(languageId, objectUuid, { properties: newProperties });
   };
 
+  /**
+   * Delete a property by name
+   * @param {string} propertyName - The name of the property to delete
+   */
   const handleDeleteProperty = (propertyName: string) => {
     const newProperties = { ...localProperties };
     const newNames = { ...propertyNames };
@@ -62,14 +86,30 @@ export function PropertiesEdition({ properties, languageId, objectUuid, updateFu
     updateFunction(languageId, objectUuid, { properties: newProperties });
   };
 
+  /**
+   * Handle property name change
+   * @param {string} originalKey - The original property key
+   * @param {string} newName - The new property name
+   */
   const handlePropertyNameChange = (originalKey: string, newName: string) => {
     setPropertyNames({ ...propertyNames, [originalKey]: newName });
   };
   
+  /**
+   * Handle property type change
+   * @param {string} originalKey - The original property key
+   * @param {string} newType - The new property type
+   */
   const handlePropertyTypeChange = (originalKey: string, newType: string) => {
       setPropertyTypes({ ...propertyTypes, [originalKey]: newType });
     };
     
+  /**
+   * Generate a unique property name to avoid conflicts
+   * @param {string} desiredName - The desired property name
+   * @param {string} excludeKey - The key to exclude from conflict check
+   * @returns {string} A unique property name
+   */
   const getUniquePropertyName = (desiredName: string, excludeKey: string): string => {
     const existingKeys = Object.keys(localProperties).filter(key => key !== excludeKey);
     if (!existingKeys.includes(desiredName)) {
@@ -84,6 +124,11 @@ export function PropertiesEdition({ properties, languageId, objectUuid, updateFu
     return uniqueName;
   };
 
+  /**
+   * Handle property name blur event to validate uniqueness and update
+   * @param {string} originalKey - The original property key
+   * @param {string} currentName - The current property name
+   */
   const handlePropertyNameBlur = (originalKey: string, currentName: string) => {
     if (!currentName.trim()) {
       setPropertyNames({ ...propertyNames, [originalKey]: originalKey });

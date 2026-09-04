@@ -11,10 +11,21 @@ import ConfirmationModal from "../../ConfirmationModal";
 import CreationModal from "../CreationModal";
 import { PlusCircle } from "react-bootstrap-icons";
 
+/**
+ * Props for the RelationTypeContainer component
+ * @interface RelationContainerProps
+ * @property {string} languageUuid - The UUID of the language
+ */
 interface RelationContainerProps {
   languageUuid: string;
 }
 
+/**
+ * Container component for managing relation types
+ * Handles creation, deletion, and display of relation types in an accordion format
+ * @param {RelationContainerProps} props - The component props
+ * @returns {JSX.Element} The rendered relation type container component
+ */
 export function RelationTypeContainer({
   languageUuid,
 }: RelationContainerProps) {
@@ -25,6 +36,9 @@ export function RelationTypeContainer({
   const [toDeleteRelationUuid, setToDeleteRelationUuid] =
     useState<string>(null);
 
+  /**
+   * Fetch relation types when language UUID changes
+   */
   useEffect(() => {
     setLoading(true);
     queryLanguageRelationTypes(languageUuid).then((response) => {
@@ -33,11 +47,18 @@ export function RelationTypeContainer({
     });
   }, [languageUuid]);
 
+  /**
+   * Show deletion modal when relation UUID to delete is set
+   */
   useEffect(() => {
     if (toDeleteRelationUuid) {
       setDeletionModal(true);
     }
   }, [toDeleteRelationUuid]);
+
+  /**
+   * Trigger Prism syntax highlighting when accordion opens
+   */
   const handleAccordionEnter = () => {
     // Trigger Prism syntax highlighting when accordion opens
     if (typeof window !== "undefined" && (window as any).Prism) {
@@ -47,6 +68,10 @@ export function RelationTypeContainer({
     }
   };
 
+  /**
+   * Handle relation type creation
+   * @param {string} name - The name of the relation type to create
+   */
   const handleRelationCreation = (name: string) => {
     setLoading(true);
     createRelationType(languageUuid, {
@@ -60,6 +85,9 @@ export function RelationTypeContainer({
     });
   };
 
+  /**
+   * Handle relation type deletion confirmation
+   */
   const handleRelationDeletion = () => {
     setLoading(true);
     deleteRelationType(languageUuid, toDeleteRelationUuid).then((response) => {

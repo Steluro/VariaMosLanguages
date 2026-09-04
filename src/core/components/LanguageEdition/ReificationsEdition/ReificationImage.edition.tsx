@@ -4,17 +4,32 @@ import StylePropertyModal from '../StyleEdition/StylePropertyModal';
 import { ReificationType } from '../../../../Domain/ProductLineEngineering/Entities/ReificationType';
 import { updateReification } from '../../../../DataProvider/Services/reificationType.service';
 
-interface ReificationShapeImageProps {
+/**
+ * Props for the ReificationEditionImage component
+ * @interface ReificationShapeImageProps
+ * @property {ReificationType} reification - The reification type to display
+ */
+interface ReificationEditionImageProps {
   reification: ReificationType;
 }
 
-export function ReificationEditionImage({ reification }: ReificationShapeImageProps) {
+/**
+ * Component for displaying and editing reification type visual representation
+ * Shows reification name, properties, and allows style customization
+ * @param {ReificationShapeImageProps} props - The component props
+ * @returns {JSX.Element} The rendered reification image component
+ */
+export function ReificationEditionImage({ reification }: ReificationEditionImageProps) {
   const [showStyleModal,setShowStyleModal]=useState(false);
   const [style, setStyle] = useState<Record<string, any>>(reification.style || {});
   const [containerStyle, setContainerStyle] = useState<React.CSSProperties>({});
   const [titleStyle, setTitleStyle] = useState<Record<string, any>>({});
   const [propertiesStyle, setPropertiesStyle] = useState<Record<string, any>>({});
 
+  /**
+   * Extract and apply styles for title, properties, and body categories
+   * Map title and properties to text category in the JSON
+   */
   useEffect(()=>{  
   // Extract styles for title, properties, and body categories
   // Map title and properties to text category in the JSON
@@ -48,6 +63,10 @@ export function ReificationEditionImage({ reification }: ReificationShapeImagePr
   }, [style]);
 
   
+  /**
+   * Handle style changes and update reification
+   * @param {Record<string, unknown>} newStyle - The new style object
+   */
   const handleStyleChange = (newStyle: Record<string, unknown>) => {
     updateReification(reification.languageId, reification.uuid, { style: newStyle });
     setStyle(newStyle);

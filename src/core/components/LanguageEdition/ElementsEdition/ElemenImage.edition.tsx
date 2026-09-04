@@ -4,10 +4,21 @@ import StylePropertyModal from '../StyleEdition/StylePropertyModal';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 import { updateElement } from '../../../../DataProvider/Services/elementType.service';
 
+/**
+ * Props for the ElementEditionImage component
+ * @interface ElementShapeImageProps
+ * @property {ElementType} element - The element type to display the style of
+ */
 interface ElementShapeImageProps {
   element: ElementType;
 }
 
+/**
+ * Component for displaying and editing element type visual representation
+ * Shows element with his name, properties, and open style customization modal on click
+ * @param {ElementShapeImageProps} props - The component props
+ * @returns {JSX.Element} The rendered element image component
+ */
 export function ElementEditionImage({ element }: ElementShapeImageProps) {
   const [showStyleModal,setShowStyleModal]=useState(false);
   const [style, setStyle] = useState<Record<string, any>>(element.style || {});
@@ -15,7 +26,11 @@ export function ElementEditionImage({ element }: ElementShapeImageProps) {
   const [titleStyle, setTitleStyle] = useState<Record<string, any>>({});
   const [propertiesStyle, setPropertiesStyle] = useState<Record<string, any>>({});
 
-  useEffect(()=>{  
+  /**
+   * Extract and apply styles for title, properties, and body categories
+   * Map title and properties to text category in the JSON
+   */
+  useEffect(()=>{
   // Extract styles for title, properties, and body categories
   // Map title and properties to text category in the JSON
   const title = (style.title || {}) as Record<string, any>;
@@ -47,6 +62,10 @@ export function ElementEditionImage({ element }: ElementShapeImageProps) {
   }, [style]);
 
   
+  /**
+   * Handle style changes and update element
+   * @param {Record<string, unknown>} newStyle - The new style object
+   */
   const handleStyleChange = (newStyle: Record<string, unknown>) => {
     updateElement(element.languageId, element.uuid, { style: newStyle });
     setStyle(newStyle);

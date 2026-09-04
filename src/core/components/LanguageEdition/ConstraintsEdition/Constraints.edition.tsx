@@ -5,6 +5,14 @@ import 'prismjs/components/prism-lisp';
 import style from "./Constraints.module.css";
 import { ResponseModel } from '@variamosple/variamos-components';
 
+/**
+ * Props for the ConstraintsEdition component
+ * @interface ConstraintsEditionProps
+ * @property {string} constraints - The current constraints string
+ * @property {string} languageId - The ID of the language
+ * @property {string} elementUuid - The UUID of the element
+ * @property {(languageId: string, objectUuid: string, data: Partial<{ constraint: string }>) => Promise<ResponseModel<any>>} updateFunction - Function to update constraints
+ */
 interface ConstraintsEditionProps {
   constraints: string;
   languageId: string;
@@ -12,8 +20,17 @@ interface ConstraintsEditionProps {
   updateFunction : (languageId: string, objectUuid: string, data: Partial<{ constraint: string }>) => Promise<ResponseModel<any>>
 }
 
+/**
+ * Component for editing constraints using a code editor with Lisp syntax highlighting
+ * @param {ConstraintsEditionProps} props - The component props
+ * @returns {JSX.Element} The rendered constraints editor component
+ */
 export function ConstraintsEdition({ constraints, languageId, elementUuid, updateFunction }: ConstraintsEditionProps) {
   const [code, setCode] = useState<string>(constraints||"");
+
+  /**
+   * Handle editor blur event to save constraints
+   */
   const handleEditorBlur = () => {
     if(!code.trim()){
         updateFunction(languageId, elementUuid, {constraint: ""});

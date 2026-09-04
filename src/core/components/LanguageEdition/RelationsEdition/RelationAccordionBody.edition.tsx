@@ -9,11 +9,23 @@ import { Trash } from "react-bootstrap-icons";
 import { RelationEndpointsEdition } from "./RelationEndpoints.edition";
 import { RelationType } from "../../../../Domain/ProductLineEngineering/Entities/RelationType";
 
+/**
+ * Props for the RelationAccordionBody component
+ * @interface RelationAccordionBodyProps
+ * @property {RelationType} relation - The relation type to display
+ * @property {(uuid: string) => void} setToDeleteRelationUuid - Callback to set the UUID of relation to delete
+ */
 interface RelationAccordionBodyProps {
   relation: RelationType;
   setToDeleteRelationUuid: (uuid: string) => void;
 }
 
+/**
+ * Accordion body component for editing relation type details
+ * Displays relation image, name, description, properties, constraints, and endpoints
+ * @param {RelationAccordionBodyProps} props - The component props
+ * @returns {JSX.Element} The rendered relation accordion body component
+ */
 export function RelationAccordionBody({
   relation,
   setToDeleteRelationUuid,
@@ -22,6 +34,10 @@ export function RelationAccordionBody({
   const [relationName, setRelationName] = useState(relation.name||"Untitled");
   const [relationDescription, setRelationDescription] = useState(relation.description);
 
+  /**
+   * Handle relation name update on blur event
+   * @param {string} name - The new relation name
+   */
   const handleBlurRelationName = async (name: string) => {
     await updateRelation(relation.languageId, relation.uuid, { name });
     await getRelationType(accordionRelation.languageId, relation.uuid).then((response) => {
@@ -29,6 +45,10 @@ export function RelationAccordionBody({
     });
   };
 
+  /**
+   * Handle relation description update on blur event
+   * @param {string} description - The new relation description
+   */
   const handleBlurRelationDescription = async (description: string) => {
     await updateRelation(relation.languageId, relation.uuid, { description });
     await getRelationType(accordionRelation.languageId, relation.uuid).then((response) => {
@@ -36,6 +56,13 @@ export function RelationAccordionBody({
     });
   };
 
+  /**
+   * Generic update function for relation properties
+   * @param {string} languageId - The language ID
+   * @param {string} objectUuid - The relation UUID
+   * @param {Partial<{name: string; description: string; style: Record<string, unknown>; properties: Record<string, unknown>; constraint: string; sources: string[]; targets: string[];}>} data - The data to update
+   * @returns {Promise<any>} The update response
+   */
   const updateFunction = async(languageId: string, objectUuid: string, data: Partial<{
     name: string;
     description: string;
@@ -52,6 +79,9 @@ export function RelationAccordionBody({
     return response;
   };
 
+  /**
+   * Handle relation deletion request
+   */
   const handleRelationDeletion = () => {
     setToDeleteRelationUuid(relation.uuid);
   };

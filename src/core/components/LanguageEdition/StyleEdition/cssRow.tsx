@@ -1,6 +1,14 @@
 import { Form } from 'react-bootstrap';
 import { cssProperties } from './cssProperties';
 
+/**
+ * Props for the CssRow component
+ * @interface cssRowProps
+ * @property {"body" | "title" | "properties" | "style" | "markerStart" | "markerEnd"} category - The CSS category corresponding to the property
+ * @property {string} propertyName - The CSS property name
+ * @property {string | number} value - The current property value
+ * @property {(value: string | number) => void} onChange - Callback when value changes
+ */
 interface cssRowProps {
   category: "body" | "title" | "properties" | "style" | "markerStart" | "markerEnd";
   propertyName: string;
@@ -8,8 +16,20 @@ interface cssRowProps {
   onChange: (value: string | number) => void;
 }
 
+/**
+ * Row component for editing a single CSS property
+ * Renders appropriate input type based on property configuration (color, select, number, text)
+ * @param {cssRowProps} props - The component props
+ * @returns {JSX.Element} The rendered CSS row component
+ */
 export default function CssRow({ category, propertyName, value, onChange }: cssRowProps) {
 
+  /**
+   * Get CSS group name from category
+   * group name corresponds to the key in cssProperties.json
+   * @param {string} category - The category name
+   * @returns {string} The CSS group name
+   */
   function getCssGroup(category){
     switch (category) {
       case "body":
@@ -40,6 +60,10 @@ export default function CssRow({ category, propertyName, value, onChange }: cssR
     options?: string[];
   };
 
+  /**
+   * Render appropriate input type based on property configuration
+   * @returns {JSX.Element} The rendered input component
+   */
   const renderInput = () => {
     // Case: two input types (number and select)
     if (Array.isArray(inputType)) {

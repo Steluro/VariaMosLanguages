@@ -3,7 +3,15 @@ import { Form, Button, Col, Alert, Dropdown, OverlayTrigger, Tooltip } from 'rea
 import { Plus, Trash, X } from 'react-bootstrap-icons';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
-
+/**
+ * Props for the EndpointRow component
+ * @interface EndpointRowProps
+ * @property {ElementType[]} elementType - The element types to display
+ * @property {string} endpointName - The name of the endpoint (e.g., 'Sources' or 'Targets')
+ * @property {ElementType[]} availableElements - Available element types to add
+ * @property {(element: ElementType) => void} onAddElement - Callback to add an element
+ * @property {(element: ElementType) => void} onRemoveElement - Callback to remove an element
+ */
 interface EndpointRowProps {
   elementType: ElementType[];
   endpointName: string;
@@ -12,6 +20,12 @@ interface EndpointRowProps {
   onRemoveElement: (element: ElementType) => void;
 }
 
+/**
+ * Row component for displaying relation endpoints with element types
+ * Shows endpoint name, associated elements, and allows adding/removing elements
+ * @param {EndpointRowProps} props - The component props
+ * @returns {JSX.Element} The rendered endpoint row
+ */
 export const EndpointRow = ({ elementType, endpointName,onAddElement,onRemoveElement, availableElements }: EndpointRowProps) => {
 
     return (

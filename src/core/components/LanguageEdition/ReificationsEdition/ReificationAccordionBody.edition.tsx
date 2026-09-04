@@ -11,21 +11,36 @@ import { ReificationEndpointsEdition } from "./Endpoints/ReificationEndpoints.ed
 import { ReificationType } from "../../../../Domain/ProductLineEngineering/Entities/ReificationType";
 import { ReificationTypeEndpoint } from "../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint";
 
-interface RelationAccordionBodyProps {
+/**
+ * Props for the ReificationAccordionBodyEdition component
+ * @interface ReificationAccordionBodyProps
+ * @property {ReificationType} reification - The reification type to display
+ * @property {(uuid: string) => void} setToDeleteReificationUuid - Callback to set the UUID of reification to delete
+ */
+interface ReificationAccordionBodyProps {
   reification: ReificationType;
   setToDeleteReificationUuid : (uuid : string) => void;
 }
 
+/**
+ * Accordion body component for editing reification type details
+ * Displays reification image, name, description, properties, constraints, and endpoints
+ * @param {RelationAccordionBodyProps} props - The component props
+ * @returns {JSX.Element} The rendered reification accordion body component
+ */
 export function ReificationAccordionBodyEdition({
   reification,
   setToDeleteReificationUuid,
-}: RelationAccordionBodyProps) {
+}: ReificationAccordionBodyProps) {
   const [accordionReification, setAccordionReification] = useState<ReificationType>(reification);
   const [endpoints, setEndpoints] = useState<ReificationTypeEndpoint[]>([]);
   const [reificationName, setReifificationName] = useState(reification.name || "Untitled");
   const [reificationDescription, setReificationDescription] =
     useState(reification.description);
 
+  /**
+   * Fetch endpoints when reification changes
+   */
   useEffect(() => {
     queryReificationTypeEndpoints(reification.languageId, reification.uuid)
       .then((response) => {
@@ -39,6 +54,10 @@ export function ReificationAccordionBodyEdition({
     console.log(endpoints);
   }, [reification.languageId, reification.uuid]);
 
+  /**
+   * Handle reification name update on blur event
+   * @param {string} name - The new reification name
+   */
   const handleBlurReificationName = async (name: string) => {
     await updateReificationType(reification.languageId, reification.uuid, { name });
     await getReificationType(accordionReification.languageId, reification.uuid).then((response) => {
@@ -46,6 +65,10 @@ export function ReificationAccordionBodyEdition({
     });
   };
 
+  /**
+   * Handle reification description update on blur event
+   * @param {string} description - The new reification description
+   */
   const handleBlurReificationtDescription = async (description: string) => {
     await updateReificationType(reification.languageId, reification.uuid, { description });
     await getReificationType(accordionReification.languageId, reification.uuid).then((response) => {
@@ -53,6 +76,13 @@ export function ReificationAccordionBodyEdition({
     });
   };
 
+  /**
+   * Generic update function for reification properties
+   * @param {string} languageId - The language ID
+   * @param {string} objectUuid - The reification UUID
+   * @param {Partial<{name: string; description: string; style: Record<string, unknown>; properties: Record<string, unknown>; constraint: string;}>} data - The data to update
+   * @returns {Promise<any>} The update response
+   */
   const updateFunction = async(languageId: string, objectUuid: string, data: Partial<{
     name: string;
     description: string;
@@ -67,6 +97,9 @@ export function ReificationAccordionBodyEdition({
     return response;
   };
 
+  /**
+   * Handle reification deletion request
+   */
   const handleReificationDeletion = () => {
     setToDeleteReificationUuid(reification.uuid);
   };

@@ -6,10 +6,21 @@ import { updateRelation } from '../../../../DataProvider/Services/relationType.s
 import { ReactFlow, Edge, MiniMap, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 
+/**
+ * Props for the RelationShapeImage component
+ * @interface RelationShapeImageProps
+ * @property {RelationType} relation - The relation type to display
+ */
 interface RelationShapeImageProps {
   relation: RelationType;
 }
 
+/**
+ * Component for displaying relation type visual representation using ReactFlow
+ * Shows a graph with source and target nodes connected by a styled edge
+ * @param {RelationShapeImageProps} props - The component props
+ * @returns {JSX.Element} The rendered relation shape image component
+ */
 export function RelationShapeImage({ relation }: RelationShapeImageProps) {
   const [showStyleModal, setShowStyleModal] = useState(false);
   const [style, setStyle] = useState<Record<string, any>>(relation.style || {});
@@ -18,6 +29,9 @@ const [markerStart, setMarkerStart] = useState<Record<string, any>>({});
 const [markerEnd, setMarkerEnd] = useState<Record<string, any>>({});
 
 
+  /**
+   * Extract and apply styles for edge categories
+   */
   useEffect(() => {
     // Extract styles for edge categories
     const edgeStyle = (style.style || {}) as Record<string, any>;
@@ -65,6 +79,10 @@ const [markerEnd, setMarkerEnd] = useState<Record<string, any>>({});
     }
   };
 
+  /**
+   * Handle style changes and update relation
+   * @param {Record<string, unknown>} newStyle - The new style object
+   */
   const handleStyleChange = (newStyle: Record<string, unknown>) => {
     updateRelation(relation.languageId, relation.uuid, { style: newStyle });
     setStyle(newStyle);

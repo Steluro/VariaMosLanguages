@@ -5,11 +5,24 @@ import 'reactflow/dist/style.css';
 import StylePropertyModal from '../../StyleEdition/StylePropertyModal';
 import { ReificationTypeEndpoint } from '../../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
 import { set } from 'immer/dist/internal';
+
+/**
+ * Props for the EndpointStyle component
+ * @interface EndpointStyleProps
+ * @property {ReificationTypeEndpoint} endpoint - The endpoint to display
+ * @property {(newStyle: Record<string, unknown>) => void} onStyleChange - Callback to update endpoint style
+ */
 interface EndpointStyleProps {
   endpoint : ReificationTypeEndpoint;
   onStyleChange: (newStyle: Record<string, unknown>) => void;
 }
 
+/**
+ * Component for displaying endpoint visual representation using ReactFlow
+ * Shows a graph with reification and element nodes connected by an edge
+ * @param {EndpointStyleProps} props - The component props
+ * @returns {JSX.Element} The rendered endpoint style component
+ */
 export function EndpointStyle({ endpoint, onStyleChange }: EndpointStyleProps) {
   const [showStyleModal, setShowStyleModal] = useState(false);
 
@@ -52,6 +65,10 @@ export function EndpointStyle({ endpoint, onStyleChange }: EndpointStyleProps) {
       },
     };
 
+  /**
+   * Handle style changes and update endpoint
+   * @param {Record<string, unknown>} newStyle - The new style object
+   */
   const handleStyleChange = (newStyle: Record<string, unknown>) => {
     onStyleChange(newStyle);
     setShowStyleModal(false);

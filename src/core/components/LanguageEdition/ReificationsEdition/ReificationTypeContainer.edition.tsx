@@ -13,10 +13,21 @@ import ConfirmationModal from "../../ConfirmationModal";
 import { queryReificationTypeEndpoints } from "../../../../DataProvider/Services/reificatonTypeEndpoints.service";
 import { ReificationType } from "../../../../Domain/ProductLineEngineering/Entities/ReificationType";
 
+/**
+ * Props for the ReificationTypeContainerEdition component
+ * @interface ReificationContainerProps
+ * @property {string} languageUuid - The UUID of the language
+ */
 interface ReificationContainerProps {
   languageUuid: string;
 }
 
+/**
+ * Container component for managing reification types
+ * Handles creation, deletion, and display of reification types in an accordion format
+ * @param {ReificationContainerProps} props - The component props
+ * @returns {JSX.Element} The rendered reification type container component
+ */
 export function ReificationTypeContainerEdition({
   languageUuid,
 }: ReificationContainerProps) {
@@ -26,6 +37,9 @@ export function ReificationTypeContainerEdition({
   const [deletionModal, setDeletionModal] = useState(false);
   const [toDeleteReificationUuid, setToDeleteReificationUuid] = useState<string>(null);
 
+  /**
+   * Fetch reification types when language UUID changes
+   */
   useEffect(() => {
     setLoading(true);
     queryLanguageReificationTypes(languageUuid)
@@ -37,12 +51,18 @@ export function ReificationTypeContainerEdition({
       });
   }, [languageUuid]);
 
+  /**
+   * Show deletion modal when reification UUID to delete is set
+   */
   useEffect(() => {
     if (toDeleteReificationUuid) {
       setDeletionModal(true);
     }
   }, [toDeleteReificationUuid]);
 
+  /**
+   * Trigger Prism syntax highlighting when accordion opens
+   */
   const handleAccordionEnter = () => {
     // Trigger Prism syntax highlighting when accordion opens
     if (typeof window !== "undefined" && (window as any).Prism) {
@@ -52,6 +72,10 @@ export function ReificationTypeContainerEdition({
     }
   };
 
+  /**
+   * Handle reification type creation
+   * @param {string} name - The name of the reification type to create
+   */
   const handleReificationCreation = (name: string) => {
     setLoading(true);
     createReificationType(languageUuid, {
@@ -65,6 +89,9 @@ export function ReificationTypeContainerEdition({
     });
   };
 
+  /**
+   * Handle reification type deletion confirmation
+   */
   const handleConfirmDeletion = () => {
     setLoading(true);
     deleteReificationType(languageUuid, toDeleteReificationUuid).then((response) => {

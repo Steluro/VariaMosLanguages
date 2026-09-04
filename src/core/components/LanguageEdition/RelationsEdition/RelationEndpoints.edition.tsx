@@ -8,9 +8,21 @@ import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/
 import { RelationType } from '../../../../Domain/ProductLineEngineering/Entities/RelationType';
 import { updateRelation, queryRelationById } from '../../../../DataProvider/Services/relationType.service';
 
+/**
+ * Props for the RelationEndpointsEdition component
+ * @interface RelationEndpointsProps
+ * @property {RelationType} relation - The relation type to display
+ */
 interface RelationEndpointsProps {
   relation: RelationType
 }
+
+/**
+ * Component for managing relation endpoints (sources and targets)
+ * Handles adding and removing element types to source and target endpoints
+ * @param {RelationEndpointsProps} props - The component props
+ * @returns {JSX.Element} The rendered relation endpoints component
+ */
 export function RelationEndpointsEdition({ relation }: RelationEndpointsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [elements, setElements] = useState<ElementType[]>([]);
@@ -22,6 +34,10 @@ export function RelationEndpointsEdition({ relation }: RelationEndpointsProps) {
     loadRelation(relation.uuid);
   }, [relation]);
 
+  /**
+   * Handle adding an element to source endpoint
+   * @param {ElementType} elementType - The element type to add
+   */
   const handleAddSourceElement = async (elementType: ElementType) => {
     const existingElementUuids = relationtype.sources?.map(et => et.uuid) || [];
     setIsLoading(true);
@@ -29,6 +45,10 @@ export function RelationEndpointsEdition({ relation }: RelationEndpointsProps) {
     loadRelation(relation.uuid);
   }
 
+  /**
+   * Handle removing an element from source endpoint
+   * @param {ElementType} elementType - The element type to remove
+   */
   const handleRemoveSourceElement = async(elementType: ElementType) => {
     const ElementUuids = relationtype.sources?.filter(et => et.uuid !== elementType.uuid).map(et => et.uuid) || [];
     setIsLoading(true);
@@ -36,6 +56,10 @@ export function RelationEndpointsEdition({ relation }: RelationEndpointsProps) {
     loadRelation(relation.uuid);
   }
 
+  /**
+   * Handle adding an element to target endpoint
+   * @param {ElementType} elementType - The element type to add
+   */
     const handleAddTargetElement = async (elementType: ElementType) => {
     const existingElementUuids = relationtype.targets?.map(et => et.uuid) || [];
     setIsLoading(true);
@@ -43,6 +67,10 @@ export function RelationEndpointsEdition({ relation }: RelationEndpointsProps) {
     loadRelation(relation.uuid);
   }
 
+  /**
+   * Handle removing an element from target endpoint
+   * @param {ElementType} elementType - The element type to remove
+   */
   const handleRemoveTargetElement = async (elementType: ElementType) => {
     const ElementUuids = relationtype.targets?.filter(et => et.uuid !== elementType.uuid).map(et => et.uuid) || [];
     setIsLoading(true);
@@ -50,6 +78,10 @@ export function RelationEndpointsEdition({ relation }: RelationEndpointsProps) {
     loadRelation(relation.uuid);
   }
 
+  /**
+   * Load available element types for the language
+   * @param {string} languageUuid - The language UUID
+   */
   const loadElements = async (languageUuid: string) => {
     try {
       const response = await queryLanguageElementTypes(languageUuid);
@@ -60,6 +92,10 @@ export function RelationEndpointsEdition({ relation }: RelationEndpointsProps) {
     }
   };
 
+  /**
+   * Load relation data from the server
+   * @param {string} relationUuid - The relation UUID
+   */
   const loadRelation = async (relationUuid: string) => {
     try {
       const response = await queryRelationById(relation.languageId, relationUuid);

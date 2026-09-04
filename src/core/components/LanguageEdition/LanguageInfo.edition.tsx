@@ -8,53 +8,36 @@ import { useSession } from "@variamosple/variamos-components";
 import { useState, useEffect } from "react";
 import { updateLanguage } from "../../../DataProvider/Services/languages.service";
 
+/**
+ * Props for the LanguageEditionInfo component
+ * @interface LanguageInfoProps
+ * @property {Language} language - The language object to display and edit
+ */
 interface LanguageInfoProps {
   language: Language;
 }
 
+/**
+ * Component for displaying and editing basic language information
+ * Shows language name, type, UUID, owner, and status
+ * @param {LanguageInfoProps} props - The component props
+ * @returns {JSX.Element} The rendered language info component
+ */
 export function LanguageEditionInfo({ language }: LanguageInfoProps) {
-  const navigate = useNavigate();
   const { user } = useSession();
-  const [userAccessLevel, setUserAccessLevel] = useState<string | null>(null);
   const [languageName, setLanguageName] = useState(language.name);
 
-  const checkUserAccess = async () => {
-    // Check if user is owner
-    if (language.owner.id === user?.id) {
 
-      setUserAccessLevel("owner");
-      return;
-    }
-    // Check if user is LanguageDirector
-    if (user.roles?.find((role: string) => role.toLowerCase() === "language director")) {
-      setUserAccessLevel("admin");
-      return;
-    }
-    // If not owner or LanguageDirector, fetch collaborators and check user's role
-    try {
-      const collaborators = await queryCollaborators(language.uuid);
-      
-      const userCollaborator = collaborators?.find((collaborator: any) => collaborator.id === user?.id);
-      if (userCollaborator) {
-        setUserAccessLevel(userCollaborator.role);
-      } else {
-        setUserAccessLevel(null);
-      }
-    } catch (error) {
-      console.error("Error checking user access:", error);
-      setUserAccessLevel(null);
-    }
-  };
 
+  /**
+   * Handle language name update on blur event
+   * @param {string} name - The new language name
+   */
   const handleBlurLanguageName = (name: string) => {
     updateLanguage(language.uuid, { name });
   };
 
-  useEffect(() => {
-    if (language?.uuid && user?.id) {
-      checkUserAccess();
-    }
-  }, [language?.uuid, user?.id]);
+
 
   return (
     <>

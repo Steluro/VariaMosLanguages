@@ -5,8 +5,18 @@ import { ReificationTypeEndpoint } from '../../../../../Domain/ProductLineEngine
 import { ElementType } from '../../../../../Domain/ProductLineEngineering/Entities/ElementType';
 import { EndpointStyle } from './EndpointStyle';
 
-
-
+/**
+ * Props for the EndpointRow component
+ * @interface EndpointRowProps
+ * @property {ReificationTypeEndpoint} endpoint - The endpoint to display
+ * @property {(uuid: string, newName: string) => void} onNameChange - Callback to update endpoint name
+ * @property {(uuid: string, newArity: number) => void} onArityChange - Callback to update endpoint arity
+ * @property {(endpoint: ReificationTypeEndpoint, element: ElementType) => void} onAddElement - Callback to add element to endpoint
+ * @property {(endpoint: ReificationTypeEndpoint, element: ElementType) => void} onRemoveElement - Callback to remove element from endpoint
+ * @property {(uuid: string) => void} onDeleteEndpoint - Callback to delete endpoint
+ * @property {(uuid: string, newStyle: Record<string, unknown>) => void} onStyleChange - Callback to update endpoint style
+ * @property {ElementType[]} availableElements - Available element types to add
+ */
 interface EndpointRowProps {
   endpoint: ReificationTypeEndpoint;
   onNameChange: (uuid: string, newName: string) => void;
@@ -18,6 +28,12 @@ interface EndpointRowProps {
   availableElements?: ElementType[];
 }
 
+/**
+ * Row component for displaying and editing a single endpoint
+ * Shows endpoint style, name, arity, associated elements, and action buttons
+ * @param {EndpointRowProps} props - The component props
+ * @returns {JSX.Element} The rendered endpoint row
+ */
 export const EndpointRow = ({ endpoint, onNameChange, onAddElement, onRemoveElement, onArityChange, onDeleteEndpoint, onStyleChange, availableElements = [] }: EndpointRowProps) => {
   const [arity, setArity] = useState(endpoint.arity.toString());
     return (

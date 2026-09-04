@@ -13,10 +13,21 @@ import ConfirmationModal from "../../ConfirmationModal";
 import { ElementType } from "../../../../Domain/ProductLineEngineering/Entities/ElementType";
 import { set } from "immer/dist/internal";
 
+/**
+ * Props for the ElementEditionTypeContainer component
+ * @interface ElementContainerProps
+ * @property {string} languageUuid - The UUID of the language
+ */
 interface ElementContainerProps {
   languageUuid: string;
 }
 
+/**
+ * Container component for managing element types
+ * Handles creation, deletion, and display of element types in an accordion format
+ * @param {ElementContainerProps} props - The component props
+ * @returns {JSX.Element} The rendered element type container component
+ */
 export function ElementEditionTypeContainer({
   languageUuid,
 }: ElementContainerProps) {
@@ -26,6 +37,9 @@ export function ElementEditionTypeContainer({
   const [deletionModal, setDeletionModal] = useState(false);
   const [toDeleteElementUuid, setToDeleteElementUuid] = useState<string>(null);
 
+  /**
+   * Fetch element types when language UUID changes
+   */
   useEffect(() => {
     setLoading(true);
     queryLanguageElementTypes(languageUuid).then((response) => {
@@ -34,14 +48,20 @@ export function ElementEditionTypeContainer({
     });
   }, [languageUuid]);
 
+  /**
+   * Show deletion modal when element UUID to delete is set
+   */
   useEffect(() => {
     if (toDeleteElementUuid) {
       setDeletionModal(true);
     }
   }, [toDeleteElementUuid]);
 
+  /**
+   * Trigger Prism syntax highlighting when accordion opens
+   */
   const handleAccordionEnter = () => {
-    // Trigger Prism syntax highlighting when accordion opens
+    // Trigger Prism syntax highlighting when accordion open
     if (typeof window !== "undefined" && (window as any).Prism) {
       setTimeout(() => {
         (window as any).Prism.highlightAll();
@@ -49,6 +69,10 @@ export function ElementEditionTypeContainer({
     }
   };
 
+  /**
+   * Handle element type creation
+   * @param {string} name - The name of the element type to create
+   */
   const handleElementCreation = (name: string) => {
     setLoading(true);
     createElementType(languageUuid, {
@@ -62,6 +86,9 @@ export function ElementEditionTypeContainer({
     });
   };
 
+  /**
+   * Handle element type deletion confirmation
+   */
   const handleConfirmDeletion = () => {
     setLoading(true);
     deleteElementType(languageUuid, toDeleteElementUuid).then((response) => {
