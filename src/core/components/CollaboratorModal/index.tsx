@@ -4,12 +4,25 @@ import { CollaboratorsContainer } from './CollaboratorContainer';
 import { AddCollaborator } from './AddCollaborator';
 import { inviteCollaborator, deleteCollaborator, updateCollaboratorRole, queryCollaborators } from '../../../DataProvider/Services/collaborator.service';
 
+/**
+ * Props for the CollaboratorModal component
+ * @interface CollaboratorModalProps
+ * @property {string} languageId - The ID of the language
+ * @property {boolean} show - Whether the modal is visible
+ * @property {() => void} onClose - Callback when modal is closed
+ */
 export interface CollaboratorModalProps {
   languageId?: string;
   show?: boolean;
   onClose?: () => void;
 }
 
+/**
+ * Modal component for managing language collaborators
+ * Allows viewing, adding, removing, and changing roles of collaborators
+ * @param {CollaboratorModalProps} props - The component props
+ * @returns {JSX.Element} The rendered collaborator modal
+ */
 export default function CollaboratorModal({ languageId ,show, onClose }: CollaboratorModalProps) {
   const [inviteMessage, setInviteMessage] = useState<string | null>(null);
   const [inviteMessageType, setInviteMessageType] = useState<'success' | 'danger' | null>(null);
@@ -18,6 +31,9 @@ export default function CollaboratorModal({ languageId ,show, onClose }: Collabo
   const [collaborators, setCollaborators] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Reload collaborators from the server
+   */
   const reloadCollaborators = async () => {
     if (!languageId) return;
     setLoading(true);
@@ -32,6 +48,9 @@ export default function CollaboratorModal({ languageId ,show, onClose }: Collabo
     }
   };
 
+  /**
+   * Reset messages and reload collaborators when modal opens
+   */
   useEffect(() => {
     if (!show) {
       setInviteMessage(null);
@@ -43,6 +62,11 @@ export default function CollaboratorModal({ languageId ,show, onClose }: Collabo
     }
   }, [show, languageId]);
 
+  /**
+   * Handle collaborator invitation
+   * @param {string} email - The email of the user to invite
+   * @param {string} role - The role to assign
+   */
   const handleInviteCollaborator = async (email: string, role: string) => {
     setCollaboratorMessage(null);
     setCollaboratorMessageType(null);
@@ -66,6 +90,10 @@ export default function CollaboratorModal({ languageId ,show, onClose }: Collabo
     }
   };
 
+  /**
+   * Handle collaborator deletion
+   * @param {string} userId - The ID of the user to delete
+   */
   const handleDeleteCollaborator = async (userId: string) => {
     setCollaboratorMessage(null);
     setCollaboratorMessageType(null);
@@ -88,6 +116,11 @@ export default function CollaboratorModal({ languageId ,show, onClose }: Collabo
     }
   };
 
+  /**
+   * Handle collaborator role change
+   * @param {string} userId - The ID of the user
+   * @param {string} newRole - The new role to assign
+   */
   const handleRoleChange = async (userId: string, newRole: string) => {
     setCollaboratorMessage(null);
     setCollaboratorMessageType(null);

@@ -4,10 +4,21 @@ import styles from './ElementShapeImage.module.css';
 import StyleViewModal from '../StyleViewModal';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
+/**
+ * Props for the ElementViewImage component
+ * @interface ElementShapeImageProps
+ * @property {ElementType} element - The element type to display
+ */
 interface ElementShapeImageProps {
   element: ElementType;
 }
 
+/**
+ * Visual representation component for element type
+ * Displays styled element with name and properties, allows style viewing
+ * @param {ElementShapeImageProps} props - The component props
+ * @returns {JSX.Element} The rendered element view image
+ */
 export function ElementViewImage({ element }: ElementShapeImageProps) {
   const [showStyleModal, setShowStyleModal] = useState(false);
 

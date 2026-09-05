@@ -1,6 +1,14 @@
 import { Spinner } from "react-bootstrap";
 import { CollaboratorCard } from "./CollaboratorCard";
 
+/**
+ * Props for the CollaboratorsContainer component
+ * @interface CollaboratorsContainerProps
+ * @property {any[]} collaborators - The list of collaborators
+ * @property {boolean} loading - Whether container is in loading state
+ * @property {(userId: string) => Promise<void>} onDeleteCollaborator - Callback to delete a collaborator
+ * @property {(userId: string, newRole: string) => Promise<void>} onRoleChange - Callback to change a collaborator role
+ */
 export interface CollaboratorsContainerProps {
   collaborators: any[];
   loading: boolean;
@@ -8,6 +16,12 @@ export interface CollaboratorsContainerProps {
   onRoleChange?: (userId: string, newRole: string) => Promise<void>;
 }
 
+/**
+ * Container component for displaying a list of collaborator cards
+ * Handles loading and empty states
+ * @param {CollaboratorsContainerProps} props - The component props
+ * @returns {JSX.Element} The rendered collaborators container
+ */
 function CollaboratorsContainerComponent({
   collaborators,
   loading,

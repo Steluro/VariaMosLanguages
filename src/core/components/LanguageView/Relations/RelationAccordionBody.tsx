@@ -6,10 +6,21 @@ import { RelationPropertieCard } from './RelationPropertieCard';
 import { Constraints } from '../Constraints/Constraints';
 import { RelationType } from '../../../../Domain/ProductLineEngineering/Entities/RelationType';
 
+/**
+ * Props for the RelationAccordionBody component
+ * @interface RelationAccordionBodyProps
+ * @property {RelationType} relation - The relation type to display
+ */
 interface RelationAccordionBodyProps {
   relation: RelationType;
 }
 
+/**
+ * Accordion body component for displaying relation type details
+ * Shows relation image, name, description, properties, constraints, sources, and targets
+ * @param {RelationAccordionBodyProps} props - The component props
+ * @returns {JSX.Element} The rendered relation accordion body
+ */
 export function RelationAccordionBody({ relation }: RelationAccordionBodyProps) {
   return (
     <div className={styles.container}>

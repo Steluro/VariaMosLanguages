@@ -5,10 +5,21 @@ import styles from './ElementTypeContainer.module.css';
 import { ElementAccordionBody } from './ElementAccordionBody';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
+/**
+ * Props for the ElementTypeContainer component
+ * @interface ElementContainerProps
+ * @property {string} languageUuid - The UUID of the language
+ */
 interface ElementContainerProps {
     languageUuid: string
 }
 
+/**
+ * Container component for displaying element types in an accordion
+ * Fetches and displays all element types for a given language
+ * @param {ElementContainerProps} props - The component props
+ * @returns {JSX.Element} The rendered element type container
+ */
 export function ElementTypeContainer({ languageUuid }: ElementContainerProps) {
     const [elements, setElements] = useState<ElementType[]>([]);
     const [loading, setLoading] = useState(true);
@@ -22,8 +33,10 @@ export function ElementTypeContainer({ languageUuid }: ElementContainerProps) {
         });
     }, [languageUuid]);
 
+    /**
+     * Trigger Prism syntax highlighting when accordion opens
+     */
     const handleAccordionEnter = () => {
-        // Trigger Prism syntax highlighting when accordion opens
         if (typeof window !== 'undefined' && (window as any).Prism) {
             setTimeout(() => {
                 (window as any).Prism.highlightAll();

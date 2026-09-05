@@ -3,6 +3,12 @@ import { Spinner } from 'react-bootstrap';
 import useListenOutsideClicks from '../../hooks/useListenOutsideClicks';
 import { SelectOptionProps, SelectProps } from './index.types';
 
+/**
+ * Infinite select component with dropdown and search functionality
+ * Supports infinite scrolling and option fetching
+ * @param {SelectProps} props - The component props
+ * @returns {JSX.Element} The rendered select component
+ */
 const Select: FC<SelectProps> = ({
   options,
   isFetchingOptions,
@@ -16,16 +22,26 @@ const Select: FC<SelectProps> = ({
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  /**
+   * Toggle dropdown open/closed state
+   */
   const toggleDropDown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
+  /**
+   * Close the dropdown
+   */
   const closeDropdown = () => {
     setIsDropdownOpen(false);
   };
 
   const { elementRef } = useListenOutsideClicks(closeDropdown);
 
+  /**
+   * Render no options state or loading spinner
+   * @returns {JSX.Element} The rendered no options component
+   */
   const renderNoOptions = () => {
     if (isFetchingOptions) return <Spinner />;
 
@@ -38,6 +54,11 @@ const Select: FC<SelectProps> = ({
     );
   };
 
+  /**
+   * Render the list of options
+   * @param {SelectOptionProps[]} options - The options to render
+   * @returns {JSX.Element} The rendered options
+   */
   const renderOptions = (options: SelectOptionProps[]) => {
     return options?.length > 0
       ? options?.map((option, index) => {

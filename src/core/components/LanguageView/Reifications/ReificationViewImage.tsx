@@ -4,10 +4,21 @@ import styles from './ReificationShapeImage.module.css';
 import { ReificationType } from '../../../../Domain/ProductLineEngineering/Entities/ReificationType';
 import StyleViewModal from '../StyleViewModal';
 
+/**
+ * Props for the ReificationViewImage component
+ * @interface RelationShapeImageProps
+ * @property {ReificationType} reification - The reification type to display
+ */
 interface RelationShapeImageProps {
   reification : ReificationType;
 }
 
+/**
+ * Visual representation component for reification type
+ * Displays styled reification with name and properties, allows style viewing
+ * @param {RelationShapeImageProps} props - The component props
+ * @returns {JSX.Element} The rendered reification view image
+ */
 export function ReificationViewImage({ reification }: RelationShapeImageProps) {
   const [showStyleModal, setShowStyleModal] = useState(false);
 

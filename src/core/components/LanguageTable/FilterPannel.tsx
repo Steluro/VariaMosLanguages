@@ -1,6 +1,13 @@
 import { Form, Button, Card, Row, Col } from "react-bootstrap";
 import { LanguagesFilter } from "./LanguagesContainer";
 
+/**
+ * Props for the FilterPannel component
+ * @interface FilterPannelProps
+ * @property {LanguagesFilter} languageFilter - The current language filter
+ * @property {(filter: LanguagesFilter) => void} setLanguageFilter - Callback to update the filter
+ * @property {"myLanguages" | "shared" | "active" | "all"} variant - The variant of the language list
+ */
 interface FilterPannelProps {
   languageFilter: LanguagesFilter;
   setLanguageFilter: (filter: LanguagesFilter) => void;
@@ -11,19 +18,37 @@ const STATUS_OPTIONS = ["draft", "pending", "published", "deleted"];
 const ACCESS_LEVEL = ["viewer", "editor", "manager"];
 const TYPE_OPTIONS = ["scope", "domain", "application"];
 
+/**
+ * Filter panel component for language list
+ * Provides filtering by name, owner, status, type, and access level
+ * @param {FilterPannelProps} props - The component props
+ * @returns {JSX.Element} The rendered filter panel
+ */
 export function FilterPannel({
   languageFilter,
   setLanguageFilter,
   variant,
 }: FilterPannelProps) {
+  /**
+   * Handle name filter change
+   * @param {string} value - The new name filter value
+   */
   const handleNameChange = (value: string) => {
     setLanguageFilter({ ...languageFilter, name: value || undefined });
   };
 
+  /**
+   * Handle owner name filter change
+   * @param {string} value - The new owner name filter value
+   */
   const handleOwnerNameChange = (value: string) => {
     setLanguageFilter({ ...languageFilter, ownerName: value || undefined });
   };
 
+  /**
+   * Handle status filter toggle
+   * @param {string} status - The status to toggle
+   */
   const handleStatusToggle = (status: string) => {
     const currentStatuses = languageFilter.status
       ? Array.isArray(languageFilter.status)
@@ -41,6 +66,10 @@ export function FilterPannel({
     });
   };
 
+  /**
+   * Handle type filter toggle
+   * @param {string} type - The type to toggle
+   */
   const handleTypeToggle = (type: string) => {
     const currentTypes = languageFilter.type
       ? Array.isArray(languageFilter.type)
@@ -58,6 +87,10 @@ export function FilterPannel({
     });
   };
 
+  /**
+   * Handle access level filter toggle
+   * @param {string} accessLevel - The access level to toggle
+   */
   const handleAccessLevelToggle = (accessLevel: string) => {
     const currentAccessLevels = languageFilter.collaboratorRole
       ? Array.isArray(languageFilter.collaboratorRole)
@@ -75,6 +108,9 @@ export function FilterPannel({
     });
   };
 
+  /**
+   * Handle filter reset to default values based on variant
+   */
   const handleReset = () => {
     const baseFilter = new LanguagesFilter();
     switch (variant) {

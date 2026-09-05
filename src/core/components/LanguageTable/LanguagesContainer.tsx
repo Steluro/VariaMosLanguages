@@ -16,6 +16,10 @@ import { FilterPannel } from "./FilterPannel";
 import CreationModal from "../LanguageManager/CreationModal";
 
 
+/**
+ * Filter class for language queries extending PagedModel
+ * Supports filtering by various language properties
+ */
 export class LanguagesFilter extends PagedModel {
   constructor(
     public uuid?: string | string[],
@@ -38,11 +42,23 @@ export class LanguagesFilter extends PagedModel {
   }
 }
 
+/**
+ * Props for the LanguagesContainer component
+ * @interface LanguagesContainerProps
+ * @property {"myLanguages" | "shared" | "active" | "all"} variant - The variant of language list to display
+ * @property {boolean} loadDataOnInit - Whether to load data on component mount
+ */
 export interface LanguagesContainerProps {
   variant : "myLanguages" | "shared" |"active" | "all";
   loadDataOnInit?: boolean;
 }
 
+/**
+ * Container component for managing language list with filtering and pagination
+ * Handles language fetching, creation, and display based on variant
+ * @param {LanguagesContainerProps} props - The component props
+ * @returns {JSX.Element} The rendered languages container
+ */
 function LanguagesContainerComponent ({
   variant,
   loadDataOnInit,
@@ -84,6 +100,9 @@ function LanguagesContainerComponent ({
     initialFilter: filter,
   });
   
+  /**
+   * Load languages on component mount if required
+   */
   useEffect(() => {
     if (loadDataOnInit) {
       loadLanguages(filter);
@@ -91,6 +110,9 @@ function LanguagesContainerComponent ({
     }
   }, [loadDataOnInit, loadLanguages, user?.id]);
 
+  /**
+   * Validate and reload languages when filter changes
+   */
   useEffect(() => {
     if (variant === "myLanguages" || variant === "shared") {
       // Validate filter status values
@@ -111,6 +133,11 @@ function LanguagesContainerComponent ({
     loadLanguages(filter);
   }, [filter, variant]);
 
+  /**
+   * Handle language creation
+   * @param {string} name - The language name
+   * @param {"scope" | "domain" | "application"} type - The language type
+   */
   const handleCreateLanguage = async (name: string, type: "scope" | "domain" | "application") => {
     console.log("Creating language:", name, type);
     const language = {

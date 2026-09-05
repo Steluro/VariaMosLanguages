@@ -8,12 +8,28 @@ import { LanguageElement } from "./LanguageElement";
 import { useNavigate } from "react-router-dom";
 import { PlusCircle } from "react-bootstrap-icons";
 
+/**
+ * Props for the LanguagesList component
+ * @interface LanguagesProps
+ * @property {"myLanguages" | "shared" | "active" | "all"} variant - The variant of language list
+ * @property {Language[]} languages - The languages to display
+ * @property {(show: boolean) => void} setShowCreationModal - Callback to show/hide creation modal
+ * @property {number} currentPage - The current page number
+ * @property {(page: number) => void} onPageChange - Callback when page changes
+ * @property {number} totalPages - The total number of pages
+ */
 export interface LanguagesProps extends PaginatorProps {
   variant ?: "myLanguages" | "shared" | "active" | "all"; 
   languages: Language[];
   setShowCreationModal: (show: boolean) => void;
 }
 
+/**
+ * List component for displaying languages with pagination
+ * Shows language cards and provides navigation to language details
+ * @param {LanguagesProps} props - The component props
+ * @returns {JSX.Element} The rendered languages list
+ */
 export const LanguagesList: FC<LanguagesProps> = ({
   variant,
   languages,

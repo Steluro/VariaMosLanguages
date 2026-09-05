@@ -11,29 +11,35 @@ import { ReificationTypeContainer } from "./Reifications/ReificationTypeContaine
 import { UserReference } from "../../../Domain/ProductLineEngineering/Entities/UserReference";
 import ConfirmationModal from "../ConfirmationModal";
 
+/**
+ * Props for the LanguageView component
+ * @interface LanguageViewProps
+ * @property {string} languageId - The ID of the language to view
+ */
 interface LanguageViewProps {
   languageId: string;
 }
 
+/**
+ * Main view component for displaying language details
+ * Shows language info, elements, relations, and reifications in tabs
+ * Handles language status changes with confirmation
+ * @param {LanguageViewProps} props - The component props
+ * @returns {JSX.Element} The rendered language view
+ */
 export default function LanguageView({ languageId }: LanguageViewProps) {
   const [language, setLanguage] = useState<Language | null>(null);
   const [loading, setLoading] = useState(true);
-  const [collaborators, setCollaborators] = useState<UserReference[]>([]);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [newStatus, setNewStatus] = useState<"draft" | "pending" | "published">();
   const [message, setMessage] = useState<string>(null);
   const [withdrawLanguageDirector, setWithdrawLanguageDirector] = useState(false);
 
-  const fetchCollaborators = async (languageUuid: string) => {
-    try {
-      const collaboratorsResponse = await queryCollaborators(languageUuid);
-      setCollaborators(collaboratorsResponse);
-    } catch (error) {
-      console.error("Error fetching collaborators:", error);
-      setCollaborators([]);
-    }
-  };
-
+ 
+  /**
+   * Handle language status change
+   * @param {"draft" | "pending" | "published"} newStatus - The new status
+   */
    const handleStatusChange = async (newStatus: "draft" | "pending" | "published") => {
     setShowStatusModal(false);
     setLoading(true);
@@ -42,12 +48,15 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
     loadLanguage(language.uuid);
   };
 
+  /**
+   * Load language data from server
+   * @param {string} languageId - The language ID
+   */
   const loadLanguage = async (languageId: string) => {
     queryLanguageById(languageId)
       .then((response) => {
         if (response.data) {
           setLanguage(response.data);
-          fetchCollaborators(response.data.uuid);
         }
         setLoading(false);
       })
@@ -57,10 +66,16 @@ export default function LanguageView({ languageId }: LanguageViewProps) {
       });
   }
 
+  /**
+   * Load language on component mount
+   */
   useEffect(() => {
     loadLanguage(languageId);
   }, [languageId]);
 
+  /**
+   * Set confirmation message based on new status
+   */
   useEffect(() => {
     if (newStatus) {
       switch (newStatus) {

@@ -4,10 +4,21 @@ import { Card } from "react-bootstrap";
 import styles from "./LanguageElement.module.css";
 import { PersonFill, CalendarPlusFill, ClockHistory } from "react-bootstrap-icons";
 
+/**
+ * Props for the LanguageElement component
+ * @interface LanguageElementProps
+ * @property {Language} language - The language to display
+ */
 export interface LanguageElementProps {
   language: Language;
 }
 
+/**
+ * Card component displaying language key information
+ * Shows language type, name, UUID, owner, status, and timestamps
+ * @param {LanguageElementProps} props - The component props
+ * @returns {JSX.Element} The rendered language element
+ */
 export const LanguageElement: FC<LanguageElementProps> = ({ language }) => {
   return (
     <Card className={styles.languageCard}>

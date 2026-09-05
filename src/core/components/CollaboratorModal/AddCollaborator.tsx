@@ -4,11 +4,22 @@ import { Form, Button, Dropdown } from "react-bootstrap";
 const ROLES = ["viewer", "editor", "manager"] as const;
 type Role = typeof ROLES[number];
 
+/**
+ * Props for the AddCollaborator component
+ * @interface AddCollaboratorProps
+ * @property {string} languageId - The ID of the language
+ * @property {(email: string, role: string) => Promise<void>} onInvite - Callback to invite a collaborator
+ */
 export interface AddCollaboratorProps {
   languageId: string;
   onInvite: (email: string, role: string) => Promise<void>;
 }
 
+/**
+ * Component for adding a new collaborator with email and role selection
+ * @param {AddCollaboratorProps} props - The component props
+ * @returns {JSX.Element} The rendered add collaborator component
+ */
 function AddCollaboratorComponent({
   onInvite,
 }: AddCollaboratorProps): JSX.Element {
@@ -16,6 +27,11 @@ function AddCollaboratorComponent({
   const [role, setRole] = useState<Role>("viewer");
   const [isLoading, setIsLoading] = useState(false);
 
+  /**
+   * Handle collaborator invitation
+   * @param {string} email - The email of the user to invite
+   * @param {string} role - The role to assign to the collaborator
+   */
   const handleInvite = async (email: string, role: string) => {
     if (!email) return;
     
@@ -29,6 +45,10 @@ function AddCollaboratorComponent({
     }
   };
 
+  /**
+   * Handle role selection from dropdown
+   * @param {Role} selectedRole - The selected role
+   */
   const handleRoleSelect = (selectedRole: Role) => {
     setRole(selectedRole);
   };

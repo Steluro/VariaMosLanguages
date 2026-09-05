@@ -6,10 +6,21 @@ import { ElementPropertieCard } from './ElementPropertieCard';
 import { Constraints } from '../Constraints/Constraints';
 import { ElementType } from '../../../../Domain/ProductLineEngineering/Entities/ElementType';
 
+/**
+ * Props for the ElementAccordionBody component
+ * @interface ElementAccordionBodyProps
+ * @property {ElementType} element - The element type to display
+ */
 interface ElementAccordionBodyProps {
   element: ElementType;
 }
 
+/**
+ * Accordion body component for displaying element type details
+ * Shows element image, name, description, properties, and constraints
+ * @param {ElementAccordionBodyProps} props - The component props
+ * @returns {JSX.Element} The rendered element accordion body
+ */
 export function ElementAccordionBody({ element }: ElementAccordionBodyProps) {
   return (
     <div className={styles.container}>

@@ -11,12 +11,25 @@ import ConfirmationModal from "../ConfirmationModal";
 import CollaboratorModal from "../CollaboratorModal";
 import { set } from "immer/dist/internal";
 
+/**
+ * Props for the LanguageInfo component
+ * @interface LanguageInfoProps
+ * @property {Language} language - The language to display
+ * @property {(status: "draft" | "pending" | "published") => void} setNewStatus - Callback to set new language status
+ * @property {(withdrawLanguageDirector: boolean) => void} setWithdrawLanguageDirector - Callback to set withdraw language director flag
+ */
 interface LanguageInfoProps {
   language: Language;
   setNewStatus: (status : "draft" | "pending" | "published") => void;
   setWithdrawLanguageDirector: (withdrawLanguageDirector: boolean) => void;
 }
 
+/**
+ * Component displaying language information with status management and actions
+ * Shows language name, type, UUID, owner, status, and provides edit/share/delete actions
+ * @param {LanguageInfoProps} props - The component props
+ * @returns {JSX.Element} The rendered language info component
+ */
 export function LanguageInfo({ language, setNewStatus, setWithdrawLanguageDirector }: LanguageInfoProps) {
   const navigate = useNavigate();
   const { user } = useSession();
@@ -25,6 +38,9 @@ export function LanguageInfo({ language, setNewStatus, setWithdrawLanguageDirect
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
 
+  /**
+   * Check user access level for the language (owner, collaborator, or admin)
+   */
   const checkUserAccess = async () => {
     // Check if user is owner
     if (language.owner.id === user?.id) {
@@ -48,6 +64,9 @@ export function LanguageInfo({ language, setNewStatus, setWithdrawLanguageDirect
     }
   };
 
+  /**
+   * Check user access when language or user changes
+   */
   useEffect(() => {
     if (language?.uuid && user?.id) {
       checkUserAccess();
@@ -55,10 +74,16 @@ export function LanguageInfo({ language, setNewStatus, setWithdrawLanguageDirect
     }
   }, [language?.uuid, user?.id]);
 
+  /**
+   * Show delete confirmation modal
+   */
   const handleDeleteLanguage = async () => {
     setShowDeleteModal(true);
   };
 
+  /**
+   * Confirm and execute language deletion
+   */
   const confirmDeleteLanguage = async () => {
     await deleteLanguage(language.uuid);
     setShowDeleteModal(false);

@@ -10,13 +10,27 @@ import { ReificationType } from '../../../../Domain/ProductLineEngineering/Entit
 import { ReificationTypeEndpoint } from '../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
 import { EndpointStyleView } from './EndpointStyleView';
 
+/**
+ * Props for the ReificationAccordionBody component
+ * @interface RelationAccordionBodyProps
+ * @property {ReificationType} reification - The reification type to display
+ */
 interface RelationAccordionBodyProps {
   reification: ReificationType;
 }
 
+/**
+ * Accordion body component for displaying reification type details
+ * Shows reification image, name, description, properties, constraints, and endpoints
+ * @param {RelationAccordionBodyProps} props - The component props
+ * @returns {JSX.Element} The rendered reification accordion body
+ */
 export function ReificationAccordionBody({ reification }: RelationAccordionBodyProps) {
   const [endpoints, setEndpoints] = useState<ReificationTypeEndpoint[]>([]);
 
+  /**
+   * Fetch endpoints when reification changes
+   */
   useEffect(() => {
     queryReificationTypeEndpoints(reification.languageId, reification.uuid)
       .then(response => {console.log(response);setEndpoints(response.data || [])})

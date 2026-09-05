@@ -4,6 +4,12 @@ import { Tab, Tabs } from "react-bootstrap";
 import { LanguagesContainer } from "../LanguageTable/LanguagesContainer";
 import LanguageManagerLayout from "./LanguageManagerLayout/LanguageManagerLayout";
 
+/**
+ * Main Language Manager component
+ * Manages language viewing based on user roles (guest, language director)
+ * Displays different tabs for user languages, shared languages, public languages, and all languages (if language director)
+ * @returns {JSX.Element} The rendered language manager
+ */
 export default function LanguageManager() {
   const { user } = useSession();
   const [isGuestUser, setIsGuestUser] = useState(true);
@@ -13,6 +19,9 @@ export default function LanguageManager() {
   const [loadAllLanguages, setLoadAllLanguages] = useState(false);
   const [loadSharedLanguages, setLoadSharedLanguages] = useState(false);
 
+  /**
+   * Check user roles and set appropriate language loading states
+   */
   useEffect(() => {
     const isGuest = user.roles.find((role) => role.toLowerCase() === "guest");
     const isLanguageDirector = user.roles.find((role) => role.toLowerCase() === "language director");

@@ -1,14 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './EndpointStyleView.module.css';
 import { ReactFlow, Edge, Position, Node, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 import StyleViewModal from '../StyleViewModal';
 import { ReificationTypeEndpoint } from '../../../../Domain/ProductLineEngineering/Entities/ReificationTypeEndpoint';
 
+/**
+ * Props for the EndpointStyleView component
+ * @interface EndpointStyleProps
+ * @property {ReificationTypeEndpoint} endpoint - The endpoint to display
+ */
 interface EndpointStyleProps {
   endpoint : ReificationTypeEndpoint;
 }
 
+/**
+ * Visual representation component for reification endpoint style using ReactFlow
+ * Displays two nodes connected by a styled edge representing the endpoint
+ * @param {EndpointStyleProps} props - The component props
+ * @returns {JSX.Element} The rendered endpoint style view
+ */
 export function EndpointStyleView({ endpoint }: EndpointStyleProps) {
   const [showStyleModal, setShowStyleModal] = useState(false);
 

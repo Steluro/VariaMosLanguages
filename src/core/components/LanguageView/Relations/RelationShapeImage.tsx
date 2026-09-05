@@ -4,10 +4,21 @@ import { ReactFlow, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import StyleViewModal from "../StyleViewModal";
 
+/**
+ * Props for the RelationShapeImage component
+ * @interface RelationShapeImageProps
+ * @property {any} style - The relation style object
+ */
 interface RelationShapeImageProps {
   style: any;
 }
 
+/**
+ * Visual representation component for relation type using ReactFlow
+ * Displays two nodes connected by a styled edge representing the relation
+ * @param {RelationShapeImageProps} props - The component props
+ * @returns {JSX.Element} The rendered relation shape image
+ */
 export function RelationShapeImage({ style }: RelationShapeImageProps) {
   const [styleViewModal, setStyleViewModal] = useState(false);
   // Extract edge style properties

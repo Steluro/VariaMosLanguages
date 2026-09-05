@@ -6,10 +6,21 @@ import { queryLanguageReificationTypes } from '../../../../DataProvider/Services
 import { queryReificationTypeEndpoints } from '../../../../DataProvider/Services/reificatonTypeEndpoints.service';
 import { ReificationType } from '../../../../Domain/ProductLineEngineering/Entities/ReificationType';
 
+/**
+ * Props for the ReificationTypeContainer component
+ * @interface ReificationContainerProps
+ * @property {string} languageUuid - The UUID of the language
+ */
 interface ReificationContainerProps {
     languageUuid: string
 }
 
+/**
+ * Container component for displaying reification types in an accordion
+ * Fetches and displays all reification types for a given language
+ * @param {ReificationContainerProps} props - The component props
+ * @returns {JSX.Element} The rendered reification type container
+ */
 export function ReificationTypeContainer({ languageUuid }: ReificationContainerProps) {
     const [reifications, setReifications] = useState<ReificationType[]>([]);
     const [loading, setLoading] = useState(true);
@@ -23,6 +34,9 @@ export function ReificationTypeContainer({ languageUuid }: ReificationContainerP
         });
     }, [languageUuid]);
 
+    /**
+     * Trigger Prism syntax highlighting when accordion opens
+     */
     const handleAccordionEnter = () => {
         // Trigger Prism syntax highlighting when accordion opens
         if (typeof window !== 'undefined' && (window as any).Prism) {
